@@ -43,6 +43,18 @@ export default function Home() {
     () => dataHome?.data.data.items.find((item) => item.sectionId === 'hAlbum'),
     [dataHome?.data.data.items]
   )
+  const dataNewReleaseChart = useMemo(
+    () => dataHome?.data.data.items.find((item) => item.sectionId === 'hNewrelease'),
+    [dataHome?.data.data.items]
+  )
+  const dataZingChart = useMemo(
+    () => dataHome?.data.data.items.find((item) => item.sectionId === 'hZC'),
+    [dataHome?.data.data.items]
+  )
+  const dataWeekChartBanner = useMemo(
+    () => dataHome?.data.data.items.find((item) => item.sectionType === 'weekChart')?.items,
+    [dataHome?.data.data.items]
+  )
 
   console.log(dataHome?.data.data.items)
 
@@ -66,7 +78,7 @@ export default function Home() {
   }
 
   return (
-    <main className='pt-8'>
+    <main>
       <Slider dataBanner={dataBanner} />
       {dataNewRelease && (
         <div className='text-white mt-12'>
@@ -296,6 +308,108 @@ export default function Home() {
           </div>
         </div>
       )}
+      {(dataNewReleaseChart as DataPlaylist) && (
+        <div className='mt-12'>
+          <div className='flex items-center justify-between mb-5'>
+            <h3 className='text-xl font-bold capitalize text-white'>{dataNewReleaseChart?.title}</h3>
+            <Link
+              to='/'
+              className='text-[#ffffff80] text-xs ml-auto flex items-center gap-[6px] hover:text-[#c273ed] font-medium uppercase'
+            >
+              TẤT CẢ
+              <svg
+                xmlns='http://www.w3.org/2000/svg'
+                fill='none'
+                viewBox='0 0 24 24'
+                strokeWidth={1.5}
+                stroke='currentColor'
+                className='w-5 h-5'
+              >
+                <path strokeLinecap='round' strokeLinejoin='round' d='M8.25 4.5l7.5 7.5-7.5 7.5' />
+              </svg>
+            </Link>
+          </div>
+          <div className='grid grid-cols-3 gap-7'>
+            {(dataNewReleaseChart as DataPlaylist).items?.slice(0, 3).map((item, index) => (
+              <div
+                className='col-span-1 bg-[#ffffff1a] group cursor-pointer rounded p-[15px] flex gap-[10px]'
+                key={item.encodeId}
+              >
+                <div className='w-[120px]'>
+                  <BoxItem srcImg={item.thumbnailM} altImg={item.title} hideLike={true} hideOption={true} />
+                </div>
+                <div className='flex-1 flex flex-col justify-between'>
+                  <div>
+                    <div className='text-white text-sm font-medium'>{item.title}</div>
+                    <h3 className='text-[#ffffff80] mt-[3px] text-xs overflow-hidden whitespace-nowrap text-ellipsis block'>
+                      {item.artists && item.artists.length > 1 ? (
+                        item.artists.map((artist: artists, index: number) => (
+                          <Fragment key={artist.id}>
+                            {index !== 0 && ', '}
+                            <Link className='inline-block hover:text-[#c273ed] hover:underline' to='/'>
+                              {artist.name}
+                            </Link>
+                          </Fragment>
+                        ))
+                      ) : (
+                        <Link
+                          className='text-[#ffffff80] inline-block text-xs hover:text-[#c273ed] hover:underline'
+                          to='/'
+                        >
+                          {item.artistsNames}
+                        </Link>
+                      )}
+                    </h3>
+                  </div>
+                  <div className='flex items-end justify-between'>
+                    <div className='opacity-40 text-stroke text-[40px] font-black leading-none'>#{index + 1}</div>
+                    <div className='text-[#ffffff80] text-sm font-normal'>
+                      {moment.unix(item.releaseDate as number).format('DD.MM.YYYY')}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+      <div className='relative mt-12 p-5 rounded-lg overflow-hidden h-[374px]'>
+        <div className='absolute inset-0 bg-[#2b273f]'></div>
+        <div className='absolute inset-0 bg-[#33104cf2]'>
+          <div className='bg-alpha-top'></div>
+          <div className='bg-alpha-bottom'></div>
+        </div>
+        <div className='relative flex items-center gap-[10px] mb-5'>
+          <Link to={'/'} className='text-rbg text-[28px] font-bold'>
+            #zingchart
+          </Link>
+          <button className='flex items-center justify-center hover:opacity-90'>
+            <svg width={28} height={28} viewBox='0 0 44 44' fill='none'>
+              <g filter='url(#filter0_d_3141_46346)'>
+                <circle cx={22} cy={21} r={18} fill='#FEFFFF' />
+              </g>
+              <path
+                fillRule='evenodd'
+                clipRule='evenodd'
+                d='M18.8449 13.5557C18.1011 13.14 17.7292 12.9322 17.4248 12.9672C17.1591 12.9977 16.9187 13.1388 16.7624 13.3558C16.5833 13.6045 16.5833 14.0305 16.5833 14.8825V27.1179C16.5833 27.9698 16.5833 28.3958 16.7624 28.6445C16.9186 28.8615 17.1591 29.0026 17.4247 29.0331C17.7292 29.0681 18.101 28.8604 18.8447 28.4448L29.7922 22.3277C30.568 21.8942 30.9559 21.6775 31.0849 21.3922C31.1973 21.1434 31.1973 20.8584 31.0849 20.6096C30.956 20.3243 30.5681 20.1076 29.7923 19.674L18.8449 13.5557Z'
+                fill='#141414'
+              />
+            </svg>
+          </button>
+        </div>
+      </div>
+      <div className='mt-7 flex items-center gap-7'>
+        {dataWeekChartBanner &&
+          dataWeekChartBanner.map((item: any, index: number) => (
+            <Link to={'/'} key={index} className='overflow-hidden rounded-md'>
+              <img
+                className='h-[112px] hover:scale-110 duration-[0.7s]'
+                src={item.cover}
+                alt={`Bài hát ${item.country}`}
+              />
+            </Link>
+          ))}
+      </div>
       {(dataTop100 as DataPlaylist) && (
         <div className='mt-12'>
           <div className='flex items-center justify-between mb-5'>
@@ -317,13 +431,16 @@ export default function Home() {
               </svg>
             </Link>
           </div>
-          <div className='flex items-center gap-7'>
+          <div className='flex gap-7'>
             {(dataTop100 as DataPlaylist).items?.slice(0, 5).map((item) => (
               <BoxItem
+                classNameDesc='line-clamp-1 mt-3 text-white text-sm font-bold whitespace-normal'
                 key={item.encodeId}
                 srcImg={item.thumbnailM}
                 altImg={item.title}
-                description={item.sortDescription}
+                description={item.title}
+                artists={item.artists}
+                isLink={true}
               />
             ))}
           </div>
@@ -350,13 +467,16 @@ export default function Home() {
               </svg>
             </Link>
           </div>
-          <div className='flex items-center gap-7'>
+          <div className='flex gap-7'>
             {(dataAlbumHot as DataPlaylist).items?.slice(0, 5).map((item) => (
               <BoxItem
+                classNameDesc='line-clamp-1 mt-3 text-white text-sm font-bold whitespace-normal'
                 key={item.encodeId}
                 srcImg={item.thumbnailM}
                 altImg={item.title}
-                description={item.sortDescription}
+                description={item.title}
+                artists={item.artists}
+                isLink={true}
               />
             ))}
           </div>

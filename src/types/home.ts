@@ -52,11 +52,13 @@ export type DataPlaylist = {
       thumbnail?: string
       thumbnailM?: string
       title?: string
+      releaseDate?: number
+      isShuffle?: boolean
     }
   ]
   link?: string
   sectionId?: string
-  options?: { hideTitle: boolean }
+  options?: { hideTitle?: boolean; hideArrow?: boolean }
   viewType?: string
 }
 

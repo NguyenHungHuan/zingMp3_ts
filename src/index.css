@@ -11,3 +11,57 @@ body {
 ::-webkit-scrollbar {
   display: none;
 }
+
+.text-stroke {
+  -webkit-text-stroke: 1px white;
+  font-family: 'Roboto', sans-serif;
+}
+
+.bg-alpha-top:before {
+  content: '';
+  position: absolute;
+  left: -20px;
+  top: -50px;
+  width: 230px;
+  height: 143.18px;
+  -webkit-filter: blur(150px);
+  filter: blur(150px);
+  border-radius: 115px;
+  transform: rotate(30deg);
+  background: #ba53f5;
+}
+
+.bg-alpha-top:after {
+  content: '';
+  position: absolute;
+  left: 152px;
+  bottom: -30px;
+  width: 230px;
+  height: 143.18px;
+  -webkit-filter: blur(150px);
+  filter: blur(150px);
+  border-radius: 115px;
+  transform: rotate(30deg);
+  background: #ba53f5;
+  opacity: 0.7;
+}
+
+.bg-alpha-bottom:after {
+  content: '';
+  position: absolute;
+  left: 60%;
+  right: 0;
+  top: -100px;
+  height: 250px;
+  background: #ba53f5;
+  -webkit-filter: blur(230px);
+  filter: blur(230px);
+}
+
+.text-rbg {
+  background: radial-gradient(50% 124.93% at 95.86% -10%, #3efad9 0, hsla(0, 0%, 100%, 0) 100%),
+    linear-gradient(91.56deg, #ff9357 1.54%, #9100ff 98.71%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
