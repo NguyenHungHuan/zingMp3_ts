@@ -104,7 +104,7 @@ export default function BoxItem({
           artists.slice(0, 3).map((artist: artists, index: number) => (
             <Fragment key={artist.id}>
               {index !== 0 && ', '}
-              <Link className='inline-block hover:text-[#c273ed] hover:underline' to='/'>
+              <Link className='inline hover:text-[#c273ed] hover:underline' to='/'>
                 {artist.name}
               </Link>
               {Number(index) === 2 && '...'}

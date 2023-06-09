@@ -8,6 +8,7 @@ import classNames from 'classnames'
 import moment from 'moment'
 import 'moment/dist/locale/vi'
 import BoxItem from '~/components/BoxItem'
+import Ads from '~/components/Ads'
 
 export default function Home() {
   const { data: dataHome } = useQuery({
@@ -78,7 +79,7 @@ export default function Home() {
   }
 
   return (
-    <main>
+    <main className='mx-[-2px] px-[59px]'>
       <Slider dataBanner={dataBanner} />
       {dataNewRelease && (
         <div className='text-white mt-12'>
@@ -482,6 +483,9 @@ export default function Home() {
           </div>
         </div>
       )}
+      <div className='mt-12 mb-[30px]'>
+        <Ads />
+      </div>
     </main>
   )
 }
