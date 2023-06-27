@@ -50,9 +50,26 @@ export default function Ads() {
             aria-hidden
             onClick={(e) => e.stopPropagation()}
           >
-            <h3 className='uppercase mb-5 text-base font-bold text-[#ffffff80] tracking-[3.03px] text-center'>
-              <span>{partner.title}</span>
-            </h3>
+            <div className='relative'>
+              <h3 className='uppercase mb-5 text-base font-bold text-[#ffffff80] tracking-[3.03px] text-center'>
+                <span>{partner.title}</span>
+              </h3>
+              <button
+                onClick={() => setOpen((prev) => !prev)}
+                className='text-white text-3xl absolute top-[-5px] right-[-5px] hover:opacity-80'
+              >
+                <svg
+                  xmlns='http://www.w3.org/2000/svg'
+                  fill='none'
+                  viewBox='0 0 24 24'
+                  strokeWidth={1.5}
+                  stroke='currentColor'
+                  className='w-7 h-7'
+                >
+                  <path strokeLinecap='round' strokeLinejoin='round' d='M6 18L18 6M6 6l12 12' />
+                </svg>
+              </button>
+            </div>
             <div className='flex flex-wrap gap-x-[30px] gap-y-[30px] px-[10px]'>
               {partner.items.map((item, index) => (
                 <div

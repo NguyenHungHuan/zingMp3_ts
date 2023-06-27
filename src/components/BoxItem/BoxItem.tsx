@@ -12,6 +12,7 @@ interface Props {
   classNameDesc?: string
   isLink?: boolean
   classNameArtist?: string
+  classNameImg?: string
 }
 
 export default function BoxItem({
@@ -23,7 +24,8 @@ export default function BoxItem({
   artists = undefined,
   isLink = false,
   classNameDesc = 'line-clamp-2 mt-3 text-[#ffffff80] text-sm font-normal whitespace-normal',
-  classNameArtist = 'text-[#ffffff80] text-sm font-normal overflow-hidden block line-clamp-1 break-words'
+  classNameArtist = 'text-[#ffffff80] text-sm font-normal overflow-hidden block line-clamp-1 break-words',
+  classNameImg = 'absolute inset-0 object-contain rounded-[4px] w-full h-full group-hover:scale-110 duration-700'
 }: Props) {
   const classNameDescription = description === '' ? 'hidden' : classNameDesc
   const classNameArtistLocal = artists === undefined ? 'hidden' : classNameArtist
@@ -31,11 +33,7 @@ export default function BoxItem({
   return (
     <div className='flex-shrink-0 flex-1'>
       <figure className='flex-shrink-0 flex-1 relative pt-[100%] rounded-[4px] group w-full cursor-pointer overflow-hidden'>
-        <img
-          className='absolute inset-0 object-contain rounded-[4px] w-full h-full group-hover:scale-110 duration-700'
-          src={srcImg}
-          alt={altImg}
-        />
+        <img className={classNameImg} src={srcImg} alt={altImg} />
         <div className='bg-[#00000060] absolute invisible group-hover:visible inset-0 w-full h-full'></div>
         <div className='absolute inset-0 w-full h-full flex items-center justify-evenly invisible group-hover:visible'>
           {!hideLike && (

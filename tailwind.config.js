@@ -6,8 +6,8 @@ export default {
       keyframes: {
         'slide-right': {
           '0%': {
-            '-webkit-transform': ' translateX(-500px);',
-            transform: 'translateX(-500px);'
+            '-webkit-transform': ' translateX(-20%);',
+            transform: 'translateX(-20%);'
           },
           '100%': {
             '-webkit-transform': 'translateX(0);',
@@ -42,5 +42,5 @@ export default {
       }
     }
   },
-  plugins: [require('tailwind-scrollbar')]
+  plugins: []
 }

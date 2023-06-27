@@ -1,69 +1,75 @@
-import { useEffect } from 'react'
+import { useRef } from 'react'
 import { DataBanner } from '~/types/home'
-
+import { Swiper, SwiperSlide } from 'swiper/react'
+import { Autoplay, Navigation } from '~/../node_modules/swiper'
+import 'swiper/css'
 interface Props {
   dataBanner?: DataBanner
 }
 
 const Slider = ({ dataBanner }: Props) => {
-  useEffect(() => {
-    const sliderEls = document.getElementsByClassName('slider-item')
-    let min = 0
-    let max = 2
-
-    const intervalId = setInterval(() => {
-      const limit = min > max ? sliderEls.length - 1 : max
-      const list = []
-      for (let i = min; i <= limit; i++) {
-        list.push(i)
-      }
-      if (min > max) {
-        for (let i = 0; i <= max; i++) {
-          list.push(i)
-        }
-      }
-      for (let i = 0; i < sliderEls.length; i++) {
-        sliderEls[i]?.classList?.remove('animate-slide-right', 'order-last', 'z-[2]')
-        sliderEls[i]?.classList?.remove('animate-slide-left', 'order-first', 'z-[3]')
-        sliderEls[i]?.classList?.remove('animate-slide-left2', 'order-2', 'z-[3]')
-
-        if (list.some((item) => item === i)) {
-          ;(sliderEls[i] as HTMLElement).style.cssText = `display: block`
-        } else {
-          ;(sliderEls[i] as HTMLElement).style.cssText = `display: none`
-        }
-      }
-      list.forEach((item) => {
-        if (item === max) {
-          sliderEls[item]?.classList?.add('animate-slide-right', 'order-last', 'z-[2]')
-        } else if (item === min) {
-          sliderEls[item]?.classList?.add('animate-slide-left', 'order-first', 'z-[3]')
-        } else {
-          sliderEls[item]?.classList?.add('animate-slide-left2', 'order-2', 'z-[3]')
-        }
-      })
-      min = min === sliderEls.length - 1 ? 0 : min + 1
-      max = max === sliderEls.length - 1 ? 0 : max + 1
-    }, 3000)
-
-    return () => {
-      intervalId && clearInterval(intervalId)
-    }
-  }, [])
+  const prevRef = useRef(null)
+  const nextRef = useRef(null)
 
   return (
-    <div className='flex items-center gap-[30px] overflow-hidden'>
-      {dataBanner?.map((item, index) => (
-        <img
-          alt=''
-          key={item.encodeId}
-          src={item.banner}
-          className={`slider-item flex-1 ease-linear object-cover w-[30%] rounded-lg ${
-            index <= 2 ? 'block' : 'hidden'
-          }`}
-        />
+    <Swiper
+      className='relative group flex items-center gap-[30px] overflow-hidden'
+      modules={[Autoplay, Navigation]}
+      slidesPerView={3}
+      allowTouchMove={false}
+      spaceBetween={30}
+      autoplay={{
+        delay: 3000,
+        disableOnInteraction: false,
+        pauseOnMouseEnter: true,
+        waitForTransition: true
+      }}
+      loop={true}
+      navigation={{
+        prevEl: prevRef.current,
+        nextEl: nextRef.current
+      }}
+    >
+      <button
+        ref={prevRef}
+        className='invisible group-hover:visible hover:opacity-90 absolute z-[5] top-[50%] -translate-y-1/2 left-[25px] text-white flex items-center justify-center rounded-full bg-[#ffffff26] shadow-md p-[10px]'
+      >
+        <svg
+          xmlns='http://www.w3.org/2000/svg'
+          fill='none'
+          viewBox='0 0 24 24'
+          strokeWidth={1.5}
+          stroke='currentColor'
+          className='w-9 h-9'
+        >
+          <path strokeLinecap='round' strokeLinejoin='round' d='M15.75 19.5L8.25 12l7.5-7.5' />
+        </svg>
+      </button>
+      <button
+        ref={nextRef}
+        className='invisible group-hover:visible hover:opacity-90 absolute z-[5] top-[50%] -translate-y-1/2 right-[25px] text-white flex items-center justify-center rounded-full bg-[#ffffff26] shadow-md p-[10px]'
+      >
+        <svg
+          xmlns='http://www.w3.org/2000/svg'
+          fill='none'
+          viewBox='0 0 24 24'
+          strokeWidth={1.5}
+          stroke='currentColor'
+          className='w-9 h-9'
+        >
+          <path strokeLinecap='round' strokeLinejoin='round' d='M8.25 4.5l7.5 7.5-7.5 7.5' />
+        </svg>
+      </button>
+      {dataBanner?.map((item) => (
+        <SwiperSlide key={item.encodeId} className='ease-in-out duration-500'>
+          <img
+            alt=''
+            src={item.banner}
+            className='slider-item flex-1 cursor-pointer ease-linear object-cover rounded-lg'
+          />
+        </SwiperSlide>
       ))}
-    </div>
+    </Swiper>
   )
 }
 

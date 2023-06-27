@@ -4,7 +4,6 @@ import AsideRight from '~/components/AsideRight'
 import Header from '~/components/Header'
 
 export default function MainLayout() {
-
   return (
     <div className='flex flex-col w-full h-screen'>
       <div className='flex w-full h-full'>
