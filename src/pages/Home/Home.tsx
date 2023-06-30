@@ -1,8 +1,8 @@
 import { useQuery } from 'react-query'
 import zingmp3Api from '~/apis/zingmp3Api'
 import Slider from '~/components/Slider'
-import { useState, useEffect, useMemo, Fragment, useRef } from 'react'
-import { DataBanner, DataPlaylist, DataNewRelease, artists } from '~/types/home'
+import { useState, useEffect, useMemo, useRef } from 'react'
+import { DataBanner, DataPlaylist, DataNewRelease } from '~/types/home'
 import { Link } from 'react-router-dom'
 import classNames from 'classnames'
 import moment from 'moment'
@@ -12,6 +12,8 @@ import Ads from '~/components/Ads'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Autoplay, Navigation } from '~/../node_modules/swiper'
 import 'swiper/css'
+import Artist from '~/components/Artist'
+import PATH from '~/constants/path'
 
 export default function Home() {
   const { data: dataHome } = useQuery({
@@ -60,20 +62,24 @@ export default function Home() {
     [dataHome?.data.data.items]
   )
 
-  console.log(dataNewReleaseChart)
-
   const dataAll = useMemo(() => (dataNewRelease as DataNewRelease)?.items?.all, [dataNewRelease])
   const dataOthers = useMemo(() => (dataNewRelease as DataNewRelease)?.items?.others, [dataNewRelease])
   const dataVpop = useMemo(() => (dataNewRelease as DataNewRelease)?.items?.vPop, [dataNewRelease])
   const [genre, setGenre] = useState(dataAll)
+  const isLoop = useMemo(
+    () => (dataNewReleaseChart as DataPlaylist)?.items?.find((item) => item.encodeId === 'ABCDE1'),
+    [dataNewReleaseChart]
+  )
 
   useEffect(() => {
     setGenre(dataAll)
   }, [dataAll])
 
   useEffect(() => {
-    dataNewReleaseChart?.items.push({ encodeId: 'ABCDE1' })
-  }, [dataNewReleaseChart?.items])
+    if (!isLoop) {
+      dataNewReleaseChart?.items.push({ encodeId: 'ABCDE1' })
+    }
+  }, [dataNewReleaseChart?.items, isLoop])
 
   const handleChangeGenreAll = () => {
     setGenre(dataAll)
@@ -83,6 +89,10 @@ export default function Home() {
   }
   const handleChangeGenreVpop = () => {
     setGenre(dataVpop)
+  }
+
+  const handleDetailArtistHover = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+    const data = e.currentTarget.rel
   }
 
   const prevRef = useRef(null)
@@ -151,76 +161,44 @@ export default function Home() {
           <div className='grid grid-cols-3 gap-x-7'>
             {genre &&
               (genre.length > 12 ? genre.slice(0, 12) : genre).map((item) => (
-                <div key={item.encodeId} className='col-span-1 h-20 hover:bg-[#2f2739] group rounded-lg p-[10px]'>
-                  <div className='flex gap-[10px] items-center'>
-                    <figure className='relative cursor-pointer w-[60px] h-[60px] object-cover rounded overflow-hidden flex-shrink-0'>
-                      <img className='absolute inset-0 flex-shrink-0' src={item.thumbnail} alt={item.title} />
-                      <div className='bg-[#00000080] absolute invisible group-hover:visible inset-0 w-full h-full'></div>
-                      <div className='flex items-center justify-center absolute inset-0'>
-                        <svg
-                          xmlns='http://www.w3.org/2000/svg'
-                          fill={'white'}
-                          viewBox='0 0 24 24'
-                          strokeWidth={1}
-                          stroke={'white'}
-                          className='w-6 h-6 invisible group-hover:visible hover:opacity-90'
-                        >
-                          <path
-                            strokeLinecap='round'
-                            strokeLinejoin='round'
-                            d='M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.348a1.125 1.125 0 010 1.971l-11.54 6.347a1.125 1.125 0 01-1.667-.985V5.653z'
-                          />
-                        </svg>
-                      </div>
-                    </figure>
-                    <div className='flex flex-col break-words gap-[3px] font-medium'>
-                      <span className='text-white text-sm line-clamp-1 cursor-default'>{item.title}</span>
-                      <h3 className='text-[#ffffff80] text-xs overflow-hidden whitespace-nowrap text-ellipsis block'>
-                        {item.artists.length > 1 ? (
-                          item.artists.map((artist: artists, index: number) => (
-                            <Fragment key={artist.id}>
-                              {index !== 0 && ', '}
-                              <Link
-                                to='/'
-                                className={classNames('inline-block', {
-                                  'hover:text-[#c273ed] hover:underline': index !== 4,
-                                  'cursor-default pointer-events-none': index === 4
-                                })}
-                              >
-                                {Number(index) === 4 ? '...' : artist.name}
-                              </Link>
-                            </Fragment>
-                          ))
-                        ) : (
-                          <Link
-                            className='text-[#ffffff80] inline-block text-xs hover:text-[#c273ed] hover:underline'
-                            to='/'
-                          >
-                            {item.artistsNames}
-                          </Link>
-                        )}
-                      </h3>
-                      <span className='text-[#ffffff80] line-clamp-1 text-xs cursor-default'>
-                        {moment(item.releaseDate * 1000).fromNow()}
-                      </span>
-                    </div>
-                    <button className='rounded-full ml-auto invisible flex items-center justify-center w-[38px] h-[38px] group-hover:visible hover:bg-[#413a4a]'>
-                      <svg
-                        xmlns='http://www.w3.org/2000/svg'
-                        fill='none'
-                        viewBox='0 0 24 24'
-                        strokeWidth={2}
-                        stroke={'white'}
-                        className='w-5 h-5'
-                      >
-                        <path
-                          strokeLinecap='round'
-                          strokeLinejoin='round'
-                          d='M6.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM12.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM18.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0z'
-                        />
-                      </svg>
-                    </button>
+                <div
+                  key={item.encodeId}
+                  className='col-span-1 h-20 hover:bg-[#2f2739] group rounded-lg p-[10px] flex gap-[10px] items-center'
+                >
+                  <BoxItem
+                    altImg={item.title}
+                    srcImg={item.thumbnail}
+                    className='flex-shrink-0'
+                    classNameFigure='relative cursor-pointer w-[60px] h-[60px] object-cover rounded overflow-hidden flex-shrink-0'
+                    classNameImg='absolute inset-0 flex-shrink-0'
+                    buttonSizeSmall={true}
+                    hideDesc={true}
+                    hideLike={true}
+                    hideOption={true}
+                  />
+                  <div className='flex flex-col break-words gap-[3px] font-medium'>
+                    <span className='text-white text-sm line-clamp-1 cursor-default'>{item.title}</span>
+                    <Artist artistsData={item.artists} />
+                    <span className='text-[#ffffff80] line-clamp-1 text-xs cursor-default'>
+                      {moment(item.releaseDate * 1000).fromNow()}
+                    </span>
                   </div>
+                  <button className='rounded-full ml-auto invisible flex items-center justify-center w-[38px] h-[38px] group-hover:visible hover:bg-[#413a4a]'>
+                    <svg
+                      xmlns='http://www.w3.org/2000/svg'
+                      fill='none'
+                      viewBox='0 0 24 24'
+                      strokeWidth={2}
+                      stroke={'white'}
+                      className='w-5 h-5'
+                    >
+                      <path
+                        strokeLinecap='round'
+                        strokeLinejoin='round'
+                        d='M6.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM12.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM18.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0z'
+                      />
+                    </svg>
+                  </button>
                 </div>
               ))}
           </div>
@@ -292,7 +270,7 @@ export default function Home() {
                 pauseOnMouseEnter: true
               }}
               breakpoints={{
-                769: {
+                640: {
                   slidesPerView: 3,
                   slidesPerGroup: 3
                 }
@@ -315,26 +293,8 @@ export default function Home() {
                         </div>
                         <div className='flex-1 flex flex-col justify-between'>
                           <div>
-                            <div className='text-white text-sm font-medium'>{item.title}</div>
-                            <h3 className='text-[#ffffff80] mt-[3px] text-xs overflow-hidden whitespace-nowrap text-ellipsis block'>
-                              {item.artists && item.artists.length > 1 ? (
-                                item.artists.map((artist: artists, index: number) => (
-                                  <Fragment key={artist.id}>
-                                    {index !== 0 && ', '}
-                                    <Link className='inline-block hover:text-[#c273ed] hover:underline' to='/'>
-                                      {artist.name}
-                                    </Link>
-                                  </Fragment>
-                                ))
-                              ) : (
-                                <Link
-                                  className='text-[#ffffff80] inline-block text-xs hover:text-[#c273ed] hover:underline'
-                                  to='/'
-                                >
-                                  {item.artistsNames}
-                                </Link>
-                              )}
-                            </h3>
+                            <div className='text-white text-sm font-medium mb-[3px]'>{item.title}</div>
+                            <Artist artistsData={item.artists} />
                           </div>
                           <div className='flex items-end justify-between'>
                             <div className='opacity-40 text-stroke text-[40px] font-black leading-none'>
@@ -426,15 +386,19 @@ export default function Home() {
           <TitleListBox titleList={dataTop100?.title} />
           <div className='flex gap-7'>
             {(dataTop100 as DataPlaylist).items?.slice(0, 5).map((item) => (
-              <BoxItem
-                classNameDesc='line-clamp-1 mt-3 text-white text-sm font-bold whitespace-normal'
-                key={item.encodeId}
-                srcImg={item.thumbnailM}
-                altImg={item.title}
-                description={item.title}
-                artists={item.artists}
-                isLink={true}
-              />
+              <div className='flex-shrink-0 flex-1' key={item.encodeId}>
+                <BoxItem
+                  classNameDesc='line-clamp-1 mt-3 mb-[2px] text-white text-sm font-bold whitespace-normal'
+                  srcImg={item.thumbnailM}
+                  altImg={item.title}
+                  description={item.title}
+                  isLink={true}
+                />
+                <Artist
+                  artistsData={item.artists}
+                  className='text-[#ffffff80] text-sm font-normal overflow-hidden block line-clamp-1 break-words'
+                />
+              </div>
             ))}
           </div>
         </div>
@@ -463,12 +427,15 @@ export default function Home() {
             {(dataAlbumHot as DataPlaylist).items?.map((item) => (
               <SwiperSlide key={item.encodeId}>
                 <BoxItem
-                  classNameDesc='line-clamp-1 mt-3 text-white text-sm font-bold whitespace-normal'
+                  classNameDesc='line-clamp-1 mt-3 mb-[2px] text-white text-sm font-bold whitespace-normal'
                   srcImg={item.thumbnailM}
                   altImg={item.title}
                   description={item.title}
-                  artists={item.artists}
                   isLink={true}
+                />
+                <Artist
+                  artistsData={item.artists}
+                  className='text-[#ffffff80] text-sm font-normal overflow-hidden block line-clamp-1 break-words'
                 />
               </SwiperSlide>
             ))}
@@ -486,7 +453,6 @@ interface PropsTitle {
   titleList?: string
   hideLink?: boolean
 }
-
 export const TitleListBox = ({ titleList = 'Title', hideLink = false }: PropsTitle) => (
   <div className='flex items-center justify-between mb-5'>
     <h3 className='text-xl font-bold capitalize text-white'>{titleList}</h3>

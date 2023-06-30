@@ -1,6 +1,8 @@
 import { successResponse } from '~/types/utils'
 import axiosClients from './axiosClients'
 import { homeData } from '~/types/home'
+import PATH from '~/constants/path'
+import { artist } from '~/types/artist'
 
 const url = '/'
 const zingmp3Api = {
@@ -14,8 +16,15 @@ const zingmp3Api = {
   },
 
   getHome() {
-    const url = '/home'
+    const url = PATH.home
     return axiosClients.get<successResponse<homeData>>(url)
+  },
+
+  getArtist(params: { name: string }) {
+    const url = PATH.artist
+    return axiosClients.get<successResponse<artist>>(url, {
+      params
+    })
   },
 
   getTop100() {
@@ -34,10 +43,6 @@ const zingmp3Api = {
   },
 
   getSongInfo() {
-    return axiosClients.get(url)
-  },
-
-  getArtist() {
     return axiosClients.get(url)
   },
 

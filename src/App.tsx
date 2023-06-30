@@ -14,7 +14,7 @@ function App() {
     <>
       <Routes>
         <Route element={<MainLayout />}>
-          <Route path={PATH.home} index element={<Home />} />
+          <Route path={PATH.base} index element={<Home />} />
           <Route path={PATH.zingChart} element={<ZingChart />} />
           <Route path={PATH.radio} element={<Radio />} />
           <Route path={PATH.thuVien} element={<Library />} />

@@ -44,7 +44,7 @@ export type DataPlaylist = {
   title?: string
   items?: [
     {
-      artists?: Array<any>
+      artists: Array<artists>
       artistsNames?: string
       encodeId?: string
       link?: string

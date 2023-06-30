@@ -8,7 +8,7 @@ export default function AsideLeft() {
   return (
     <aside>
       <div className='flex items-center pl-[28px] pr-[25px] h-[70px]'>
-        <Link to={PATH.home}>
+        <Link to={PATH.base}>
           <img
             className='w-[120px] h-10 hover:opacity-90'
             src='https://zmp3-static.zmdcdn.me/skins/zmp3-v6.1/images/backgrounds/logo-dark.svg'
@@ -20,12 +20,12 @@ export default function AsideLeft() {
         <ul className='text-sm font-medium'>
           <li
             className={classNames('border-l-[3px]', {
-              'border-l-[#9b4de0]': pathname === PATH.home,
-              'border-l-transparent': pathname !== PATH.home
+              'border-l-[#9b4de0]': pathname === PATH.base,
+              'border-l-transparent': pathname !== PATH.base
             })}
           >
             <NavLink
-              to={PATH.home}
+              to={PATH.base}
               className={({ isActive }) =>
                 classNames('py-3 px-[21px] flex items-center gap-3 hover:text-white', {
                   'bg-[#393142] text-white': isActive,
