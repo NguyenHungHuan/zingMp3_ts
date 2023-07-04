@@ -13,24 +13,34 @@ import { formatNumberSocial } from '~/utils/formatNumber'
 interface Props {
   artistsData: artists[]
   className?: string
+  classNameText?: string
+  isPopoverDetail?: boolean
+  orderArtistHidden?: number
 }
 
 export default function Artist({
   artistsData,
-  className = 'text-[#ffffff80] text-xs overflow-hidden text-ellipsis block line-clamp-1 break-words'
+  isPopoverDetail = true,
+  orderArtistHidden = 3,
+  className = 'text-[#ffffff80] text-xs overflow-hidden text-ellipsis block line-clamp-1 break-words',
+  classNameText = 'inline break-words'
 }: Props) {
   const [nameArtist, setNameArtist] = useState<string>('')
   let timer: NodeJS.Timeout
 
   const handleDetailArtistHover = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
-    const dataNameArtist = e.currentTarget.rel
-    timer = setTimeout(() => {
-      setNameArtist(dataNameArtist)
-    }, 500)
+    if (isPopoverDetail) {
+      const dataNameArtist = e.currentTarget.rel
+      timer = setTimeout(() => {
+        setNameArtist(dataNameArtist)
+      }, 500)
+    }
   }
 
   const handleMouseLeaveHover = () => {
-    clearTimeout(timer)
+    if (isPopoverDetail) {
+      clearTimeout(timer)
+    }
   }
 
   const { data, isSuccess } = useQuery({
@@ -41,7 +51,6 @@ export default function Artist({
   })
   const dataArtist = data?.data.data
   const dataArtistNewRelease = dataArtist?.sections.find((item) => item.sectionId === 'aSingle')
-  console.log(dataArtist)
 
   return (
     <h3 className={className}>
@@ -172,13 +181,13 @@ export default function Artist({
               rel={artist.alias}
               onMouseLeave={handleMouseLeaveHover}
               onMouseEnter={(e) => handleDetailArtistHover(e)}
-              className={classNames('inline break-words', {
-                'hover:text-[#c273ed] hover:underline': index !== 3,
-                'cursor-default pointer-events-none': index >= 3,
-                hidden: index >= 4
+              className={classNames(classNameText, {
+                'hover:text-[#c273ed] hover:underline': index !== orderArtistHidden,
+                'cursor-default pointer-events-none': index >= orderArtistHidden,
+                hidden: index >= orderArtistHidden + 1
               })}
             >
-              {Number(index) === 3 ? '...' : artist.name}
+              {Number(index) === orderArtistHidden ? '...' : artist.name}
             </Link>
           </Popover>
         </div>

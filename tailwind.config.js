@@ -3,6 +3,10 @@ export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {
+      backgroundImage: {
+        'zalo-mini': `url('https://zjs.zmdcdn.me/zmp3-desktop/releases/v1.9.43/static/media/zalo.d94c16f4.svg')`,
+        'fb-mini': `url('https://zjs.zmdcdn.me/zmp3-desktop/releases/v1.9.43/static/media/facebook.d62c237b.svg')`
+      },
       keyframes: {
         'slide-right': {
           '0%': {

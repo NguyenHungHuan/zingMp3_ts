@@ -7,7 +7,8 @@ const PATH = {
   newReleased: '/moi-phat-hanh',
   hub: '/hub',
   top100: '/top100',
-  artist: 'artist'
+  artist: 'artist',
+  infoSong: 'infoSong'
 }
 
 export default PATH

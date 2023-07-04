@@ -3,6 +3,7 @@ import axiosClients from './axiosClients'
 import { homeData } from '~/types/home'
 import PATH from '~/constants/path'
 import { artist } from '~/types/artist'
+import { InfoSong } from '~/types/infoSong'
 
 const url = '/'
 const zingmp3Api = {
@@ -27,6 +28,11 @@ const zingmp3Api = {
     })
   },
 
+  getSongInfo(params: { id: string }) {
+    const url = PATH.infoSong
+    return axiosClients.get<successResponse<InfoSong>>(url, { params })
+  },
+
   getTop100() {
     const url = '/top100'
     return axiosClients.get(url)
@@ -39,10 +45,6 @@ const zingmp3Api = {
 
   getNewReleaseChart() {
     const url = '/newReleaseChart'
-    return axiosClients.get(url)
-  },
-
-  getSongInfo() {
     return axiosClients.get(url)
   },
 

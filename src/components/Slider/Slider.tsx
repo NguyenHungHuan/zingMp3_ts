@@ -3,6 +3,7 @@ import { DataBanner } from '~/types/home'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Autoplay, Navigation } from '~/../node_modules/swiper'
 import 'swiper/css'
+import { Link } from 'react-router-dom'
 interface Props {
   dataBanner?: DataBanner
 }
@@ -13,18 +14,18 @@ const Slider = ({ dataBanner }: Props) => {
 
   return (
     <Swiper
-      className='relative group flex items-center gap-[30px] overflow-hidden'
+      className='group'
       modules={[Autoplay, Navigation]}
       slidesPerView={3}
       allowTouchMove={false}
       spaceBetween={30}
+      loop={true}
       autoplay={{
         delay: 3000,
         disableOnInteraction: false,
         pauseOnMouseEnter: true,
-        waitForTransition: true
+        stopOnLastSlide: false
       }}
-      loop={true}
       navigation={{
         prevEl: prevRef.current,
         nextEl: nextRef.current
@@ -61,12 +62,10 @@ const Slider = ({ dataBanner }: Props) => {
         </svg>
       </button>
       {dataBanner?.map((item) => (
-        <SwiperSlide key={item.encodeId} className='ease-in-out duration-500'>
-          <img
-            alt=''
-            src={item.banner}
-            className='slider-item flex-1 cursor-pointer ease-linear object-cover rounded-lg'
-          />
+        <SwiperSlide key={item.encodeId} className='ease-in-out duration-500 rounded-lg overflow-hidden'>
+          <Link to={'/'}>
+            <img alt='' src={item.banner} className='slider-item w-full h-full object-cover' />
+          </Link>
         </SwiperSlide>
       ))}
     </Swiper>

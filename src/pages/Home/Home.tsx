@@ -13,7 +13,7 @@ import { Swiper, SwiperSlide } from 'swiper/react'
 import { Autoplay, Navigation } from '~/../node_modules/swiper'
 import 'swiper/css'
 import Artist from '~/components/Artist'
-import PATH from '~/constants/path'
+import CardItem from '~/components/CardItem'
 
 export default function Home() {
   const { data: dataHome } = useQuery({
@@ -97,6 +97,7 @@ export default function Home() {
 
   const prevRef = useRef(null)
   const nextRef = useRef(null)
+  console.log(dataNewRelease)
 
   return (
     <main className='mx-[-2px] px-[59px] pt-[32px]'>
@@ -161,45 +162,12 @@ export default function Home() {
           <div className='grid grid-cols-3 gap-x-7'>
             {genre &&
               (genre.length > 12 ? genre.slice(0, 12) : genre).map((item) => (
-                <div
+                <CardItem
                   key={item.encodeId}
                   className='col-span-1 h-20 hover:bg-[#2f2739] group rounded-lg p-[10px] flex gap-[10px] items-center'
-                >
-                  <BoxItem
-                    altImg={item.title}
-                    srcImg={item.thumbnail}
-                    className='flex-shrink-0'
-                    classNameFigure='relative cursor-pointer w-[60px] h-[60px] object-cover rounded overflow-hidden flex-shrink-0'
-                    classNameImg='absolute inset-0 flex-shrink-0'
-                    buttonSizeSmall={true}
-                    hideDesc={true}
-                    hideLike={true}
-                    hideOption={true}
-                  />
-                  <div className='flex flex-col break-words gap-[3px] font-medium'>
-                    <span className='text-white text-sm line-clamp-1 cursor-default'>{item.title}</span>
-                    <Artist artistsData={item.artists} />
-                    <span className='text-[#ffffff80] line-clamp-1 text-xs cursor-default'>
-                      {moment(item.releaseDate * 1000).fromNow()}
-                    </span>
-                  </div>
-                  <button className='rounded-full ml-auto invisible flex items-center justify-center w-[38px] h-[38px] group-hover:visible hover:bg-[#413a4a]'>
-                    <svg
-                      xmlns='http://www.w3.org/2000/svg'
-                      fill='none'
-                      viewBox='0 0 24 24'
-                      strokeWidth={2}
-                      stroke={'white'}
-                      className='w-5 h-5'
-                    >
-                      <path
-                        strokeLinecap='round'
-                        strokeLinejoin='round'
-                        d='M6.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM12.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM18.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0z'
-                      />
-                    </svg>
-                  </button>
-                </div>
+                  dataItem={item}
+                  isDate={true}
+                />
               ))}
           </div>
         </div>

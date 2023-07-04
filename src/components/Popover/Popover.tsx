@@ -8,8 +8,9 @@ import {
   offset,
   autoUpdate,
   useHover,
+  useClick,
+  useDismiss,
   useInteractions,
-  useDelayGroupContext,
   type Placement,
   computePosition as base
 } from '@floating-ui/react'
@@ -19,9 +20,13 @@ interface Props {
   renderPopover: React.ReactNode
   className?: string
   as?: ElementType
-  initialOpen?: boolean
   placement?: Placement
   numberDelay?: number
+  NumberOffsetX?: number
+  NumberOffsetY?: number
+  isHover?: boolean
+  isClick?: boolean
+  setActive?: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 export default function Popover({
@@ -30,23 +35,43 @@ export default function Popover({
   renderPopover,
   as: Element = 'div',
   placement = 'bottom-start',
-  numberDelay = 0
+  numberDelay = 0,
+  NumberOffsetX = 5,
+  NumberOffsetY = 0,
+  isHover = true,
+  isClick = false,
+  setActive
 }: Props) {
   const [open, setOpen] = useState(false)
-  const { delay } = useDelayGroupContext()
   const { x, y, refs, strategy, context } = useFloating({
     placement: placement,
-    open,
-    onOpenChange: setOpen,
-    middleware: [offset(5), shift(), flip()],
+    open: open,
+    onOpenChange: (open) => {
+      setActive && setActive(open)
+      setOpen(open)
+    },
+    middleware: [
+      offset({
+        mainAxis: NumberOffsetX,
+        alignmentAxis: NumberOffsetY
+      }),
+      shift(),
+      flip()
+    ],
     whileElementsMounted: autoUpdate
   })
   const id = useId()
+  const dismiss = useDismiss(context)
   const { getReferenceProps, getFloatingProps } = useInteractions([
     useHover(context, {
+      enabled: isHover,
       delay: { open: numberDelay },
       handleClose: safePolygon()
-    })
+    }),
+    useClick(context, {
+      enabled: isClick
+    }),
+    dismiss
   ])
 
   return (
@@ -63,6 +88,8 @@ export default function Popover({
               width: 'max-content',
               zIndex: 100
             }}
+            aria-hidden
+            onClick={(e) => e.stopPropagation()}
             {...getFloatingProps()}
           >
             {renderPopover}
