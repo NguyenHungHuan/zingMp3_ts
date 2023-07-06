@@ -14,10 +14,5 @@ export const AppContext = createContext<appContextInterface>(initialAppContext)
 
 export const AppProvider = ({ children }: { children: React.ReactNode }) => {
   const [stateOpenPopover, setStateOpenPopover] = useState<boolean>(initialAppContext.stateOpenPopover)
-  return (
-    <AppContext.Provider 
-    value={{stateOpenPopover, setStateOpenPopover}}>
-      {children}
-    </AppContext.Provider>
-  )
+  return <AppContext.Provider value={{ stateOpenPopover, setStateOpenPopover }}>{children}</AppContext.Provider>
 }

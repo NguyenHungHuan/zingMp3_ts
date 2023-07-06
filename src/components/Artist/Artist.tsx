@@ -1,11 +1,11 @@
-import { Fragment, useState } from 'react'
+import { useState, useMemo } from 'react'
 import { Link, createSearchParams } from 'react-router-dom'
 import Popover from '../Popover'
 import { artists } from '~/types/home'
 import PATH from '~/constants/path'
 import classNames from 'classnames'
 import BoxItem from '../BoxItem'
-import { useMutation, useQuery } from 'react-query'
+import { useQuery } from 'react-query'
 import zingmp3Api from '~/apis/zingmp3Api'
 import moment from 'moment'
 import { formatNumberSocial } from '~/utils/formatNumber'
@@ -43,14 +43,18 @@ export default function Artist({
     }
   }
 
-  const { data, isSuccess } = useQuery({
+  const { data } = useQuery({
     queryKey: ['artist', { name: nameArtist }],
     queryFn: () => zingmp3Api.getArtist({ name: nameArtist }),
+    keepPreviousData: false,
     staleTime: 3 * 60 * 1000,
     enabled: nameArtist !== ''
   })
   const dataArtist = data?.data.data
-  const dataArtistNewRelease = dataArtist?.sections.find((item) => item.sectionId === 'aSingle')
+  const dataArtistNewRelease = useMemo(
+    () => dataArtist?.sections.find((item) => item.sectionId === 'aSingle'),
+    [dataArtist?.sections]
+  )
 
   return (
     <h3 className={className}>
@@ -58,17 +62,18 @@ export default function Artist({
         <div key={artist.id} className='inline'>
           {artistsData.length > 1 && index !== 0 && index <= 2 && ', '}
           <Popover
-            numberDelay={500}
+            numberDelay={200}
             className='inline'
             renderPopover={
               index <= 2 &&
-              isSuccess && (
+              dataArtist &&
+              dataArtist.name === artist.name && (
                 <div className='rounded-md overflow-hidden shadow-md w-[348px] bg-[#34224f]'>
                   <div className='relative overflow-hidden'>
                     <div
-                      className={`absolute inset-0 bg-no-repeat bg-[50%] bg-cover [background-position-y:10%] blur-[50px]`}
+                      className={`absolute inset-0 bg-no-repeat bg-cover [background-position-x:50%] [background-position-y:10%] blur-[50px]`}
                       style={{
-                        backgroundImage: `url(${artist.thumbnailM})`
+                        backgroundImage: `url(${dataArtist?.thumbnailM})`
                       }}
                     />
                     <div className='absolute inset-0 opacity-40 bg-[#34224f]' />
@@ -79,7 +84,7 @@ export default function Artist({
                           hideLike={true}
                           hideOption={true}
                           buttonSizeSmall={true}
-                          srcImg={artist.thumbnailM}
+                          srcImg={dataArtist?.thumbnailM}
                           classNameFigure='flex-shrink-0 flex-1 relative pt-[100%] rounded-full group w-12 h-12 cursor-pointer overflow-hidden'
                           classNameImg='absolute inset-0 object-contain rounded-[4px] w-full h-full group-hover:scale-110 duration-700'
                         />
@@ -90,12 +95,12 @@ export default function Artist({
                             to={{
                               pathname: `${PATH.base}${PATH.artist}`,
                               search: createSearchParams({
-                                name: artist.alias as string
+                                name: artist?.alias as string
                               }).toString()
                             }}
                             className='text-white hover:text-[#c273ed] whitespace-nowrap text-ellipsis overflow-hidden max-w-[100%] inline-block leading-normal mb-0 align-top'
                           >
-                            {artist.name}
+                            {dataArtist?.name}
                           </Link>
                         </h3>
                         <h3 className='text-xs text-[#ffffff80] whitespace-nowrap text-ellipsis overflow-hidden max-w-[100%] block mt-0 leading-normal'>
@@ -145,6 +150,19 @@ export default function Artist({
                         Xem thêm
                       </Link>
                     </div>
+                    {dataArtist?.awards && (
+                      <div className='mb-4'>
+                        <h3 className='text-sm mb-2 text-white font-bold'>Giải thưởng</h3>
+                        <div className='leading-[1]'>
+                          <i
+                            className='inline-block leading-[66%] mr-[10px] w-[33px] h-[33px] bg-cover bg-no-repeat [background-position-y:center] [background-position-x:50%]'
+                            style={{
+                              backgroundImage: `url(https://zjs.zmdcdn.me/zmp3-desktop/releases/v1.9.43/static/media/zma.ea944b51.svg)`
+                            }}
+                          />
+                        </div>
+                      </div>
+                    )}
                     <div className='mb-4'>
                       <h3 className='text-sm mb-2 text-white font-bold'>Mới nhất</h3>
                       <div className='grid grid-cols-4 gap-3'>

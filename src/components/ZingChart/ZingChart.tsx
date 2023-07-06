@@ -1,0 +1,32 @@
+import React from 'react'
+import { Link } from 'react-router-dom'
+
+export default function ZingChart() {
+  return (
+    <div className='relative mt-12 p-5 rounded-lg overflow-hidden h-[374px]'>
+      <div className='absolute inset-0 bg-[#2b273f]' />
+      <div className='absolute inset-0 bg-[#33104cf2]'>
+        <div className='bg-alpha-top' />
+        <div className='bg-alpha-bottom' />
+      </div>
+      <div className='relative flex items-center gap-[10px] mb-5'>
+        <Link to={'/'} className='text-rbg text-[28px] font-bold'>
+          #zingchart
+        </Link>
+        <button className='flex items-center justify-center hover:opacity-90'>
+          <svg width={28} height={28} viewBox='0 0 44 44' fill='none'>
+            <g filter='url(#filter0_d_3141_46346)'>
+              <circle cx={22} cy={21} r={18} fill='#FEFFFF' />
+            </g>
+            <path
+              fillRule='evenodd'
+              clipRule='evenodd'
+              d='M18.8449 13.5557C18.1011 13.14 17.7292 12.9322 17.4248 12.9672C17.1591 12.9977 16.9187 13.1388 16.7624 13.3558C16.5833 13.6045 16.5833 14.0305 16.5833 14.8825V27.1179C16.5833 27.9698 16.5833 28.3958 16.7624 28.6445C16.9186 28.8615 17.1591 29.0026 17.4247 29.0331C17.7292 29.0681 18.101 28.8604 18.8447 28.4448L29.7922 22.3277C30.568 21.8942 30.9559 21.6775 31.0849 21.3922C31.1973 21.1434 31.1973 20.8584 31.0849 20.6096C30.956 20.3243 30.5681 20.1076 29.7923 19.674L18.8449 13.5557Z'
+              fill='#141414'
+            />
+          </svg>
+        </button>
+      </div>
+    </div>
+  )
+}

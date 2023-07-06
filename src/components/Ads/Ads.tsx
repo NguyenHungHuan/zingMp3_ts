@@ -25,7 +25,11 @@ const partner = {
   ]
 }
 
-export default function Ads() {
+interface Props {
+  className?: string
+}
+
+export default function Ads({ className }: Props) {
   const [open, setOpen] = useState(false)
 
   const handleOpen = () => {
@@ -33,7 +37,7 @@ export default function Ads() {
   }
 
   return (
-    <div>
+    <div className={className}>
       <h3 className='uppercase mb-6 text-xs font-bold text-[#ffffff80] tracking-[1.71px] text-center'>
         <span aria-hidden onClick={handleOpen} className='hover:text-[#c273ed] cursor-pointer'>
           {partner.title}

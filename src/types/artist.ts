@@ -16,6 +16,7 @@ export type artist = {
   realname: string
   totalFollow: number
   follow: number
+  awards: Array<string>
   topAlbum: TopAlbum
   sectionId: string
   sections: Array<sectionsArtist>

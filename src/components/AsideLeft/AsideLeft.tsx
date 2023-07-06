@@ -151,7 +151,7 @@ export default function AsideLeft() {
                   fillOpacity='0.8'
                 />
               </svg>
-              <span>Nhạc Mới</span>
+              <span>BXH Nhạc Mới</span>
             </NavLink>
           </li>
           <li

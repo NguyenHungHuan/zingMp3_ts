@@ -31,6 +31,13 @@ const Slider = ({ dataBanner }: Props) => {
         nextEl: nextRef.current
       }}
     >
+      {dataBanner?.map((item) => (
+        <SwiperSlide key={item.encodeId} className='ease-in-out duration-500 rounded-lg overflow-hidden'>
+          <Link to={'/'}>
+            <img alt='' src={item.banner} className='w-full h-full object-cover' />
+          </Link>
+        </SwiperSlide>
+      ))}
       <button
         ref={prevRef}
         className='invisible group-hover:visible hover:opacity-90 absolute z-[5] top-[50%] -translate-y-1/2 left-[25px] text-white flex items-center justify-center rounded-full bg-[#ffffff26] shadow-md p-[10px]'
@@ -61,13 +68,6 @@ const Slider = ({ dataBanner }: Props) => {
           <path strokeLinecap='round' strokeLinejoin='round' d='M8.25 4.5l7.5 7.5-7.5 7.5' />
         </svg>
       </button>
-      {dataBanner?.map((item) => (
-        <SwiperSlide key={item.encodeId} className='ease-in-out duration-500 rounded-lg overflow-hidden'>
-          <Link to={'/'}>
-            <img alt='' src={item.banner} className='slider-item w-full h-full object-cover' />
-          </Link>
-        </SwiperSlide>
-      ))}
     </Swiper>
   )
 }

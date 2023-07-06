@@ -11,8 +11,7 @@ import {
   useClick,
   useDismiss,
   useInteractions,
-  type Placement,
-  computePosition as base
+  type Placement
 } from '@floating-ui/react'
 
 interface Props {
@@ -77,8 +76,8 @@ export default function Popover({
   return (
     <Element className={className} ref={refs.setReference} {...getReferenceProps()}>
       {children}
-      <FloatingPortal id={id}>
-        {open && (
+      {open && (
+        <FloatingPortal id={id}>
           <div
             ref={refs.setFloating}
             style={{
@@ -94,8 +93,8 @@ export default function Popover({
           >
             {renderPopover}
           </div>
-        )}
-      </FloatingPortal>
+        </FloatingPortal>
+      )}
     </Element>
   )
 }

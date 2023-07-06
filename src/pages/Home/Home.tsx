@@ -1,70 +1,40 @@
-import { useQuery } from 'react-query'
-import zingmp3Api from '~/apis/zingmp3Api'
-import Slider from '~/components/Slider'
-import { useState, useEffect, useMemo, useRef } from 'react'
-import { DataBanner, DataPlaylist, DataNewRelease } from '~/types/home'
-import { Link } from 'react-router-dom'
 import classNames from 'classnames'
 import moment from 'moment'
 import 'moment/dist/locale/vi'
-import BoxItem from '~/components/BoxItem'
-import Ads from '~/components/Ads'
+import { useEffect, useMemo, useRef, useState } from 'react'
+import { Link } from 'react-router-dom'
+import 'swiper/css'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Autoplay, Navigation } from '~/../node_modules/swiper'
-import 'swiper/css'
+import Ads from '~/components/Ads'
 import Artist from '~/components/Artist'
+import BoxItem from '~/components/BoxItem'
 import CardItem from '~/components/CardItem'
+import Slider from '~/components/Slider'
+import ZingChart from '~/components/ZingChart'
+import useHome from '~/hooks/useHome'
+import { DataPlaylist } from '~/types/home'
 
 export default function Home() {
-  const { data: dataHome } = useQuery({
-    queryKey: ['home'],
-    queryFn: zingmp3Api.getHome
-  })
+  const {
+    dataBanner,
+    dataNewRelease,
+    dataChill,
+    dataEnergy,
+    dataRemix,
+    dataArtists,
+    dataTop100,
+    dataAlbumHot,
+    dataNewReleaseChart,
+    dataZingChart,
+    dataWeekChartBanner
+  } = useHome()
 
-  const dataBanner: DataBanner = useMemo(
-    () => dataHome?.data.data.items.find((item) => item.sectionId === 'hSlider')?.items,
-    [dataHome?.data.data.items]
-  )
-  const dataNewRelease = useMemo(
-    () => dataHome?.data.data.items.find((item) => item.sectionType === 'new-release'),
-    [dataHome?.data.data.items]
-  )
-  const dataChill = useMemo(
-    () => dataHome?.data.data.items.find((item) => item.sectionId === 'hEditorTheme'),
-    [dataHome?.data.data.items]
-  )
-  const dataEnergy = useMemo(
-    () => dataHome?.data.data.items.find((item) => item.sectionId === 'hEditorTheme2'),
-    [dataHome?.data.data.items]
-  )
-  const dataArtists = useMemo(
-    () => dataHome?.data.data.items.find((item) => item.sectionId === 'hArtistTheme'),
-    [dataHome?.data.data.items]
-  )
-  const dataTop100 = useMemo(
-    () => dataHome?.data.data.items.find((item) => item.sectionId === 'h100'),
-    [dataHome?.data.data.items]
-  )
-  const dataAlbumHot = useMemo(
-    () => dataHome?.data.data.items.find((item) => item.sectionId === 'hAlbum'),
-    [dataHome?.data.data.items]
-  )
-  const dataNewReleaseChart = useMemo(
-    () => dataHome?.data.data.items.find((item) => item.sectionId === 'hNewrelease'),
-    [dataHome?.data.data.items]
-  )
-  const dataZingChart = useMemo(
-    () => dataHome?.data.data.items.find((item) => item.sectionId === 'hZC'),
-    [dataHome?.data.data.items]
-  )
-  const dataWeekChartBanner = useMemo(
-    () => dataHome?.data.data.items.find((item) => item.sectionType === 'weekChart')?.items,
-    [dataHome?.data.data.items]
-  )
-
-  const dataAll = useMemo(() => (dataNewRelease as DataNewRelease)?.items?.all, [dataNewRelease])
-  const dataOthers = useMemo(() => (dataNewRelease as DataNewRelease)?.items?.others, [dataNewRelease])
-  const dataVpop = useMemo(() => (dataNewRelease as DataNewRelease)?.items?.vPop, [dataNewRelease])
+  const prevRef = useRef(null)
+  const nextRef = useRef(null)
+  const dataAll = useMemo(() => dataNewRelease?.items?.all, [dataNewRelease])
+  const dataOthers = useMemo(() => dataNewRelease?.items?.others, [dataNewRelease])
+  const dataVpop = useMemo(() => dataNewRelease?.items?.vPop, [dataNewRelease])
   const [genre, setGenre] = useState(dataAll)
   const isLoop = useMemo(
     () => (dataNewReleaseChart as DataPlaylist)?.items?.find((item) => item.encodeId === 'ABCDE1'),
@@ -91,17 +61,9 @@ export default function Home() {
     setGenre(dataVpop)
   }
 
-  const handleDetailArtistHover = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
-    const data = e.currentTarget.rel
-  }
-
-  const prevRef = useRef(null)
-  const nextRef = useRef(null)
-  console.log(dataNewRelease)
-
   return (
     <main className='mx-[-2px] px-[59px] pt-[32px]'>
-      <Slider dataBanner={dataBanner} />
+      {dataBanner && <Slider dataBanner={dataBanner} />}
       {dataNewRelease && (
         <div className='text-white mt-12'>
           <h3 className='mb-5 text-xl font-bold capitalize'>{dataNewRelease?.title}</h3>
@@ -172,11 +134,11 @@ export default function Home() {
           </div>
         </div>
       )}
-      {(dataChill as DataPlaylist) && (
+      {dataChill && (
         <div className='mt-12'>
           <TitleListBox titleList={dataChill?.title} />
           <div className='flex items-center gap-7'>
-            {(dataChill as DataPlaylist).items?.slice(0, 5).map((item) => (
+            {dataChill?.items?.slice(0, 5).map((item) => (
               <BoxItem
                 key={item.encodeId}
                 srcImg={item.thumbnailM}
@@ -187,11 +149,11 @@ export default function Home() {
           </div>
         </div>
       )}
-      {(dataEnergy as DataPlaylist) && (
+      {dataEnergy && (
         <div className='mt-12'>
           <TitleListBox titleList={dataEnergy?.title} />
           <div className='flex items-center gap-7'>
-            {(dataEnergy as DataPlaylist).items?.slice(0, 5).map((item) => (
+            {dataEnergy?.items?.slice(0, 5).map((item) => (
               <BoxItem
                 key={item.encodeId}
                 srcImg={item.thumbnailM}
@@ -202,11 +164,33 @@ export default function Home() {
           </div>
         </div>
       )}
-      {(dataArtists as DataPlaylist) && (
+      {dataRemix && (
+        <div className='mt-12'>
+          <TitleListBox titleList={dataRemix?.title} />
+          <div className='flex gap-7'>
+            {dataRemix?.items?.slice(0, 5).map((item) => (
+              <div className='flex-shrink-0 flex-1' key={item.encodeId}>
+                <BoxItem
+                  classNameDesc='line-clamp-1 mt-3 mb-[2px] text-white text-sm font-bold whitespace-normal'
+                  srcImg={item.thumbnailM}
+                  altImg={item.title}
+                  description={item.title}
+                  isLink={true}
+                />
+                <Artist
+                  artistsData={item.artists}
+                  className='text-[#ffffff80] text-sm font-normal overflow-hidden block line-clamp-1 break-words'
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+      {dataArtists && (
         <div className='mt-12'>
           <TitleListBox titleList={dataArtists?.title} />
           <div className='flex items-center gap-7'>
-            {(dataArtists as DataPlaylist).items?.slice(0, 5).map((item) => (
+            {dataArtists?.items?.slice(0, 5).map((item) => (
               <BoxItem
                 key={item.encodeId}
                 srcImg={item.thumbnailM}
@@ -312,34 +296,10 @@ export default function Home() {
           </div>
         </div>
       )}
-      <div className='relative mt-12 p-5 rounded-lg overflow-hidden h-[374px]'>
-        <div className='absolute inset-0 bg-[#2b273f]'></div>
-        <div className='absolute inset-0 bg-[#33104cf2]'>
-          <div className='bg-alpha-top'></div>
-          <div className='bg-alpha-bottom'></div>
-        </div>
-        <div className='relative flex items-center gap-[10px] mb-5'>
-          <Link to={'/'} className='text-rbg text-[28px] font-bold'>
-            #zingchart
-          </Link>
-          <button className='flex items-center justify-center hover:opacity-90'>
-            <svg width={28} height={28} viewBox='0 0 44 44' fill='none'>
-              <g filter='url(#filter0_d_3141_46346)'>
-                <circle cx={22} cy={21} r={18} fill='#FEFFFF' />
-              </g>
-              <path
-                fillRule='evenodd'
-                clipRule='evenodd'
-                d='M18.8449 13.5557C18.1011 13.14 17.7292 12.9322 17.4248 12.9672C17.1591 12.9977 16.9187 13.1388 16.7624 13.3558C16.5833 13.6045 16.5833 14.0305 16.5833 14.8825V27.1179C16.5833 27.9698 16.5833 28.3958 16.7624 28.6445C16.9186 28.8615 17.1591 29.0026 17.4247 29.0331C17.7292 29.0681 18.101 28.8604 18.8447 28.4448L29.7922 22.3277C30.568 21.8942 30.9559 21.6775 31.0849 21.3922C31.1973 21.1434 31.1973 20.8584 31.0849 20.6096C30.956 20.3243 30.5681 20.1076 29.7923 19.674L18.8449 13.5557Z'
-                fill='#141414'
-              />
-            </svg>
-          </button>
-        </div>
-      </div>
-      <div className='mt-7 flex items-center gap-7'>
-        {dataWeekChartBanner &&
-          dataWeekChartBanner.map((item: any, index: number) => (
+      <ZingChart />
+      {dataWeekChartBanner && (
+        <div className='mt-7 flex items-center gap-7'>
+          {dataWeekChartBanner.map((item: any, index: number) => (
             <Link to={'/'} key={index} className='overflow-hidden rounded-md'>
               <img
                 className='h-[112px] hover:scale-110 duration-[0.7s]'
@@ -348,12 +308,13 @@ export default function Home() {
               />
             </Link>
           ))}
-      </div>
-      {(dataTop100 as DataPlaylist) && (
+        </div>
+      )}
+      {dataTop100 && (
         <div className='mt-12'>
           <TitleListBox titleList={dataTop100?.title} />
           <div className='flex gap-7'>
-            {(dataTop100 as DataPlaylist).items?.slice(0, 5).map((item) => (
+            {dataTop100.items?.slice(0, 5).map((item) => (
               <div className='flex-shrink-0 flex-1' key={item.encodeId}>
                 <BoxItem
                   classNameDesc='line-clamp-1 mt-3 mb-[2px] text-white text-sm font-bold whitespace-normal'
@@ -371,7 +332,7 @@ export default function Home() {
           </div>
         </div>
       )}
-      {(dataAlbumHot as DataPlaylist) && (
+      {dataAlbumHot && (
         <div className='mt-12'>
           <TitleListBox titleList={dataAlbumHot?.title} />
           <Swiper
@@ -392,7 +353,7 @@ export default function Home() {
               }
             }}
           >
-            {(dataAlbumHot as DataPlaylist).items?.map((item) => (
+            {dataAlbumHot?.items?.map((item) => (
               <SwiperSlide key={item.encodeId}>
                 <BoxItem
                   classNameDesc='line-clamp-1 mt-3 mb-[2px] text-white text-sm font-bold whitespace-normal'
@@ -410,9 +371,7 @@ export default function Home() {
           </Swiper>
         </div>
       )}
-      <div className='mt-12 mb-[30px]'>
-        <Ads />
-      </div>
+      <Ads className='mt-12 mb-[30px]' />
     </main>
   )
 }
