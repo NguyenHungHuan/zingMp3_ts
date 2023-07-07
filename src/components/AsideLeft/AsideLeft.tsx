@@ -26,6 +26,7 @@ export default function AsideLeft() {
           >
             <NavLink
               to={PATH.base}
+              title='Khám Phá'
               className={({ isActive }) =>
                 classNames('py-3 px-[21px] flex items-center gap-3 hover:text-white', {
                   'bg-[#393142] text-white': isActive,
@@ -52,6 +53,7 @@ export default function AsideLeft() {
           >
             <NavLink
               to={PATH.zingChart}
+              title='#zingchart'
               className={({ isActive }) =>
                 classNames('py-3 px-[21px] flex items-center gap-3 hover:text-white', {
                   'bg-[#393142] text-white': isActive,
@@ -73,38 +75,13 @@ export default function AsideLeft() {
           </li>
           <li
             className={classNames('border-l-[3px]', {
-              'border-l-[#9b4de0]': pathname === PATH.radio,
-              'border-l-transparent': pathname !== PATH.radio
-            })}
-          >
-            <NavLink
-              to={PATH.radio}
-              className={({ isActive }) =>
-                classNames('py-3 px-[21px] flex items-center gap-3 hover:text-white', {
-                  'bg-[#393142] text-white': isActive,
-                  'bg-none text-[#dadada]': !isActive
-                })
-              }
-            >
-              <svg width={24} height={24} viewBox='0 0 24 24' className='fill-current'>
-                <path
-                  fillRule='evenodd'
-                  clipRule='evenodd'
-                  d='M11.8722 2.67978C11.911 3.09217 11.6082 3.45794 11.1958 3.49675C6.88011 3.90291 3.5 7.54519 3.5 11.98C3.5 16.6875 7.30771 20.501 12.0014 20.501C16.6952 20.501 20.5029 16.6875 20.5029 11.98C20.5029 10.3767 20.0618 8.87895 19.2951 7.59953C19.0822 7.24422 19.1976 6.78359 19.5529 6.57068C19.9082 6.35777 20.3688 6.4732 20.5818 6.82851C21.4842 8.33451 22.0029 10.0978 22.0029 11.98C22.0029 17.513 17.5266 22.001 12.0014 22.001C6.4763 22.001 2 17.513 2 11.98C2 6.76649 5.9737 2.48158 11.0553 2.00335C11.4676 1.96454 11.8334 2.26739 11.8722 2.67978ZM11.8656 6.19339C11.9286 6.60278 11.6479 6.98576 11.2385 7.0488C8.85318 7.4161 7.02419 9.48361 7.02419 11.9799C7.02419 13.3678 7.58856 14.622 8.50124 15.527C8.79536 15.8186 8.79736 16.2935 8.50571 16.5876C8.21405 16.8818 7.73918 16.8838 7.44506 16.5921C6.25964 15.4166 5.52419 13.7835 5.52419 11.9799C5.52419 8.73441 7.90208 6.04487 11.0102 5.56627C11.4196 5.50323 11.8026 5.784 11.8656 6.19339ZM16.7493 8.68305C17.1175 8.49328 17.5698 8.63791 17.7595 9.00609C18.2192 9.89782 18.4783 10.9096 18.4783 11.9799C18.4783 15.5622 15.58 18.469 12.0013 18.469C11.5871 18.469 11.2513 18.1333 11.2513 17.719C11.2513 17.3048 11.5871 16.969 12.0013 16.969C14.7485 16.969 16.9783 14.7368 16.9783 11.9799C16.9783 11.1542 16.7788 10.3774 16.4262 9.69332C16.2365 9.32514 16.3811 8.87282 16.7493 8.68305ZM14.3787 2.2439C13.9763 2.14558 13.5704 2.39207 13.4721 2.79444C13.4513 2.87927 13.4459 2.96425 13.4541 3.04647V9.4046C13.0253 9.16142 12.5297 9.02255 12.0013 9.02255C10.3691 9.02255 9.04861 10.3481 9.04861 11.9799C9.04861 13.6117 10.3691 14.9373 12.0013 14.9373C13.6336 14.9373 14.9541 13.6117 14.9541 11.9799C14.9541 11.9479 14.9535 11.916 14.9525 11.8842C14.9536 11.8681 14.9541 11.8519 14.9541 11.8355V3.98669C15.7486 4.28167 16.4875 4.69246 17.1504 5.19895C17.4795 5.45044 17.9502 5.3875 18.2017 5.05837C18.4532 4.72924 18.3902 4.25855 18.0611 4.00706C16.9849 3.18473 15.7363 2.57565 14.3787 2.2439ZM12.0013 10.5225C11.2005 10.5225 10.5486 11.1735 10.5486 11.9799C10.5486 12.7863 11.2005 13.4373 12.0013 13.4373C12.8022 13.4373 13.4541 12.7863 13.4541 11.9799C13.4541 11.1735 12.8022 10.5225 12.0013 10.5225Z'
-                  fillOpacity='0.8'
-                />
-              </svg>
-              <span>Radio</span>
-            </NavLink>
-          </li>
-          <li
-            className={classNames('border-l-[3px]', {
               'border-l-[#9b4de0]': pathname === PATH.thuVien,
               'border-l-transparent': pathname !== PATH.thuVien
             })}
           >
             <NavLink
               to={PATH.thuVien}
+              title='Thư Viện'
               className={({ isActive }) =>
                 classNames('py-3 px-[21px] flex items-center gap-3 hover:text-white', {
                   'bg-[#393142] text-white': isActive,
@@ -136,6 +113,7 @@ export default function AsideLeft() {
           >
             <NavLink
               to={PATH.newReleased}
+              title='BXH Nhạc Mới'
               className={({ isActive }) =>
                 classNames('py-3 px-[21px] flex items-center gap-3 hover:text-white', {
                   'bg-[#393142] text-white': isActive,
@@ -162,6 +140,7 @@ export default function AsideLeft() {
           >
             <NavLink
               to={PATH.hub}
+              title='Chủ Đề & Thể Loại'
               className={({ isActive }) =>
                 classNames('py-3 px-[21px] flex items-center gap-3 hover:text-white', {
                   'bg-[#393142] text-white': isActive,
@@ -216,6 +195,7 @@ export default function AsideLeft() {
           >
             <NavLink
               to={PATH.top100}
+              title='Top 100'
               className={({ isActive }) =>
                 classNames('py-3 px-[21px] flex items-center gap-3 hover:text-white', {
                   'bg-[#393142] text-white': isActive,

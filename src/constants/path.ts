@@ -3,12 +3,13 @@ const PATH = {
   home: '/home',
   zingChart: '/zing-chart',
   thuVien: '/thu-vien',
-  radio: '/radio',
   newReleased: '/moi-phat-hanh',
   hub: '/hub',
   top100: '/top100',
   artist: 'artist',
-  infoSong: 'infoSong'
+  infoSong: 'infoSong',
+  ngheSi: 'nghe-si',
+  nameArtist: ':name'
 }
 
 export default PATH

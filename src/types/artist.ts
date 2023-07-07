@@ -1,4 +1,4 @@
-import { artists } from './home'
+import { ItemSections } from './home'
 
 export type artist = {
   id: string
@@ -30,29 +30,18 @@ export type sectionsArtist = {
   topAlbum: TopAlbum
 }
 
-export type ItemSections = {
-  encodeId: string
-  title: string
+export type artists = {
+  alias: string
+  id: string
+  isOA: boolean
+  isOABrand: boolean
+  link: string
+  name: string
+  playlistId: string
+  spotlight: boolean
   thumbnail: string
   thumbnailM: string
-  artistsNames: string
-  artists: Array<artists>
-  genreIds: Array<string>
-  isIndie: boolean
-  isOffical: boolean
-  isPrivate: boolean
-  alias: string
-  distributor: string
-  duration: number
-  preRelease: boolean
-  releaseDate: number | string
-  releaseDateText: string
-  releasedAt: number
-  zingChoice: boolean
-  allowAudioAds: boolean
-  hasLyric: boolean
-  isWorldWide: boolean
-  album: Array<TopAlbum>
+  totalFollow: number
 }
 
 export type TopAlbum = {

@@ -1,7 +1,6 @@
 import { useState, useMemo } from 'react'
-import { Link, createSearchParams } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import Popover from '../Popover'
-import { artists } from '~/types/home'
 import PATH from '~/constants/path'
 import classNames from 'classnames'
 import BoxItem from '../BoxItem'
@@ -9,6 +8,7 @@ import { useQuery } from 'react-query'
 import zingmp3Api from '~/apis/zingmp3Api'
 import moment from 'moment'
 import { formatNumberSocial } from '~/utils/formatNumber'
+import { artists } from '~/types/artist'
 
 interface Props {
   artistsData: artists[]
@@ -58,7 +58,7 @@ export default function Artist({
 
   return (
     <h3 className={className}>
-      {artistsData.map((artist: artists, index: number) => (
+      {artistsData.map((artist, index) => (
         <div key={artist.id} className='inline'>
           {artistsData.length > 1 && index !== 0 && index <= 2 && ', '}
           <Popover
@@ -92,12 +92,7 @@ export default function Artist({
                       <div className='flex-1 text-left break-words self-center'>
                         <h3 className='text-sm font-bold'>
                           <Link
-                            to={{
-                              pathname: `${PATH.base}${PATH.artist}`,
-                              search: createSearchParams({
-                                name: artist?.alias as string
-                              }).toString()
-                            }}
+                            to={`${PATH.ngheSi}/${artist?.alias}`}
                             className='text-white hover:text-[#c273ed] whitespace-nowrap text-ellipsis overflow-hidden max-w-[100%] inline-block leading-normal mb-0 align-top'
                           >
                             {dataArtist?.name}
@@ -138,15 +133,7 @@ export default function Artist({
                     >
                       {(dataArtist?.sortBiography as string).slice(0, 86)}
                       ...
-                      <Link
-                        to={{
-                          pathname: `${PATH.base}${PATH.artist}`,
-                          search: createSearchParams({
-                            name: artist.alias as string
-                          }).toString()
-                        }}
-                        className='hover:text-[#c273ed] inline'
-                      >
+                      <Link to={`${PATH.ngheSi}/${artist?.alias}`} className='hover:text-[#c273ed] inline'>
                         Xem thêm
                       </Link>
                     </div>
@@ -190,13 +177,9 @@ export default function Artist({
             }
           >
             <Link
-              to={{
-                pathname: `${PATH.base}${PATH.artist}`,
-                search: createSearchParams({
-                  name: artist.alias as string
-                }).toString()
-              }}
+              to={`${PATH.ngheSi}/${artist?.alias}`}
               rel={artist.alias}
+              title={artist.name}
               onMouseLeave={handleMouseLeaveHover}
               onMouseEnter={(e) => handleDetailArtistHover(e)}
               className={classNames(classNameText, {

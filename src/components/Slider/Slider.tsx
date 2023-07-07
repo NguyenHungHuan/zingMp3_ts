@@ -1,17 +1,16 @@
 import { useRef } from 'react'
-import { DataBanner } from '~/types/home'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Autoplay, Navigation } from '~/../node_modules/swiper'
 import 'swiper/css'
 import { Link } from 'react-router-dom'
+import { ItemBanner } from '~/types/home'
 interface Props {
-  dataBanner?: DataBanner
+  dataBanner?: Array<ItemBanner>
 }
 
 const Slider = ({ dataBanner }: Props) => {
   const prevRef = useRef(null)
   const nextRef = useRef(null)
-
   return (
     <Swiper
       className='group'

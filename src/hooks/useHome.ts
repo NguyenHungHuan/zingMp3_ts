@@ -1,7 +1,7 @@
-import React, { useMemo } from 'react'
+import { useMemo } from 'react'
 import { useQuery } from 'react-query'
 import zingmp3Api from '~/apis/zingmp3Api'
-import { DataBanner, DataNewRelease, DataPlaylist } from '~/types/home'
+import { DataPlaylist, ItemBanner, ItemSections, itemNewRelease } from '~/types/home'
 
 export default function useHome() {
   const { data: dataHome } = useQuery({
@@ -9,43 +9,43 @@ export default function useHome() {
     queryFn: zingmp3Api.getHome
   })
 
-  const dataBanner: DataBanner = useMemo(
+  const dataBanner: Array<ItemBanner> = useMemo(
     () => dataHome?.data.data.items.find((item) => item.sectionId === 'hSlider')?.items,
     [dataHome?.data.data.items]
   )
-  const dataNewRelease: DataNewRelease | undefined = useMemo(
+  const dataNewRelease: DataPlaylist<itemNewRelease> | undefined = useMemo(
     () => dataHome?.data.data.items.find((item) => item.sectionType === 'new-release'),
     [dataHome?.data.data.items]
   )
-  const dataChill: DataPlaylist | undefined = useMemo(
+  const dataChill: DataPlaylist<Array<ItemSections>> | undefined = useMemo(
     () => dataHome?.data.data.items.find((item) => item.sectionId === 'hEditorTheme'),
     [dataHome?.data.data.items]
   )
-  const dataEnergy: DataPlaylist | undefined = useMemo(
+  const dataEnergy: DataPlaylist<Array<ItemSections>> | undefined = useMemo(
     () => dataHome?.data.data.items.find((item) => item.sectionId === 'hEditorTheme2'),
     [dataHome?.data.data.items]
   )
-  const dataRemix: DataPlaylist | undefined = useMemo(
+  const dataRemix: DataPlaylist<Array<ItemSections>> | undefined = useMemo(
     () => dataHome?.data.data.items.find((item) => item.sectionId === 'hEditorTheme3'),
     [dataHome?.data.data.items]
   )
-  const dataArtists: DataPlaylist | undefined = useMemo(
+  const dataArtists: DataPlaylist<Array<ItemSections>> | undefined = useMemo(
     () => dataHome?.data.data.items.find((item) => item.sectionId === 'hArtistTheme'),
     [dataHome?.data.data.items]
   )
-  const dataTop100: DataPlaylist | undefined = useMemo(
+  const dataTop100: DataPlaylist<Array<ItemSections>> | undefined = useMemo(
     () => dataHome?.data.data.items.find((item) => item.sectionId === 'h100'),
     [dataHome?.data.data.items]
   )
-  const dataAlbumHot: DataPlaylist | undefined = useMemo(
+  const dataAlbumHot: DataPlaylist<Array<ItemSections>> | undefined = useMemo(
     () => dataHome?.data.data.items.find((item) => item.sectionId === 'hAlbum'),
     [dataHome?.data.data.items]
   )
-  const dataNewReleaseChart = useMemo(
+  const dataNewReleaseChart: DataPlaylist<Array<ItemSections>> | undefined = useMemo(
     () => dataHome?.data.data.items.find((item) => item.sectionId === 'hNewrelease'),
     [dataHome?.data.data.items]
   )
-  const dataZingChart = useMemo(
+  const dataZingChart: DataPlaylist<Array<ItemSections>> | undefined = useMemo(
     () => dataHome?.data.data.items.find((item) => item.sectionId === 'hZC'),
     [dataHome?.data.data.items]
   )

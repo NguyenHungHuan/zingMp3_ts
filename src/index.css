@@ -25,6 +25,18 @@ body {
   -webkit-text-stroke: 1px white;
   font-family: 'Roboto', sans-serif;
 }
+.text-stroke-1 {
+  -webkit-text-stroke: 1px #4a90e2;
+  font-family: 'Roboto', sans-serif;
+}
+.text-stroke-2 {
+  -webkit-text-stroke: 1px #50e3c2;
+  font-family: 'Roboto', sans-serif;
+}
+.text-stroke-3 {
+  -webkit-text-stroke: 1px #e35050;
+  font-family: 'Roboto', sans-serif;
+}
 
 .bg-alpha-top:before {
   content: '';

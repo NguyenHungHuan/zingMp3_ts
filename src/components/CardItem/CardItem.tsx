@@ -153,7 +153,11 @@ export default function CardItem({
                       {dataInfoSong?.composers?.map((item, index) => (
                         <Fragment key={item.id}>
                           {dataInfoSong?.genres.length > 1 && index !== 0 && ', '}
-                          <Link to='/' className='inline text-white text-sm capitalize hover:text-[#c273ed]'>
+                          <Link
+                            to='/'
+                            className='inline text-white text-sm capitalize hover:text-[#c273ed]'
+                            title={item.name}
+                          >
                             {item.name}
                           </Link>
                         </Fragment>
@@ -162,7 +166,11 @@ export default function CardItem({
                       {dataInfoSong?.genres.map((item, index) => (
                         <Fragment key={item.id}>
                           {dataInfoSong?.genres.length > 1 && index !== 0 && ', '}
-                          <Link to='/' className='inline text-white text-sm capitalize hover:text-[#c273ed]'>
+                          <Link
+                            to='/'
+                            className='inline text-white text-sm capitalize hover:text-[#c273ed]'
+                            title={item.name}
+                          >
                             {item.name}
                           </Link>
                         </Fragment>

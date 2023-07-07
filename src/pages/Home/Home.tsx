@@ -13,7 +13,6 @@ import CardItem from '~/components/CardItem'
 import Slider from '~/components/Slider'
 import ZingChart from '~/components/ZingChart'
 import useHome from '~/hooks/useHome'
-import { DataPlaylist } from '~/types/home'
 
 export default function Home() {
   const {
@@ -37,7 +36,7 @@ export default function Home() {
   const dataVpop = useMemo(() => dataNewRelease?.items?.vPop, [dataNewRelease])
   const [genre, setGenre] = useState(dataAll)
   const isLoop = useMemo(
-    () => (dataNewReleaseChart as DataPlaylist)?.items?.find((item) => item.encodeId === 'ABCDE1'),
+    () => dataNewReleaseChart?.items?.find((item) => item.encodeId === 'ABCDE1'),
     [dataNewReleaseChart]
   )
 
@@ -47,7 +46,7 @@ export default function Home() {
 
   useEffect(() => {
     if (!isLoop) {
-      dataNewReleaseChart?.items.push({ encodeId: 'ABCDE1' })
+      (dataNewReleaseChart?.items as Array<{ encodeId: string }>)?.push({ encodeId: 'ABCDE1' })
     }
   }, [dataNewReleaseChart?.items, isLoop])
 
@@ -201,7 +200,7 @@ export default function Home() {
           </div>
         </div>
       )}
-      {(dataNewReleaseChart as DataPlaylist) && (
+      {dataNewReleaseChart && (
         <div className='mt-12'>
           <TitleListBox titleList={dataNewReleaseChart?.title} />
           <div className='relative'>
@@ -228,7 +227,7 @@ export default function Home() {
                 }
               }}
             >
-              {(dataNewReleaseChart as DataPlaylist).items?.map((item, index, arr) => {
+              {dataNewReleaseChart.items?.map((item, index, arr) => {
                 return (
                   <SwiperSlide key={item.encodeId}>
                     {arr.length - 1 === index ? (
@@ -296,7 +295,7 @@ export default function Home() {
           </div>
         </div>
       )}
-      <ZingChart />
+      <ZingChart dataChart={dataZingChart} />
       {dataWeekChartBanner && (
         <div className='mt-7 flex items-center gap-7'>
           {dataWeekChartBanner.map((item: any, index: number) => (
@@ -334,7 +333,7 @@ export default function Home() {
       )}
       {dataAlbumHot && (
         <div className='mt-12'>
-          <TitleListBox titleList={dataAlbumHot?.title} />
+          <TitleListBox titleList={dataAlbumHot?.title} hideLink={true} />
           <Swiper
             className='flex gap-7'
             modules={[Autoplay]}
