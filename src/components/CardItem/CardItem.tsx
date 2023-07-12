@@ -55,7 +55,7 @@ export default function CardItem({
       <div className='flex flex-col break-words gap-[3px] font-medium'>
         <div className='flex items-center'>
           <span
-            className={classNames('text-white text-sm line-clamp-1 cursor-default', {
+            className={classNames('text-white text-sm cursor-default line-clamp-1', {
               'opacity-50': dataItem.streamingStatus === 2
             })}
           >
