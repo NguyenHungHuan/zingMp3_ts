@@ -87,6 +87,7 @@ export default function Artist({
                           srcImg={dataArtist?.thumbnailM}
                           classNameFigure='flex-shrink-0 flex-1 relative pt-[100%] rounded-full group w-12 h-12 cursor-pointer overflow-hidden'
                           classNameImg='absolute inset-0 object-contain rounded-[4px] w-full h-full group-hover:scale-110 duration-700'
+                          isLink={false}
                         />
                       </div>
                       <div className='flex-1 text-left break-words self-center'>
@@ -158,11 +159,13 @@ export default function Artist({
                             <BoxItem
                               hideLike={true}
                               hideOption={true}
-                              isLink={true}
+                              isLinkDesc={true}
                               buttonSizeSmall={true}
                               description={item.title}
                               srcImg={item.thumbnailM}
                               classNameDesc='text-white text-xs line-clamp-2 font-medium mb-0 mt-2'
+                              link={item.link}
+                              isLink={false}
                             />
                             <span className='mt-[3px] text-[10px] text-[#ffffff80]'>
                               {moment(item.releasedAt).format('YYYY')}

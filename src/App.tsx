@@ -7,6 +7,8 @@ import NewReleased from './pages/NewReleased'
 import Hub from './pages/Hub'
 import Top100 from './pages/Top100'
 import Library from './pages/Library'
+import Playlist from './pages/Playlist'
+import Artist from './pages/Artist'
 
 function App() {
   return (
@@ -19,6 +21,9 @@ function App() {
           <Route path={PATH.newReleased} element={<NewReleased />} />
           <Route path={PATH.hub} element={<Hub />} />
           <Route path={PATH.top100} element={<Top100 />} />
+          <Route path={`${PATH.ngheSi}/${PATH.nameLink}`} element={<Artist />} />
+          <Route path={`${PATH.album}/${PATH.nameLink}/${PATH.id}`} element={<Playlist />} />
+          <Route path={`${PATH.playlist}/${PATH.nameLink}/${PATH.id}`} element={<Playlist />} />
         </Route>
       </Routes>
     </>

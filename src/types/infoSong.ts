@@ -54,6 +54,7 @@ export type InfoSong = {
     | 'releasedAt'
     | 'artistsNames'
     | 'genreIds'
+    | 'link'
   > & {
     sortDescription: string
     artists: Array<

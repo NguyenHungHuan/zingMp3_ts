@@ -9,7 +9,10 @@ const PATH = {
   artist: 'artist',
   infoSong: 'infoSong',
   ngheSi: 'nghe-si',
-  nameArtist: ':name'
-}
+  nameLink: ':name',
+  id: ':id',
+  album: '/album',
+  playlist: '/playlist'
+} as const
 
 export default PATH

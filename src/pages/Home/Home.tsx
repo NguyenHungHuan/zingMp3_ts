@@ -2,7 +2,7 @@ import classNames from 'classnames'
 import moment from 'moment'
 import 'moment/dist/locale/vi'
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import 'swiper/css'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Autoplay, Navigation } from '~/../node_modules/swiper'
@@ -12,6 +12,7 @@ import BoxItem from '~/components/BoxItem'
 import CardItem from '~/components/CardItem'
 import Slider from '~/components/Slider'
 import ZingChart from '~/components/ZingChart'
+import PATH from '~/constants/path'
 import useHome from '~/hooks/useHome'
 
 export default function Home() {
@@ -21,6 +22,7 @@ export default function Home() {
     dataChill,
     dataEnergy,
     dataRemix,
+    dataStatus,
     dataArtists,
     dataTop100,
     dataAlbumHot,
@@ -29,6 +31,7 @@ export default function Home() {
     dataWeekChartBanner
   } = useHome()
 
+  const navigate = useNavigate()
   const prevRef = useRef(null)
   const nextRef = useRef(null)
   const dataAll = useMemo(() => dataNewRelease?.items?.all, [dataNewRelease])
@@ -46,7 +49,7 @@ export default function Home() {
 
   useEffect(() => {
     if (!isLoop) {
-      (dataNewReleaseChart?.items as Array<{ encodeId: string }>)?.push({ encodeId: 'ABCDE1' })
+      ;(dataNewReleaseChart?.items as Array<{ encodeId: string }>)?.push({ encodeId: 'ABCDE1' })
     }
   }, [dataNewReleaseChart?.items, isLoop])
 
@@ -135,7 +138,7 @@ export default function Home() {
       )}
       {dataChill && (
         <div className='mt-12'>
-          <TitleListBox titleList={dataChill?.title} />
+          <TitleListBox titleList={dataChill?.title} link={dataChill.link} />
           <div className='flex items-center gap-7'>
             {dataChill?.items?.slice(0, 5).map((item) => (
               <BoxItem
@@ -143,6 +146,7 @@ export default function Home() {
                 srcImg={item.thumbnailM}
                 altImg={item.title}
                 description={item.sortDescription}
+                link={item.link}
               />
             ))}
           </div>
@@ -150,7 +154,7 @@ export default function Home() {
       )}
       {dataEnergy && (
         <div className='mt-12'>
-          <TitleListBox titleList={dataEnergy?.title} />
+          <TitleListBox titleList={dataEnergy?.title} hideLink={true} />
           <div className='flex items-center gap-7'>
             {dataEnergy?.items?.slice(0, 5).map((item) => (
               <BoxItem
@@ -158,6 +162,7 @@ export default function Home() {
                 srcImg={item.thumbnailM}
                 altImg={item.title}
                 description={item.sortDescription}
+                link={item.link}
               />
             ))}
           </div>
@@ -165,20 +170,31 @@ export default function Home() {
       )}
       {dataRemix && (
         <div className='mt-12'>
-          <TitleListBox titleList={dataRemix?.title} />
+          <TitleListBox titleList={dataRemix?.title} hideLink={true} />
           <div className='flex gap-7'>
             {dataRemix?.items?.slice(0, 5).map((item) => (
               <div className='flex-shrink-0 flex-1' key={item.encodeId}>
-                <BoxItem
-                  classNameDesc='line-clamp-1 mt-3 mb-[2px] text-white text-sm font-bold whitespace-normal'
-                  srcImg={item.thumbnailM}
-                  altImg={item.title}
-                  description={item.title}
-                  isLink={true}
-                />
+                <BoxItem srcImg={item.thumbnailM} altImg={item.title} link={item.link} />
                 <Artist
                   artistsData={item.artists}
-                  className='text-[#ffffff80] text-sm font-normal overflow-hidden block line-clamp-1 break-words'
+                  className='text-[#ffffff80] text-sm font-normal overflow-hidden block line-clamp-1 break-words mt-3'
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+      {dataStatus && (
+        <div className='mt-12'>
+          <TitleListBox titleList={dataStatus?.title} hideLink={true} />
+          <div className='flex gap-7'>
+            {dataStatus?.items?.slice(0, 5).map((item) => (
+              <div className='flex-shrink-0 flex-1' key={item.encodeId}>
+                <BoxItem
+                  srcImg={item.thumbnailM}
+                  altImg={item.title}
+                  description={item.sortDescription}
+                  link={item.link}
                 />
               </div>
             ))}
@@ -187,7 +203,7 @@ export default function Home() {
       )}
       {dataArtists && (
         <div className='mt-12'>
-          <TitleListBox titleList={dataArtists?.title} />
+          <TitleListBox titleList={dataArtists?.title} hideLink={true} />
           <div className='flex items-center gap-7'>
             {dataArtists?.items?.slice(0, 5).map((item) => (
               <BoxItem
@@ -195,6 +211,7 @@ export default function Home() {
                 srcImg={item.thumbnailM}
                 altImg={item.title}
                 description={item.sortDescription}
+                link={item.link}
               />
             ))}
           </div>
@@ -202,7 +219,7 @@ export default function Home() {
       )}
       {dataNewReleaseChart && (
         <div className='mt-12'>
-          <TitleListBox titleList={dataNewReleaseChart?.title} />
+          <TitleListBox titleList={dataNewReleaseChart?.title} link={PATH.newReleased} />
           <div className='relative'>
             <Swiper
               className='grid grid-cols-3'
@@ -232,15 +249,25 @@ export default function Home() {
                   <SwiperSlide key={item.encodeId}>
                     {arr.length - 1 === index ? (
                       <Link
-                        to={'/'}
+                        to={PATH.newReleased}
                         className='col-span-1 bg-[#ffffff1a] cursor-pointer rounded h-full w-full flex justify-center items-center text-[#9b4de0] font-bold uppercase'
                       >
                         Xem tất cả
                       </Link>
                     ) : (
-                      <div className='col-span-1 bg-[#ffffff1a] group cursor-pointer rounded p-[15px] flex gap-[10px]'>
+                      <div
+                        aria-hidden
+                        onClick={() => navigate(PATH.newReleased)}
+                        className='col-span-1 bg-[#ffffff1a] group cursor-pointer rounded p-[15px] flex gap-[10px]'
+                      >
                         <div className='w-[120px]'>
-                          <BoxItem srcImg={item.thumbnailM} altImg={item.title} hideLike={true} hideOption={true} />
+                          <BoxItem
+                            srcImg={item.thumbnailM}
+                            altImg={item.title}
+                            hideLike={true}
+                            hideOption={true}
+                            isLink={false}
+                          />
                         </div>
                         <div className='flex-1 flex flex-col justify-between'>
                           <div>
@@ -320,7 +347,8 @@ export default function Home() {
                   srcImg={item.thumbnailM}
                   altImg={item.title}
                   description={item.title}
-                  isLink={true}
+                  isLinkDesc={true}
+                  link={item.link}
                 />
                 <Artist
                   artistsData={item.artists}
@@ -359,7 +387,8 @@ export default function Home() {
                   srcImg={item.thumbnailM}
                   altImg={item.title}
                   description={item.title}
-                  isLink={true}
+                  isLinkDesc={true}
+                  link={item.link}
                 />
                 <Artist
                   artistsData={item.artists}
@@ -375,16 +404,20 @@ export default function Home() {
   )
 }
 
-interface PropsTitle {
+export const TitleListBox = ({
+  titleList = 'Title',
+  hideLink = false,
+  link = '/'
+}: {
   titleList?: string
   hideLink?: boolean
-}
-export const TitleListBox = ({ titleList = 'Title', hideLink = false }: PropsTitle) => (
+  link?: string
+}) => (
   <div className='flex items-center justify-between mb-5'>
     <h3 className='text-xl font-bold capitalize text-white'>{titleList}</h3>
     {!hideLink && (
       <Link
-        to='/'
+        to={link.replace('.html', '')}
         className='text-[#ffffff80] text-xs ml-auto flex items-center gap-[6px] hover:text-[#c273ed] font-medium uppercase'
       >
         TẤT CẢ

@@ -196,7 +196,7 @@ export default function ZingChart({ dataChart }: Props) {
         <div className='bg-alpha-bottom' />
       </div>
       <div className='relative flex items-center gap-[10px] mb-5'>
-        <Link to={'/'} className='text-rbg text-[28px] font-bold'>
+        <Link to={PATH.zingChart} className='text-rbg text-[28px] font-bold'>
           #zingchart
         </Link>
         <button className='flex items-center justify-center hover:opacity-90'>
@@ -251,6 +251,7 @@ export default function ZingChart({ dataChart }: Props) {
                         hideDesc={true}
                         hideLike={true}
                         hideOption={true}
+                        isLink={false}
                       />
                       <div className='flex flex-col break-words gap-[3px] font-medium justify-center'>
                         <div className='flex items-center'>
@@ -312,7 +313,7 @@ export default function ZingChart({ dataChart }: Props) {
                     <span className='text-xs cursor-default line-clamp-1'>
                       {dataChart?.items[(tooltipData as any)?.chart?.tooltip?.dataPoints[0]?.datasetIndex]?.title}
                     </span>
-                    <span className='text-[#ffffffcc] text-[10px] font-normal block line-clamp-1 break-words'>
+                    <span className='text-[#ffffffcc] text-[10px] font-normal line-clamp-1'>
                       {
                         dataChart?.items[(tooltipData as any)?.chart?.tooltip?.dataPoints[0]?.datasetIndex]
                           ?.artistsNames

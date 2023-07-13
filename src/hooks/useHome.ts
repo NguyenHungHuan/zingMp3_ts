@@ -9,6 +9,8 @@ export default function useHome() {
     queryFn: zingmp3Api.getHome
   })
 
+  console.log(dataHome)
+
   const dataBanner: Array<ItemBanner> = useMemo(
     () => dataHome?.data.data.items.find((item) => item.sectionId === 'hSlider')?.items,
     [dataHome?.data.data.items]
@@ -27,6 +29,10 @@ export default function useHome() {
   )
   const dataRemix: DataPlaylist<Array<ItemSections>> | undefined = useMemo(
     () => dataHome?.data.data.items.find((item) => item.sectionId === 'hEditorTheme3'),
+    [dataHome?.data.data.items]
+  )
+  const dataStatus: DataPlaylist<Array<ItemSections>> | undefined = useMemo(
+    () => dataHome?.data.data.items.find((item) => item.sectionId === 'hEditorTheme4'),
     [dataHome?.data.data.items]
   )
   const dataArtists: DataPlaylist<Array<ItemSections>> | undefined = useMemo(
@@ -59,6 +65,7 @@ export default function useHome() {
     dataNewRelease,
     dataChill,
     dataEnergy,
+    dataStatus,
     dataRemix,
     dataArtists,
     dataTop100,

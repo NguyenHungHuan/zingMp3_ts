@@ -10,6 +10,8 @@ import { useState, Fragment } from 'react'
 import { formatNumberSocial } from '~/utils/formatNumber'
 import classNames from 'classnames'
 import Tooltip from '../Tooltip'
+import PATH from '~/constants/path'
+import useGenerateLink from '~/hooks/useGenerateLink'
 
 interface Props {
   dataItem: any
@@ -33,7 +35,7 @@ export default function CardItem({
     enabled: idSong !== ''
   })
   const dataInfoSong = data?.data.data
-
+  const { idPlaylist, namePlaylist } = useGenerateLink(dataInfoSong?.album.link)
   return (
     <div
       className={classNames(className, {
@@ -51,6 +53,7 @@ export default function CardItem({
         hideDesc={true}
         hideLike={true}
         hideOption={true}
+        isLink={false}
       />
       <div className='flex flex-col break-words gap-[3px] font-medium'>
         <div className='flex items-center'>
@@ -146,22 +149,29 @@ export default function CardItem({
                         classNameText='inline break-words hover:text-[#c273ed] hover:no-underline'
                       />
                       <h3>Album</h3>
-                      <Link to='/' className='block text-white text-sm capitalize hover:text-[#c273ed]'>
+                      <Link
+                        to={`${PATH.album}/${namePlaylist}/${idPlaylist}`}
+                        className='block text-white text-sm capitalize hover:text-[#c273ed]'
+                      >
                         {dataInfoSong?.album.title}
                       </Link>
-                      <h3>Sáng tác</h3>
-                      {dataInfoSong?.composers?.map((item, index) => (
-                        <Fragment key={item.id}>
-                          {dataInfoSong?.genres.length > 1 && index !== 0 && ', '}
-                          <Link
-                            to='/'
-                            className='inline text-white text-sm capitalize hover:text-[#c273ed]'
-                            title={item.name}
-                          >
-                            {item.name}
-                          </Link>
-                        </Fragment>
-                      ))}
+                      {dataInfoSong && dataInfoSong?.composers?.length > 0 && (
+                        <>
+                          <h3>Sáng tác</h3>
+                          {dataInfoSong?.composers?.map((item, index) => (
+                            <Fragment key={item.id}>
+                              {dataInfoSong?.genres.length > 1 && index !== 0 && ', '}
+                              <Link
+                                to={`${PATH.ngheSi}/${item.alias}`}
+                                className='inline text-white text-sm capitalize hover:text-[#c273ed]'
+                                title={item.name}
+                              >
+                                {item.name}
+                              </Link>
+                            </Fragment>
+                          ))}
+                        </>
+                      )}
                       <h3>Thể loại</h3>
                       {dataInfoSong?.genres.map((item, index) => (
                         <Fragment key={item.id}>
@@ -190,7 +200,7 @@ export default function CardItem({
                     </div>
                     <div className='w-[150px] flex-shrink flex-grow basis-auto text-left self-center'>
                       <Link
-                        to='/'
+                        to={`${PATH.album}/${namePlaylist}/${idPlaylist}`}
                         className='text-white font-medium text-sm hover:text-[#c273ed] line-clamp-1 mb-[2px]'
                       >
                         {dataItem.title}

@@ -12,8 +12,11 @@ const zingmp3Api = {
     return axiosClients.get(url)
   },
 
-  getDetailPlaylist() {
-    return axiosClients.get(url)
+  getDetailPlaylist(params: { id: string }) {
+    const url = '/detailPlaylist'
+    return axiosClients.get(url, {
+      params
+    })
   },
 
   getHome() {

@@ -6,6 +6,8 @@
 html,
 body {
   font-family: 'Inter', sans-serif;
+  user-select: none;
+  outline: none;
 }
 
 ::-webkit-scrollbar {

@@ -60,4 +60,5 @@ export type TopAlbum = {
   isShuffle: boolean
   isAlbum: boolean
   isSingle: boolean
+  link: string
 }

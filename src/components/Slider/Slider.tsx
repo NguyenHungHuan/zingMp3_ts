@@ -32,7 +32,7 @@ const Slider = ({ dataBanner }: Props) => {
     >
       {dataBanner?.map((item) => (
         <SwiperSlide key={item.encodeId} className='ease-in-out duration-500 rounded-lg overflow-hidden'>
-          <Link to={'/'}>
+          <Link to={item.link.replace('.html', '')}>
             <img alt='' src={item.banner} className='w-full h-full object-cover' />
           </Link>
         </SwiperSlide>
