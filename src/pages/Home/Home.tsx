@@ -128,7 +128,7 @@ export default function Home() {
               (genre.length > 12 ? genre.slice(0, 12) : genre).map((item) => (
                 <CardItem
                   key={item.encodeId}
-                  className='col-span-1 h-20 hover:bg-[#2f2739] group rounded-lg p-[10px] flex gap-[10px] items-center'
+                  className='col-span-1 h-20 hover:bg-[#2f2739] group rounded p-[10px] flex gap-[10px] items-center'
                   dataItem={item}
                   isDate={true}
                 />

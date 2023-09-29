@@ -9,8 +9,6 @@ export default function useHome() {
     queryFn: zingmp3Api.getHome
   })
 
-  console.log(dataHome)
-
   const dataBanner: Array<ItemBanner> = useMemo(
     () => dataHome?.data.data.items.find((item) => item.sectionId === 'hSlider')?.items,
     [dataHome?.data.data.items]

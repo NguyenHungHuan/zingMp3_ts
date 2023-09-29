@@ -64,12 +64,13 @@ export type ItemSections = {
   allowAudioAds: boolean
   hasLyric: boolean
   isWorldWide: boolean
-  album: Array<TopAlbum>
+  album: TopAlbum
   link: string
   mvlink: string
   streamingStatus: number
   sortDescription: string
   score?: number
+  rakingStatus?: number
 }
 
 export type ItemBanner = {

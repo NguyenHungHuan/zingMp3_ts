@@ -1,8 +1,7 @@
 import axios from 'axios'
-import CONFIG from '~/constants/config'
 
 const axiosClients = axios.create({
-  baseURL: CONFIG.baseURL,
+  baseURL: 'http://localhost:5000/api',
   timeout: 10000
 })
 

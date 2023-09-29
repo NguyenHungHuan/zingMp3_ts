@@ -6,7 +6,6 @@ import ZingChart from './pages/ZingChart'
 import NewReleased from './pages/NewReleased'
 import Hub from './pages/Hub'
 import Top100 from './pages/Top100'
-import Library from './pages/Library'
 import Playlist from './pages/Playlist'
 import Artist from './pages/Artist'
 
@@ -17,7 +16,6 @@ function App() {
         <Route element={<MainLayout />}>
           <Route path={PATH.base} index element={<Home />} />
           <Route path={PATH.zingChart} element={<ZingChart />} />
-          <Route path={PATH.thuVien} element={<Library />} />
           <Route path={PATH.newReleased} element={<NewReleased />} />
           <Route path={PATH.hub} element={<Hub />} />
           <Route path={PATH.top100} element={<Top100 />} />

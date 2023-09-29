@@ -1,9 +1,11 @@
 import { successResponse } from '~/types/utils'
 import axiosClients from './axiosClients'
-import { homeData } from '~/types/home'
+import { DataPlaylist, ItemSections, homeData } from '~/types/home'
 import PATH from '~/constants/path'
 import { artist } from '~/types/artist'
 import { InfoSong } from '~/types/infoSong'
+import { dataHub } from '~/types/hub'
+import { dataNewReleaseSong } from '~/types/newReleaseSong'
 
 const url = '/'
 const zingmp3Api = {
@@ -38,7 +40,17 @@ const zingmp3Api = {
 
   getTop100() {
     const url = '/top100'
-    return axiosClients.get(url)
+    return axiosClients.get<successResponse<DataPlaylist<ItemSections[]>[]>>(url)
+  },
+
+  getGenres() {
+    const url = '/genres'
+    return axiosClients.get<successResponse<dataHub>>(url)
+  },
+
+  getNewReleaseSongs() {
+    const url = '/newreleasesongs'
+    return axiosClients.get<successResponse<dataNewReleaseSong>>(url)
   },
 
   getChartHome() {
