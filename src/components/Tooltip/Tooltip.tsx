@@ -59,7 +59,7 @@ const Tooltip = ({ children, as: Element = 'div', className, text }: Props) => {
               zIndex: 100
             }}
             aria-hidden
-            className='bg-[#333] px-2 py-[3px] rounded text-white text-[11px]'
+            className='rounded bg-[#333] px-2 py-[3px] text-[11px] text-white'
             ref={refs.setFloating}
             {...getFloatingProps()}
           >

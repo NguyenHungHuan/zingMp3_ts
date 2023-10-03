@@ -7,10 +7,10 @@ export default function AsideLeft() {
 
   return (
     <aside>
-      <div className='flex items-center pl-[28px] pr-[25px] h-[70px]'>
+      <div className='flex h-[70px] items-center pl-[28px] pr-[25px]'>
         <Link to={PATH.base}>
           <img
-            className='w-[120px] h-10 hover:opacity-90'
+            className='h-10 w-[120px] hover:opacity-90'
             src='https://zmp3-static.zmdcdn.me/skins/zmp3-v6.1/images/backgrounds/logo-dark.svg'
             alt='logo zing mp3'
           />
@@ -28,7 +28,7 @@ export default function AsideLeft() {
               to={PATH.base}
               title='Khám Phá'
               className={({ isActive }) =>
-                classNames('py-3 px-[21px] flex items-center gap-3 hover:text-white', {
+                classNames('flex items-center gap-3 px-[21px] py-3 hover:text-white', {
                   'bg-[#393142] text-white': isActive,
                   'bg-none text-[#dadada]': !isActive
                 })
@@ -55,7 +55,7 @@ export default function AsideLeft() {
               to={PATH.zingChart}
               title='#zingchart'
               className={({ isActive }) =>
-                classNames('py-3 px-[21px] flex items-center gap-3 hover:text-white', {
+                classNames('flex items-center gap-3 px-[21px] py-3 hover:text-white', {
                   'bg-[#393142] text-white': isActive,
                   'bg-none text-[#dadada]': !isActive
                 })
@@ -83,7 +83,7 @@ export default function AsideLeft() {
               to={PATH.thuVien}
               title='Thư Viện'
               className={({ isActive }) =>
-                classNames('py-3 px-[21px] flex items-center gap-3 hover:text-white', {
+                classNames('flex items-center gap-3 px-[21px] py-3 hover:text-white', {
                   'bg-[#393142] text-white': isActive,
                   'bg-none text-[#dadada]': !isActive
                 })
@@ -102,7 +102,7 @@ export default function AsideLeft() {
           </li>
         </ul>
       </nav>
-      <div className='h-[1px] text-[#ffffff1a] bg-[#ffffff1a] mx-[21px] break-words' />
+      <div className='mx-[21px] h-[1px] break-words bg-[#ffffff1a] text-[#ffffff1a]' />
       <nav className='my-4'>
         <ul className='text-sm font-medium'>
           <li
@@ -115,7 +115,7 @@ export default function AsideLeft() {
               to={PATH.newReleased}
               title='BXH Nhạc Mới'
               className={({ isActive }) =>
-                classNames('py-3 px-[21px] flex items-center gap-3 hover:text-white', {
+                classNames('flex items-center gap-3 px-[21px] py-3 hover:text-white', {
                   'bg-[#393142] text-white': isActive,
                   'bg-none text-[#dadada]': !isActive
                 })
@@ -142,7 +142,7 @@ export default function AsideLeft() {
               to={PATH.hub}
               title='Chủ Đề & Thể Loại'
               className={({ isActive }) =>
-                classNames('py-3 px-[21px] flex items-center gap-3 hover:text-white', {
+                classNames('flex items-center gap-3 px-[21px] py-3 hover:text-white', {
                   'bg-[#393142] text-white': isActive,
                   'bg-none text-[#dadada]': !isActive
                 })
@@ -197,7 +197,7 @@ export default function AsideLeft() {
               to={PATH.top100}
               title='Top 100'
               className={({ isActive }) =>
-                classNames('py-3 px-[21px] flex items-center gap-3 hover:text-white', {
+                classNames('flex items-center gap-3 px-[21px] py-3 hover:text-white', {
                   'bg-[#393142] text-white': isActive,
                   'bg-none text-[#dadada]': !isActive
                 })

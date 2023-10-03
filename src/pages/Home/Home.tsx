@@ -4,8 +4,8 @@ import 'moment/dist/locale/vi'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import 'swiper/css'
+import { Autoplay, Navigation } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/react'
-import { Autoplay, Navigation } from '~/../node_modules/swiper'
 import Ads from '~/components/Ads'
 import Artist from '~/components/Artist'
 import BoxItem from '~/components/BoxItem'
@@ -67,13 +67,13 @@ export default function Home() {
     <main className='mx-[-2px] px-[59px] pt-[32px]'>
       {dataBanner && <Slider dataBanner={dataBanner} />}
       {dataNewRelease && (
-        <div className='text-white mt-12'>
+        <div className='mt-12 text-white'>
           <h3 className='mb-5 text-xl font-bold capitalize'>{dataNewRelease?.title}</h3>
-          <div className='flex items-center mb-4 gap-[15px] text-white text-xs font-normal'>
+          <div className='mb-4 flex items-center gap-[15px] text-xs font-normal text-white'>
             <button
               onClick={handleChangeGenreAll}
               className={classNames(
-                'hover:opacity-90 uppercase flex items-center justify-center rounded-full px-[26px] py-[5px]',
+                'flex items-center justify-center rounded-full px-[26px] py-[5px] uppercase hover:opacity-90',
                 {
                   'bg-[#9b4de0]': genre === dataAll,
                   'border border-[#ffffff1a]': genre !== dataAll
@@ -85,7 +85,7 @@ export default function Home() {
             <button
               onClick={handleChangeGenreVpop}
               className={classNames(
-                'hover:opacity-90 uppercase flex items-center justify-center rounded-full px-[26px] py-[5px]',
+                'flex items-center justify-center rounded-full px-[26px] py-[5px] uppercase hover:opacity-90',
                 {
                   'bg-[#9b4de0]': genre === dataVpop,
                   'border border-[#ffffff1a]': genre !== dataVpop
@@ -97,7 +97,7 @@ export default function Home() {
             <button
               onClick={handleChangeGenreOthers}
               className={classNames(
-                'hover:opacity-90 uppercase flex items-center justify-center rounded-full px-[26px] py-[5px]',
+                'flex items-center justify-center rounded-full px-[26px] py-[5px] uppercase hover:opacity-90',
                 {
                   'bg-[#9b4de0]': genre === dataOthers,
                   'border border-[#ffffff1a]': genre !== dataOthers
@@ -108,7 +108,7 @@ export default function Home() {
             </button>
             <Link
               to='/'
-              className='text-[#ffffff80] ml-auto flex items-center gap-[6px] hover:text-[#c273ed] font-medium uppercase'
+              className='ml-auto flex items-center gap-[6px] font-medium uppercase text-[#ffffff80] hover:text-[#c273ed]'
             >
               TẤT CẢ
               <svg
@@ -117,7 +117,7 @@ export default function Home() {
                 viewBox='0 0 24 24'
                 strokeWidth={1.5}
                 stroke='currentColor'
-                className='w-5 h-5'
+                className='h-5 w-5'
               >
                 <path strokeLinecap='round' strokeLinejoin='round' d='M8.25 4.5l7.5 7.5-7.5 7.5' />
               </svg>
@@ -128,9 +128,10 @@ export default function Home() {
               (genre.length > 12 ? genre.slice(0, 12) : genre).map((item) => (
                 <CardItem
                   key={item.encodeId}
-                  className='col-span-1 h-20 hover:bg-[#2f2739] group rounded p-[10px] flex gap-[10px] items-center'
+                  className='group col-span-1 flex h-20 items-center gap-[10px] rounded p-[10px] hover:bg-[#2f2739]'
                   dataItem={item}
                   isDate={true}
+                  hideAlbum
                 />
               ))}
           </div>
@@ -140,15 +141,17 @@ export default function Home() {
         <div className='mt-12'>
           <TitleListBox titleList={dataChill?.title} link={dataChill.link} />
           <div className='flex items-center gap-7'>
-            {dataChill?.items?.slice(0, 5).map((item) => (
-              <BoxItem
-                key={item.encodeId}
-                srcImg={item.thumbnailM}
-                altImg={item.title}
-                description={item.sortDescription}
-                link={item.link}
-              />
-            ))}
+            {dataChill?.items
+              ?.slice(0, 5)
+              .map((item) => (
+                <BoxItem
+                  key={item.encodeId}
+                  srcImg={item.thumbnailM}
+                  altImg={item.title}
+                  description={item.sortDescription}
+                  link={item.link}
+                />
+              ))}
           </div>
         </div>
       )}
@@ -156,15 +159,17 @@ export default function Home() {
         <div className='mt-12'>
           <TitleListBox titleList={dataEnergy?.title} hideLink={true} />
           <div className='flex items-center gap-7'>
-            {dataEnergy?.items?.slice(0, 5).map((item) => (
-              <BoxItem
-                key={item.encodeId}
-                srcImg={item.thumbnailM}
-                altImg={item.title}
-                description={item.sortDescription}
-                link={item.link}
-              />
-            ))}
+            {dataEnergy?.items
+              ?.slice(0, 5)
+              .map((item) => (
+                <BoxItem
+                  key={item.encodeId}
+                  srcImg={item.thumbnailM}
+                  altImg={item.title}
+                  description={item.sortDescription}
+                  link={item.link}
+                />
+              ))}
           </div>
         </div>
       )}
@@ -173,11 +178,11 @@ export default function Home() {
           <TitleListBox titleList={dataRemix?.title} hideLink={true} />
           <div className='flex gap-7'>
             {dataRemix?.items?.slice(0, 5).map((item) => (
-              <div className='flex-shrink-0 flex-1' key={item.encodeId}>
+              <div className='flex-1 flex-shrink-0' key={item.encodeId}>
                 <BoxItem srcImg={item.thumbnailM} altImg={item.title} link={item.link} />
                 <Artist
                   artistsData={item.artists}
-                  className='text-[#ffffff80] text-sm font-normal overflow-hidden block line-clamp-1 break-words mt-3'
+                  className='mt-3 line-clamp-1 block overflow-hidden break-words text-sm font-normal text-[#ffffff80]'
                 />
               </div>
             ))}
@@ -189,7 +194,7 @@ export default function Home() {
           <TitleListBox titleList={dataStatus?.title} hideLink={true} />
           <div className='flex gap-7'>
             {dataStatus?.items?.slice(0, 5).map((item) => (
-              <div className='flex-shrink-0 flex-1' key={item.encodeId}>
+              <div className='flex-1 flex-shrink-0' key={item.encodeId}>
                 <BoxItem
                   srcImg={item.thumbnailM}
                   altImg={item.title}
@@ -205,15 +210,17 @@ export default function Home() {
         <div className='mt-12'>
           <TitleListBox titleList={dataArtists?.title} hideLink={true} />
           <div className='flex items-center gap-7'>
-            {dataArtists?.items?.slice(0, 5).map((item) => (
-              <BoxItem
-                key={item.encodeId}
-                srcImg={item.thumbnailM}
-                altImg={item.title}
-                description={item.sortDescription}
-                link={item.link}
-              />
-            ))}
+            {dataArtists?.items
+              ?.slice(0, 5)
+              .map((item) => (
+                <BoxItem
+                  key={item.encodeId}
+                  srcImg={item.thumbnailM}
+                  altImg={item.title}
+                  description={item.sortDescription}
+                  link={item.link}
+                />
+              ))}
           </div>
         </div>
       )}
@@ -250,7 +257,7 @@ export default function Home() {
                     {arr.length - 1 === index ? (
                       <Link
                         to={PATH.newReleased}
-                        className='col-span-1 bg-[#ffffff1a] cursor-pointer rounded h-full w-full flex justify-center items-center text-[#9b4de0] font-bold uppercase'
+                        className='col-span-1 flex h-full w-full cursor-pointer items-center justify-center rounded bg-[#ffffff1a] font-bold uppercase text-[#9b4de0]'
                       >
                         Xem tất cả
                       </Link>
@@ -258,7 +265,7 @@ export default function Home() {
                       <div
                         aria-hidden
                         onClick={() => navigate(PATH.newReleased)}
-                        className='col-span-1 bg-[#ffffff1a] group cursor-pointer rounded p-[15px] flex gap-[10px]'
+                        className='group col-span-1 flex cursor-pointer gap-[10px] rounded bg-[#ffffff1a] p-[15px]'
                       >
                         <div className='w-[120px]'>
                           <BoxItem
@@ -269,16 +276,16 @@ export default function Home() {
                             isLink={false}
                           />
                         </div>
-                        <div className='flex-1 flex flex-col justify-between'>
+                        <div className='flex flex-1 flex-col justify-between'>
                           <div>
-                            <div className='text-white text-sm font-medium mb-[3px]'>{item.title}</div>
+                            <div className='mb-[3px] text-sm font-medium text-white'>{item.title}</div>
                             <Artist artistsData={item.artists} />
                           </div>
                           <div className='flex items-end justify-between'>
-                            <div className='opacity-40 text-stroke text-[40px] font-black leading-none'>
+                            <div className='text-stroke text-[40px] font-black leading-none opacity-40'>
                               #{index + 1}
                             </div>
-                            <div className='text-[#ffffff80] text-sm font-normal'>
+                            <div className='text-sm font-normal text-[#ffffff80]'>
                               {moment.unix(item.releaseDate as number).format('DD.MM.YYYY')}
                             </div>
                           </div>
@@ -291,7 +298,7 @@ export default function Home() {
             </Swiper>
             <button
               ref={prevRef}
-              className='hover:opacity-90 absolute z-[5] top-[50%] -translate-y-1/2 left-[-19px] text-[#32323d] flex items-center justify-center rounded-full bg-white shadow-md p-[7px]'
+              className='absolute left-[-19px] top-[50%] z-[5] flex -translate-y-1/2 items-center justify-center rounded-full bg-white p-[7px] text-[#32323d] shadow-md hover:opacity-90'
             >
               <svg
                 xmlns='http://www.w3.org/2000/svg'
@@ -299,14 +306,14 @@ export default function Home() {
                 viewBox='0 0 24 24'
                 strokeWidth={0.5}
                 stroke='currentColor'
-                className='w-6 h-6'
+                className='h-6 w-6'
               >
                 <path strokeLinecap='round' strokeLinejoin='round' d='M15.75 19.5L8.25 12l7.5-7.5' />
               </svg>
             </button>
             <button
               ref={nextRef}
-              className='hover:opacity-90 absolute z-[5] top-[50%] -translate-y-1/2 right-[-19px] text-[#32323d] flex items-center justify-center rounded-full bg-white shadow-md p-[7px]'
+              className='absolute right-[-19px] top-[50%] z-[5] flex -translate-y-1/2 items-center justify-center rounded-full bg-white p-[7px] text-[#32323d] shadow-md hover:opacity-90'
             >
               <svg
                 xmlns='http://www.w3.org/2000/svg'
@@ -314,7 +321,7 @@ export default function Home() {
                 viewBox='0 0 24 24'
                 strokeWidth={0.5}
                 stroke='currentColor'
-                className='w-6 h-6'
+                className='h-6 w-6'
               >
                 <path strokeLinecap='round' strokeLinejoin='round' d='M8.25 4.5l7.5 7.5-7.5 7.5' />
               </svg>
@@ -328,7 +335,7 @@ export default function Home() {
           {dataWeekChartBanner.map((item: any, index: number) => (
             <Link to={'/'} key={index} className='overflow-hidden rounded-md'>
               <img
-                className='h-[112px] hover:scale-110 duration-[0.7s]'
+                className='h-[112px] duration-[0.7s] hover:scale-110'
                 src={item.cover}
                 alt={`Bài hát ${item.country}`}
               />
@@ -341,7 +348,7 @@ export default function Home() {
           <TitleListBox titleList={dataTop100?.title} />
           <div className='flex gap-7'>
             {dataTop100.items?.slice(0, 5).map((item) => (
-              <div className='flex-shrink-0 flex-1' key={item.encodeId}>
+              <div className='flex-1 flex-shrink-0' key={item.encodeId}>
                 <BoxItem
                   classNameDesc='line-clamp-1 mt-3 mb-[2px] text-white text-sm font-bold whitespace-normal'
                   srcImg={item.thumbnailM}
@@ -352,7 +359,7 @@ export default function Home() {
                 />
                 <Artist
                   artistsData={item.artists}
-                  className='text-[#ffffff80] text-sm font-normal overflow-hidden block line-clamp-1 break-words'
+                  className='line-clamp-1 block overflow-hidden break-words text-sm font-normal text-[#ffffff80]'
                 />
               </div>
             ))}
@@ -392,14 +399,14 @@ export default function Home() {
                 />
                 <Artist
                   artistsData={item.artists}
-                  className='text-[#ffffff80] text-sm font-normal overflow-hidden block line-clamp-1 break-words'
+                  className='line-clamp-1 block overflow-hidden break-words text-sm font-normal text-[#ffffff80]'
                 />
               </SwiperSlide>
             ))}
           </Swiper>
         </div>
       )}
-      <Ads className='mt-12 mb-[30px]' />
+      <Ads className='mb-[30px] mt-12' />
     </main>
   )
 }
@@ -413,12 +420,12 @@ export const TitleListBox = ({
   hideLink?: boolean
   link?: string
 }) => (
-  <div className='flex items-center justify-between mb-5'>
+  <div className='mb-5 flex items-center justify-between'>
     <h3 className='text-xl font-bold capitalize text-white'>{titleList}</h3>
     {!hideLink && (
       <Link
         to={link.replace('.html', '')}
-        className='text-[#ffffff80] text-xs ml-auto flex items-center gap-[6px] hover:text-[#c273ed] font-medium uppercase'
+        className='ml-auto flex items-center gap-[6px] text-xs font-medium uppercase text-[#ffffff80] hover:text-[#c273ed]'
       >
         TẤT CẢ
         <svg
@@ -427,7 +434,7 @@ export const TitleListBox = ({
           viewBox='0 0 24 24'
           strokeWidth={1.5}
           stroke='currentColor'
-          className='w-5 h-5'
+          className='h-5 w-5'
         >
           <path strokeLinecap='round' strokeLinejoin='round' d='M8.25 4.5l7.5 7.5-7.5 7.5' />
         </svg>

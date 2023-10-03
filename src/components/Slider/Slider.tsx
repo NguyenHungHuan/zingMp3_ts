@@ -1,6 +1,6 @@
 import { useRef } from 'react'
 import { Swiper, SwiperSlide } from 'swiper/react'
-import { Autoplay, Navigation } from '~/../node_modules/swiper'
+import { Autoplay, Navigation } from 'swiper/modules'
 import 'swiper/css'
 import { Link } from 'react-router-dom'
 import { ItemBanner } from '~/types/home'
@@ -31,15 +31,15 @@ const Slider = ({ dataBanner }: Props) => {
       }}
     >
       {dataBanner?.map((item) => (
-        <SwiperSlide key={item.encodeId} className='ease-in-out duration-500 rounded-lg overflow-hidden'>
+        <SwiperSlide key={item.encodeId} className='overflow-hidden rounded-lg duration-500 ease-in-out'>
           <Link to={item.link.replace('.html', '')}>
-            <img alt='' src={item.banner} className='w-full h-full object-cover' />
+            <img alt='' src={item.banner} className='h-full w-full object-cover' />
           </Link>
         </SwiperSlide>
       ))}
       <button
         ref={prevRef}
-        className='invisible group-hover:visible hover:opacity-90 absolute z-[5] top-[50%] -translate-y-1/2 left-[25px] text-white flex items-center justify-center rounded-full bg-[#ffffff26] shadow-md p-[10px]'
+        className='invisible absolute left-[25px] top-[50%] z-[5] flex -translate-y-1/2 items-center justify-center rounded-full bg-[#ffffff26] p-[10px] text-white shadow-md hover:opacity-90 group-hover:visible'
       >
         <svg
           xmlns='http://www.w3.org/2000/svg'
@@ -47,14 +47,14 @@ const Slider = ({ dataBanner }: Props) => {
           viewBox='0 0 24 24'
           strokeWidth={1.5}
           stroke='currentColor'
-          className='w-9 h-9'
+          className='h-9 w-9'
         >
           <path strokeLinecap='round' strokeLinejoin='round' d='M15.75 19.5L8.25 12l7.5-7.5' />
         </svg>
       </button>
       <button
         ref={nextRef}
-        className='invisible group-hover:visible hover:opacity-90 absolute z-[5] top-[50%] -translate-y-1/2 right-[25px] text-white flex items-center justify-center rounded-full bg-[#ffffff26] shadow-md p-[10px]'
+        className='invisible absolute right-[25px] top-[50%] z-[5] flex -translate-y-1/2 items-center justify-center rounded-full bg-[#ffffff26] p-[10px] text-white shadow-md hover:opacity-90 group-hover:visible'
       >
         <svg
           xmlns='http://www.w3.org/2000/svg'
@@ -62,7 +62,7 @@ const Slider = ({ dataBanner }: Props) => {
           viewBox='0 0 24 24'
           strokeWidth={1.5}
           stroke='currentColor'
-          className='w-9 h-9'
+          className='h-9 w-9'
         >
           <path strokeLinecap='round' strokeLinejoin='round' d='M8.25 4.5l7.5 7.5-7.5 7.5' />
         </svg>

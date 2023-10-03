@@ -24,18 +24,18 @@ export default function Hub() {
           </Link>
           {
             <div className='mt-[48px]'>
-              <h3 className='text-xl font-bold capitalize text-white mb-5'>{dataHub.featured.title}</h3>
+              <h3 className='mb-5 text-xl font-bold capitalize text-white'>{dataHub.featured.title}</h3>
               <div className='grid grid-cols-4 gap-7'>
                 {dataHub.featured.items.map((item) => (
-                  <Link to={'/'} key={item.encodeId} className='relative group'>
-                    <figure className='relative pt-[56.25%] overflow-hidden rounded-lg'>
+                  <Link to={'/'} key={item.encodeId} className='group relative'>
+                    <figure className='relative overflow-hidden rounded-lg pt-[56.25%]'>
                       <img
                         src={item.thumbnail}
                         alt={item.title}
-                        className='absolute inset-0 group-hover:scale-110 duration-700'
+                        className='absolute inset-0 duration-700 group-hover:scale-110'
                       />
                     </figure>
-                    <h3 className='text-white whitespace-nowrap text-[26px] font-bold capitalize absolute z-[1] top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]'>
+                    <h3 className='absolute left-[50%] top-[50%] z-[1] translate-x-[-50%] translate-y-[-50%] whitespace-nowrap text-[26px] font-bold capitalize text-white'>
                       {item.title}
                     </h3>
                   </Link>
@@ -45,18 +45,18 @@ export default function Hub() {
           }
           {
             <div className='mt-[48px]'>
-              <h3 className='text-xl font-bold capitalize text-white mb-5'>Quốc gia</h3>
+              <h3 className='mb-5 text-xl font-bold capitalize text-white'>Quốc gia</h3>
               <div className='grid grid-cols-4 gap-7'>
                 {dataHub.nations.map((item) => (
-                  <Link to={'/'} key={item.encodeId} className='relative group'>
-                    <figure className='relative pt-[56.25%] overflow-hidden rounded-lg'>
+                  <Link to={'/'} key={item.encodeId} className='group relative'>
+                    <figure className='relative overflow-hidden rounded-lg pt-[56.25%]'>
                       <img
                         src={item.thumbnail}
                         alt={item.title}
-                        className='absolute inset-0 group-hover:scale-110 duration-700'
+                        className='absolute inset-0 duration-700 group-hover:scale-110'
                       />
                     </figure>
-                    <h3 className='text-white whitespace-nowrap text-[26px] font-bold capitalize absolute z-[1] top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]'>
+                    <h3 className='absolute left-[50%] top-[50%] z-[1] translate-x-[-50%] translate-y-[-50%] whitespace-nowrap text-[26px] font-bold capitalize text-white'>
                       {item.title}
                     </h3>
                   </Link>
@@ -66,26 +66,26 @@ export default function Hub() {
           }
           {
             <div className='mt-[48px]'>
-              <h3 className='text-xl font-bold capitalize text-white mb-5'>Tâm Trạng Và Hoạt Động</h3>
+              <h3 className='mb-5 text-xl font-bold capitalize text-white'>Tâm Trạng Và Hoạt Động</h3>
               <div className='grid grid-cols-4 gap-7'>
                 {dataHub.topic.map((item) => (
-                  <Link to={'/'} key={item.encodeId} className='relative group'>
-                    <figure className='relative pt-[56.25%] overflow-hidden rounded-lg'>
+                  <Link to={'/'} key={item.encodeId} className='group relative'>
+                    <figure className='relative overflow-hidden rounded-lg pt-[56.25%]'>
                       <img
                         src={item.thumbnail}
                         alt={item.title}
-                        className='absolute inset-0 group-hover:scale-110 duration-700'
+                        className='absolute inset-0 duration-700 group-hover:scale-110'
                       />
                     </figure>
-                    <div className='absolute w-full h-full top-0 left-0 flex flex-col justify-end pl-[15px] pb-[15px] gap-2'>
-                      <h3 className='text-white whitespace-nowrap text-[18px] font-bold uppercase'>{item.title}</h3>
+                    <div className='absolute left-0 top-0 flex h-full w-full flex-col justify-end gap-2 pb-[15px] pl-[15px]'>
+                      <h3 className='whitespace-nowrap text-[18px] font-bold uppercase text-white'>{item.title}</h3>
                       <div className='flex items-center gap-[3px]'>
                         {item.playlists.map((items) => (
                           <img
                             key={items.encodeId}
                             src={items.thumbnailM}
                             alt={items.title}
-                            className='w-[45px] h-[45px] border border-transparent rounded'
+                            className='h-[45px] w-[45px] rounded border border-transparent'
                           />
                         ))}
                       </div>
@@ -111,7 +111,7 @@ export default function Hub() {
                     />
                     <Artist
                       artistsData={items.artists}
-                      className='text-[#ffffff80] text-sm font-normal overflow-hidden block line-clamp-1 break-words'
+                      className='line-clamp-1 block overflow-hidden break-words text-sm font-normal text-[#ffffff80]'
                     />
                   </div>
                 ))}

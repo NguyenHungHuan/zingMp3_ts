@@ -6,29 +6,29 @@ export default function Header() {
   }
 
   return (
-    <header className='h-[70px] sticky top-0 z-10 bg-[#170f23] px-[59px] mx-[-2px]'>
-      <div className='flex items-center justify-between h-full'>
+    <header className='sticky top-0 z-10 mx-[-2px] h-[70px] bg-[#170f23] px-[59px]'>
+      <div className='flex h-full items-center justify-between'>
         <div className='flex items-center'>
-          <button className='w-[44px] h-[24px] flex items-center justify-start'>
+          <button className='flex h-[24px] w-[44px] items-center justify-start'>
             <svg
               xmlns='http://www.w3.org/2000/svg'
               fill='none'
               viewBox='0 0 24 24'
               strokeWidth={1.5}
               stroke={'#595361'}
-              className='w-6 h-6'
+              className='h-6 w-6'
             >
               <path strokeLinecap='round' strokeLinejoin='round' d='M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18' />
             </svg>
           </button>
-          <button className='w-[44px] h-[24px] flex items-center justify-start'>
+          <button className='flex h-[24px] w-[44px] items-center justify-start'>
             <svg
               xmlns='http://www.w3.org/2000/svg'
               fill='none'
               viewBox='0 0 24 24'
               strokeWidth={1.5}
               stroke={'#595361'}
-              className='w-6 h-6'
+              className='h-6 w-6'
             >
               <path strokeLinecap='round' strokeLinejoin='round' d='M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3' />
             </svg>
@@ -36,7 +36,7 @@ export default function Header() {
           <form
             noValidate
             onSubmit={handleSubmit}
-            className='flex items-center bg-[#2f2739] rounded-full w-[440px] h-10 overflow-hidden'
+            className='flex h-10 w-[440px] items-center overflow-hidden rounded-full bg-[#2f2739]'
           >
             <button type='submit' className='flex items-center justify-center'>
               <svg
@@ -45,7 +45,7 @@ export default function Header() {
                 viewBox='0 0 24 24'
                 strokeWidth={1.5}
                 stroke={'#75707c'}
-                className='w-6 h-6 mx-2'
+                className='mx-2 h-6 w-6'
               >
                 <path
                   strokeLinecap='round'
@@ -55,7 +55,7 @@ export default function Header() {
               </svg>
             </button>
             <input
-              className='caret-white text-[#d8d7d8] text-sm outline-none bg-[#2f2739] py-[5px] w-full placeholder-[#d8d7d8]'
+              className='w-full bg-[#2f2739] py-[5px] text-sm text-[#d8d7d8] placeholder-[#d8d7d8] caret-white outline-none'
               type='text'
               placeholder='Tìm kiếm bài hát, nghệ sĩ, lời bài hát...'
             />
@@ -63,14 +63,14 @@ export default function Header() {
         </div>
         <div className='flex items-center gap-[10px]'>
           <Tooltip text='Cài đặt'>
-            <button className='rounded-full bg-[#2f2739] p-2 flex items-center justify-center hover:opacity-90'>
+            <button className='flex items-center justify-center rounded-full bg-[#2f2739] p-2 hover:opacity-90'>
               <svg
                 xmlns='http://www.w3.org/2000/svg'
                 fill='none'
                 viewBox='0 0 24 24'
                 strokeWidth={1.5}
                 stroke={'#d8d8d8'}
-                className='w-6 h-6'
+                className='h-6 w-6'
               >
                 <path
                   strokeLinecap='round'
@@ -81,9 +81,9 @@ export default function Header() {
               </svg>
             </button>
           </Tooltip>
-          <button className='rounded-full overflow-hidden hover:opacity-90'>
+          <button className='overflow-hidden rounded-full hover:opacity-90'>
             <img
-              className='object-cover w-[38px] h-[38px]'
+              className='h-[38px] w-[38px] object-cover'
               src='https://zjs.zmdcdn.me/zmp3-desktop/releases/v1.9.35/static/media/user-default.3ff115bb.png'
               alt='avatar'
             />

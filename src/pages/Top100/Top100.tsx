@@ -14,7 +14,7 @@ export default function Top100() {
 
   return (
     <main className='mx-[-2px] px-[59px] py-[32px]'>
-      <div className='flex items-center justify-center mb-[30px]'>
+      <div className='mb-[30px] flex items-center justify-center'>
         <svg width={625} height={166} viewBox='0 0 425 166'>
           <defs>
             <linearGradient id='csl6gbytxb' x1='0%' x2='102%' y1='49.434%' y2='50.578%'>
@@ -66,7 +66,7 @@ export default function Top100() {
                   />
                   <Artist
                     artistsData={items.artists}
-                    className='text-[#ffffff80] text-sm font-normal overflow-hidden block line-clamp-1 break-words'
+                    className='line-clamp-1 block overflow-hidden break-words text-sm font-normal text-[#ffffff80]'
                   />
                 </div>
               ))}

@@ -2,6 +2,7 @@ const PATH = {
   base: '/',
   home: '/home',
   zingChart: '/zing-chart',
+  zingWeek: '/zing-week',
   thuVien: '/thu-vien',
   newReleased: '/moi-phat-hanh',
   hub: '/hub',
@@ -11,6 +12,7 @@ const PATH = {
   ngheSi: 'nghe-si',
   nameLink: ':name',
   id: ':id',
+  type: ':type',
   album: '/album',
   playlist: '/playlist'
 } as const

@@ -15,7 +15,7 @@ export default function NewReleased() {
       {dataNewRealeaseSongs && (
         <>
           <div className='flex items-center gap-2 pb-8'>
-            <h1 className='text-white text-[40px] font-bold'>{dataNewRealeaseSongs.title}</h1>
+            <h1 className='text-[40px] font-bold text-white'>{dataNewRealeaseSongs.title}</h1>
             <button className='hover:opacity-90'>
               <svg width={44} height={44} viewBox='0 0 44 44' fill='none'>
                 <g filter='url(#filter0_d_3141_46346)'>
@@ -59,12 +59,13 @@ export default function NewReleased() {
               key={item.encodeId}
               dataItem={item}
               classNameFigure='relative cursor-pointer w-[40px] h-[40px] object-cover rounded overflow-hidden flex-shrink-0'
-              className='relative overflow-hidden rounded border-b border-[#ffffff0d] group hover:bg-[#ffffff1a] flex items-center p-[10px] gap-x-[10px]'
+              className='group relative flex items-center gap-x-[10px] overflow-hidden rounded border-b border-[#ffffff0d] p-[10px] hover:bg-[#ffffff1a]'
               isDate={false}
               number={index + 1}
               hideLike={false}
               hideLyric={false}
               hideMv={false}
+              hideAlbum={false}
             />
           ))}
         </>

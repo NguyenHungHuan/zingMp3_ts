@@ -51,13 +51,13 @@ export default function BoxItem({
       <img className={classNameImg} src={srcImg} alt={altImg} />
       {active ? null : (
         <div
-          className={classNames('bg-[#00000070] absolute inset-0 w-full h-full', {
+          className={classNames('absolute inset-0 h-full w-full bg-[#00000070]', {
             visible: effectActive,
             'invisible group-hover:visible': !effectActive
           })}
         />
       )}
-      {active && <div className='bg-[#00000070] absolute inset-0 w-full h-full' />}
+      {active && <div className='absolute inset-0 h-full w-full bg-[#00000070]' />}
       <div className='absolute inset-0'>
         <div
           aria-hidden
@@ -66,7 +66,7 @@ export default function BoxItem({
             e.preventDefault()
           }}
           className={classNames(
-            'absolute left-[50%] top-[50%] bottom-auto right-auto z-[90] h-[50px] w-full flex items-center justify-evenly -translate-x-1/2 -translate-y-1/2',
+            'absolute bottom-auto left-[50%] right-auto top-[50%] z-[90] flex h-[50px] w-full -translate-x-1/2 -translate-y-1/2 items-center justify-evenly',
             {
               visible: active,
               'invisible group-hover:visible': !active
@@ -75,14 +75,14 @@ export default function BoxItem({
         >
           {!hideLike && (
             <Tooltip text='Thêm vào thư viện'>
-              <button className='flex items-center justify-center rounded-full p-[6px] hover:bg-[#ffffff4d] z-10'>
+              <button className='z-10 flex items-center justify-center rounded-full p-[6px] hover:bg-[#ffffff4d]'>
                 <svg
                   xmlns='http://www.w3.org/2000/svg'
                   fill='none'
                   viewBox='0 0 24 24'
                   strokeWidth={2}
                   stroke='white'
-                  className='w-5 h-5'
+                  className='h-5 w-5'
                 >
                   <path
                     strokeLinecap='round'
@@ -94,14 +94,14 @@ export default function BoxItem({
             </Tooltip>
           )}
           {buttonSizeSmall ? (
-            <button className='flex items-center justify-center absolute inset-0'>
+            <button className='absolute inset-0 flex items-center justify-center'>
               <svg
                 xmlns='http://www.w3.org/2000/svg'
                 fill={'white'}
                 viewBox='0 0 24 24'
                 strokeWidth={1}
                 stroke={'white'}
-                className={classNames('w-6 h-6 hover:opacity-90', {
+                className={classNames('h-6 w-6 hover:opacity-90', {
                   visible: effectActive,
                   'invisible group-hover:visible': !effectActive
                 })}
@@ -114,14 +114,14 @@ export default function BoxItem({
               </svg>
             </button>
           ) : (
-            <button className='hover:opacity-90 flex items-center justify-center rounded-full w-[45px] h-[45px] border border-white'>
+            <button className='flex h-[45px] w-[45px] items-center justify-center rounded-full border border-white hover:opacity-90'>
               <svg
                 xmlns='http://www.w3.org/2000/svg'
                 fill='white'
                 viewBox='0 0 24 24'
                 strokeWidth={1}
                 stroke='white'
-                className='w-7 h-7 pl-[3px] pb-[1px]'
+                className='h-7 w-7 pb-[1px] pl-[3px]'
               >
                 <path
                   strokeLinecap='round'
@@ -138,12 +138,12 @@ export default function BoxItem({
               isHover={false}
               placement='bottom-start'
               renderPopover={
-                <div className='bg-[#34224f] rounded-lg shadow-md w-[250px] py-[10px]'>
+                <div className='w-[250px] rounded-lg bg-[#34224f] py-[10px] shadow-md'>
                   <ul className='pl-[1px]'>
                     <li>
-                      <button className='flex items-center w-full text-sm text-[#dadada] py-2 px-[14px] gap-[14px] hover:bg-[#ffffff1a]'>
+                      <button className='flex w-full items-center gap-[14px] px-[14px] py-2 text-sm text-[#dadada] hover:bg-[#ffffff1a]'>
                         <svg
-                          className='w-[18px] h-[18px]'
+                          className='h-[18px] w-[18px]'
                           viewBox='0 0 24 24'
                           focusable='false'
                           stroke='currentColor'
@@ -156,14 +156,14 @@ export default function BoxItem({
                       </button>
                     </li>
                     <li>
-                      <button className='flex items-center w-full text-sm text-[#dadada] py-2 px-[14px] gap-[14px] hover:bg-[#ffffff1a]'>
+                      <button className='flex w-full items-center gap-[14px] px-[14px] py-2 text-sm text-[#dadada] hover:bg-[#ffffff1a]'>
                         <svg
                           xmlns='http://www.w3.org/2000/svg'
                           fill='none'
                           viewBox='0 0 24 24'
                           strokeWidth={2}
                           stroke='currentColor'
-                          className='w-[18px] h-[18px]'
+                          className='h-[18px] w-[18px]'
                         >
                           <path
                             strokeLinecap='round'
@@ -175,14 +175,14 @@ export default function BoxItem({
                       </button>
                     </li>
                     <li>
-                      <button className='flex items-center w-full text-sm text-[#dadada] py-2 px-[14px] gap-[14px] hover:bg-[#ffffff1a]'>
+                      <button className='flex w-full items-center gap-[14px] px-[14px] py-2 text-sm text-[#dadada] hover:bg-[#ffffff1a]'>
                         <svg
                           stroke='currentColor'
                           fill='currentColor'
                           strokeWidth={0}
                           viewBox='0 0 24 24'
                           aria-hidden='true'
-                          className='w-[18px] h-[18px]'
+                          className='h-[18px] w-[18px]'
                           xmlns='http://www.w3.org/2000/svg'
                         >
                           <path
@@ -199,29 +199,29 @@ export default function BoxItem({
                         placement='right-end'
                         NumberOffsetX={-14}
                         renderPopover={
-                          <div className='w-[230px] bg-[#34224f] shadow-[0_0_5px_0_rgba(0,0,0,.2)] rounded-lg py-[10px] text-white'>
+                          <div className='w-[230px] rounded-lg bg-[#34224f] py-[10px] text-white shadow-[0_0_5px_0_rgba(0,0,0,.2)]'>
                             <ul>
                               <li>
-                                <button className='flex items-center w-full py-[10px] px-[14px] text-sm font-normal hover:bg-[#ffffff1a] gap-[15px]'>
-                                  <i className='text-base bg-fb-mini inline-block h-4 w-4 bg-no-repeat bg-cover'></i>
+                                <button className='flex w-full items-center gap-[15px] px-[14px] py-[10px] text-sm font-normal hover:bg-[#ffffff1a]'>
+                                  <i className='inline-block h-4 w-4 bg-fb-mini bg-cover bg-no-repeat text-base'></i>
                                   <span>Facebook</span>
                                 </button>
                               </li>
                               <li>
-                                <button className='flex items-center w-full py-[10px] px-[14px] text-sm font-normal hover:bg-[#ffffff1a] gap-[15px]'>
-                                  <i className='text-base bg-zalo-mini inline-block h-4 w-4 bg-no-repeat bg-cover'></i>
+                                <button className='flex w-full items-center gap-[15px] px-[14px] py-[10px] text-sm font-normal hover:bg-[#ffffff1a]'>
+                                  <i className='inline-block h-4 w-4 bg-zalo-mini bg-cover bg-no-repeat text-base'></i>
                                   <span>Zalo</span>
                                 </button>
                               </li>
                               <li>
-                                <button className='flex items-center w-full py-[10px] px-[14px] text-sm font-normal hover:bg-[#ffffff1a] gap-[15px]'>
+                                <button className='flex w-full items-center gap-[15px] px-[14px] py-[10px] text-sm font-normal hover:bg-[#ffffff1a]'>
                                   <svg
                                     xmlns='http://www.w3.org/2000/svg'
                                     fill='none'
                                     viewBox='0 0 24 24'
                                     strokeWidth={1.5}
                                     stroke='currentColor'
-                                    className='w-[18px] h-4'
+                                    className='h-4 w-[18px]'
                                   >
                                     <path
                                       strokeLinecap='round'
@@ -236,13 +236,13 @@ export default function BoxItem({
                           </div>
                         }
                       >
-                        <button className='flex items-center w-full text-sm text-[#dadada] py-2 px-[14px] gap-[14px] hover:bg-[#ffffff1a]'>
+                        <button className='flex w-full items-center gap-[14px] px-[14px] py-2 text-sm text-[#dadada] hover:bg-[#ffffff1a]'>
                           <svg
                             stroke='currentColor'
                             fill='currentColor'
                             strokeWidth={0}
                             viewBox='0 0 256 256'
-                            className='w-[18px] h-[18px]'
+                            className='h-[18px] w-[18px]'
                             xmlns='http://www.w3.org/2000/svg'
                           >
                             <path d='M236.24,107.76l-80-80A6,6,0,0,0,146,32V74.2c-54.48,3.59-120.39,55-127.93,120.66a10,10,0,0,0,17.23,8h0C46.56,190.85,87,152.6,146,150.13V192a6,6,0,0,0,10.24,4.24l80-80A6,6,0,0,0,236.24,107.76ZM158,177.52V144a6,6,0,0,0-6-6c-27.73,0-54.76,7.25-80.32,21.55a193.38,193.38,0,0,0-40.81,30.65c4.7-26.56,20.16-52,44-72.27C98.47,97.94,127.29,86,152,86a6,6,0,0,0,6-6V46.49L223.51,112Z' />
@@ -254,7 +254,7 @@ export default function BoxItem({
                             viewBox='0 0 24 24'
                             strokeWidth={1.5}
                             stroke='currentColor'
-                            className='w-5 h-5 ml-auto'
+                            className='ml-auto h-5 w-5'
                           >
                             <path strokeLinecap='round' strokeLinejoin='round' d='M8.25 4.5l7.5 7.5-7.5 7.5' />
                           </svg>
@@ -266,14 +266,14 @@ export default function BoxItem({
               }
             >
               <Tooltip text='Khác'>
-                <button className='flex items-center justify-center rounded-full p-[3px] hover:bg-[#ffffff4d] z-10'>
+                <button className='z-10 flex items-center justify-center rounded-full p-[3px] hover:bg-[#ffffff4d]'>
                   <svg
                     xmlns='http://www.w3.org/2000/svg'
                     fill='white'
                     viewBox='0 0 24 24'
                     strokeWidth={2}
                     stroke={'white'}
-                    className='w-6 h-6'
+                    className='h-6 w-6'
                   >
                     <path
                       strokeLinecap='round'

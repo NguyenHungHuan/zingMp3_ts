@@ -6,8 +6,10 @@ import { artist } from '~/types/artist'
 import { InfoSong } from '~/types/infoSong'
 import { dataHub } from '~/types/hub'
 import { dataNewReleaseSong } from '~/types/newReleaseSong'
+import { DataChart, itemWeekChart } from '~/types/chart'
 
 const url = '/'
+export type nationalKey = 'vn' | 'kr' | 'us'
 const zingmp3Api = {
   getSong() {
     const url = '/song'
@@ -55,7 +57,11 @@ const zingmp3Api = {
 
   getChartHome() {
     const url = '/chartHome'
-    return axiosClients.get(url)
+    return axiosClients.get<successResponse<DataChart>>(url)
+  },
+  getWeekChart(params: { nationalKey: nationalKey; week?: number; year?: number }) {
+    const url = '/getWeekChart'
+    return axiosClients.get<successResponse<itemWeekChart>>(url, { params })
   },
 
   getNewReleaseChart() {
