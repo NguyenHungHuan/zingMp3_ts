@@ -91,3 +91,22 @@ export type InfoSong = {
   liked: boolean
   comment: number
 }
+
+export type lyric = {
+  BGMode: number
+  defaultIBGUrls: [string]
+  enabledVideoBG: boolean
+  file: string
+  sentences: [
+    {
+      words: [
+        {
+          data: string
+          endTime: number
+          startTime: number
+        }
+      ]
+    }
+  ]
+  streamingUrl: string
+}

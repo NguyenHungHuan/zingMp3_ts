@@ -6,7 +6,7 @@ export default function Header() {
   }
 
   return (
-    <header className='sticky top-0 z-10 mx-[-2px] h-[70px] bg-[#170f23] px-[59px]'>
+    <header className='sticky top-0 z-[100] mx-[-2px] h-[70px] bg-[#170f23] px-[59px]'>
       <div className='flex h-full items-center justify-between'>
         <div className='flex items-center'>
           <button className='flex h-[24px] w-[44px] items-center justify-start'>

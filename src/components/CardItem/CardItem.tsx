@@ -13,7 +13,6 @@ import Tooltip from '../Tooltip'
 import PATH from '~/constants/path'
 import useGenerateLink from '~/hooks/useGenerateLink'
 import { ItemSections } from '~/types/home'
-
 interface Props {
   dataItem: ItemSections
   className?: string
@@ -25,6 +24,7 @@ interface Props {
   hideMv?: boolean
   hideAlbum?: boolean
   textWide?: boolean
+  hideTime?: boolean
 }
 
 export default function CardItem({
@@ -37,9 +37,11 @@ export default function CardItem({
   hideLike = true,
   hideMv = true,
   hideAlbum = false,
+  hideTime = false,
   textWide = true
 }: Props) {
   const [active, setActive] = useState(false)
+  const [openLyric, setOpenLyric] = useState(false)
   const [idSong, setIdSong] = useState('')
   const handleClick = () => setIdSong(dataItem.encodeId)
 
@@ -50,7 +52,24 @@ export default function CardItem({
     enabled: idSong !== ''
   })
   const dataInfoSong = data?.data.data
-  const { idPlaylist, namePlaylist } = useGenerateLink(dataInfoSong?.album.link)
+  const { idPlaylist, namePlaylist } = useGenerateLink(
+    dataInfoSong && dataInfoSong.album ? dataInfoSong.album.link : ''
+  )
+
+  const { data: dataLyric } = useQuery({
+    queryKey: ['lyric', idSong],
+    queryFn: () => zingmp3Api.getLyricSong({ id: idSong }),
+    staleTime: 3 * 60 * 1000,
+    enabled: idSong !== ''
+  })
+  const dataLyricSong = dataLyric?.data.data
+
+  const handleLyric = () => {
+    setOpenLyric(true)
+  }
+
+  console.log(dataInfoSong)
+
   return (
     <div
       className={classNames(className, {
@@ -148,19 +167,24 @@ export default function CardItem({
           )}
         </div>
       </div>
-      {dataItem.album && dataItem.duration && (
+      {dataItem.duration && (
         <div className='flex flex-1 flex-shrink-0 items-center justify-between text-xs text-[#ffffff80]'>
           {!hideAlbum && (
-            <Link to={'/'} className='hover:text-[#c273ed] hover:underline'>
-              {dataItem.album.title}
+            <Link
+              to={`${PATH.album}/${dataItem.alias}/${dataItem.album?.encodeId}`}
+              className='hover:text-[#c273ed] hover:underline'
+            >
+              {dataItem.album ? dataItem.album.title : ''}
             </Link>
           )}
-          <span className='absolute right-0 inline-block pr-4 font-normal group-hover:hidden'>
-            {Math.trunc(dataItem.duration / 60)
-              .toString()
-              .padStart(2, '0')}
-            :{(dataItem.duration % 60).toString().padStart(2, '0')}
-          </span>
+          {!hideTime && (
+            <span className='absolute right-0 inline-block pr-4 font-normal group-hover:hidden'>
+              {Math.trunc(dataItem.duration / 60)
+                .toString()
+                .padStart(2, '0')}
+              :{(dataItem.duration % 60).toString().padStart(2, '0')}
+            </span>
+          )}
         </div>
       )}
       {dataItem.mvlink && !hideMv && (
@@ -254,19 +278,23 @@ export default function CardItem({
                         className='block break-words text-sm capitalize text-white'
                         classNameText='inline break-words hover:text-[#c273ed] hover:no-underline'
                       />
-                      <h3>Album</h3>
-                      <Link
-                        to={`${PATH.album}/${namePlaylist}/${idPlaylist}`}
-                        className='block text-sm capitalize text-white hover:text-[#c273ed]'
-                      >
-                        {dataInfoSong?.album.title}
-                      </Link>
+                      {dataInfoSong && dataInfoSong.album && (
+                        <>
+                          <h3>Album</h3>
+                          <Link
+                            to={`${PATH.album}/${namePlaylist}/${idPlaylist}`}
+                            className='block text-sm capitalize text-white hover:text-[#c273ed]'
+                          >
+                            {dataInfoSong?.album.title}
+                          </Link>
+                        </>
+                      )}
                       {dataInfoSong && dataInfoSong?.composers?.length > 0 && (
                         <>
                           <h3>Sáng tác</h3>
                           {dataInfoSong?.composers?.map((item, index) => (
                             <Fragment key={item.id}>
-                              {dataInfoSong?.genres.length > 1 && index !== 0 && ', '}
+                              {dataInfoSong?.composers.length > 1 && index !== 0 && ', '}
                               <Link
                                 to={`${PATH.ngheSi}/${item.alias}`}
                                 className='inline text-sm capitalize text-white hover:text-[#c273ed]'
@@ -373,7 +401,10 @@ export default function CardItem({
                     </svg>
                     <span>Tải xuống</span>
                   </button>
-                  <button className='flex max-w-[80px] flex-1 flex-col items-center gap-1 rounded-lg py-2 text-[10px] text-white hover:bg-[#ffffff1a]'>
+                  <button
+                    onClick={handleLyric}
+                    className='flex max-w-[80px] flex-1 flex-col items-center gap-1 rounded-lg py-2 text-[10px] text-white hover:bg-[#ffffff1a]'
+                  >
                     <svg
                       stroke='currentColor'
                       fill='currentColor'
@@ -386,6 +417,46 @@ export default function CardItem({
                     </svg>
                     <span>Lời bài hát</span>
                   </button>
+
+                  {openLyric && dataLyricSong && (
+                    <div
+                      className='fixed inset-0 z-50 flex cursor-default items-center justify-center bg-[#000000cc]'
+                      aria-hidden
+                      onClick={() => setOpenLyric((prev) => !prev)}
+                    >
+                      <div
+                        className='h-[384px] w-[540px] rounded-lg bg-[#34224f] p-5'
+                        aria-hidden
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        <div className='relative'>
+                          <h3 className='mb-[10px] text-base font-bold uppercase text-white'>Lời bài hát</h3>
+                          <p className='h-[248px] overflow-auto rounded border border-[#ffffff1a] bg-[#ffffff08] px-[14px] py-3 text-white'>
+                            {dataLyricSong.sentences ? (
+                              dataLyricSong.sentences.map((item, index) => (
+                                <span key={index} className='mb-[5px] block text-sm font-medium'>
+                                  {item.words.map((word) => `${word.data} `)}
+                                </span>
+                              ))
+                            ) : (
+                              <span className='flex h-full w-full items-center justify-center'>
+                                Lời bài hát đang được cập nhật
+                              </span>
+                            )}
+                          </p>
+                        </div>
+                        <div className='flex w-full justify-end'>
+                          <button
+                            onClick={() => setOpenLyric((prev) => !prev)}
+                            className='mt-5 rounded-full border border-[#ffffff1a] bg-[#ffffff1a] px-6 py-[9px] text-sm uppercase text-white hover:opacity-80'
+                          >
+                            Đóng
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
                   <button className='flex max-w-[80px] flex-1 flex-col items-center gap-1 rounded-lg py-2 text-[10px] text-white hover:bg-[#ffffff1a]'>
                     <svg
                       stroke='currentColor'

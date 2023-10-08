@@ -106,22 +106,6 @@ export default function Home() {
             >
               QUỐC TẾ
             </button>
-            <Link
-              to='/'
-              className='ml-auto flex items-center gap-[6px] font-medium uppercase text-[#ffffff80] hover:text-[#c273ed]'
-            >
-              TẤT CẢ
-              <svg
-                xmlns='http://www.w3.org/2000/svg'
-                fill='none'
-                viewBox='0 0 24 24'
-                strokeWidth={1.5}
-                stroke='currentColor'
-                className='h-5 w-5'
-              >
-                <path strokeLinecap='round' strokeLinejoin='round' d='M8.25 4.5l7.5 7.5-7.5 7.5' />
-              </svg>
-            </Link>
           </div>
           <div className='grid grid-cols-3 gap-x-7'>
             {genre &&
@@ -132,6 +116,7 @@ export default function Home() {
                   dataItem={item}
                   isDate={true}
                   hideAlbum
+                  hideTime={true}
                 />
               ))}
           </div>
@@ -333,7 +318,11 @@ export default function Home() {
       {dataWeekChartBanner && (
         <div className='mt-7 flex items-center gap-7'>
           {dataWeekChartBanner.map((item: any, index: number) => (
-            <Link to={'/'} key={index} className='overflow-hidden rounded-md'>
+            <Link
+              to={`${PATH.zingWeek}/${item.country === 'korea' ? 'kr' : item.country}`}
+              key={index}
+              className='overflow-hidden rounded-md'
+            >
               <img
                 className='h-[112px] duration-[0.7s] hover:scale-110'
                 src={item.cover}
@@ -345,7 +334,7 @@ export default function Home() {
       )}
       {dataTop100 && (
         <div className='mt-12'>
-          <TitleListBox titleList={dataTop100?.title} />
+          <TitleListBox titleList={dataTop100?.title} link={PATH.top100} />
           <div className='flex gap-7'>
             {dataTop100.items?.slice(0, 5).map((item) => (
               <div className='flex-1 flex-shrink-0' key={item.encodeId}>

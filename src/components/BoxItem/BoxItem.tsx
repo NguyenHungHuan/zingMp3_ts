@@ -40,7 +40,7 @@ export default function BoxItem({
   className = 'flex-shrink-0 flex-1',
   classNameDesc = 'line-clamp-2 mt-3 text-[#ffffff80] text-sm font-normal whitespace-normal',
   classNameImg = 'absolute inset-0 object-contain rounded-[4px] w-full h-full group-hover:scale-110 duration-700',
-  classNameFigure = 'flex-shrink-0 flex-1 relative pt-[100%] rounded-[4px] group w-full overflow-hidden'
+  classNameFigure = 'flex-shrink-0 flex-1 relative pt-[100%] rounded-[4px] group w-full overflow-hidden cursor-pointer'
 }: Props) {
   const classNameDescription = description === '' ? 'hidden' : classNameDesc
   const [active, setActive] = useState(false)

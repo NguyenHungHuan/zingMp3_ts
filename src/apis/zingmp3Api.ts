@@ -3,10 +3,11 @@ import axiosClients from './axiosClients'
 import { DataPlaylist, ItemSections, homeData } from '~/types/home'
 import PATH from '~/constants/path'
 import { artist } from '~/types/artist'
-import { InfoSong } from '~/types/infoSong'
+import { InfoSong, lyric } from '~/types/infoSong'
 import { dataHub } from '~/types/hub'
 import { dataNewReleaseSong } from '~/types/newReleaseSong'
 import { DataChart, itemWeekChart } from '~/types/chart'
+import { album } from '~/types/album'
 
 const url = '/'
 export type nationalKey = 'vn' | 'kr' | 'us'
@@ -18,7 +19,7 @@ const zingmp3Api = {
 
   getDetailPlaylist(params: { id: string }) {
     const url = '/detailPlaylist'
-    return axiosClients.get(url, {
+    return axiosClients.get<successResponse<album>>(url, {
       params
     })
   },
@@ -73,8 +74,9 @@ const zingmp3Api = {
     return axiosClients.get(url)
   },
 
-  getLyricSong() {
-    return axiosClients.get(url)
+  getLyricSong(params: { id: string }) {
+    const url = '/lyric'
+    return axiosClients.get<successResponse<lyric>>(url, { params })
   },
 
   searchSong() {

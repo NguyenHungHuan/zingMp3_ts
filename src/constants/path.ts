@@ -9,12 +9,13 @@ const PATH = {
   top100: '/top100',
   artist: 'artist',
   infoSong: 'infoSong',
-  ngheSi: 'nghe-si',
+  ngheSi: '/nghe-si',
   nameLink: ':name',
   id: ':id',
   type: ':type',
   album: '/album',
-  playlist: '/playlist'
+  playlist: '/playlist',
+  baiHat: '/bai-hat'
 } as const
 
 export default PATH
