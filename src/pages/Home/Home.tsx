@@ -6,7 +6,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import 'swiper/css'
 import { Autoplay, Navigation } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/react'
-import Ads from '~/components/Ads'
+// import Ads from '~/components/Ads'
 import Artist from '~/components/Artist'
 import BoxItem from '~/components/BoxItem'
 import CardItem from '~/components/CardItem'
@@ -395,7 +395,7 @@ export default function Home() {
           </Swiper>
         </div>
       )}
-      <Ads className='mb-[30px] mt-12' />
+      {/* <Ads className='mb-[30px] mt-12' /> */}
     </main>
   )
 }

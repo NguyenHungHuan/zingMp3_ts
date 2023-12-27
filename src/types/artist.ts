@@ -61,4 +61,5 @@ export type TopAlbum = {
   isAlbum: boolean
   isSingle: boolean
   link: string
+  textType: string
 }

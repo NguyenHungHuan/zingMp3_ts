@@ -71,6 +71,13 @@ export type ItemSections = {
   sortDescription: string
   score?: number
   rakingStatus?: number
+  id: string
+  isOA: boolean
+  isOABrand: boolean
+  name: string
+  playlistId: string
+  spotlight: boolean
+  totalFollow: number
 }
 
 export type ItemBanner = {

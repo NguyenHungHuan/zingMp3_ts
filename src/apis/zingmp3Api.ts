@@ -91,8 +91,9 @@ const zingmp3Api = {
     return axiosClients.get(url)
   },
 
-  getVideoMV() {
-    return axiosClients.get(url)
+  getVideoMV(params: { id: string }) {
+    const url = '/video'
+    return axiosClients.get(url, { params })
   }
 }
 
