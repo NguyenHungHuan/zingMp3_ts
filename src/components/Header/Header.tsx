@@ -1,10 +1,7 @@
+import Search from '../Search'
 import Tooltip from '../Tooltip'
 
 export default function Header() {
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-  }
-
   return (
     <div className='relative flex h-[70px] items-center justify-between'>
       <div className='flex items-center'>
@@ -32,33 +29,7 @@ export default function Header() {
             <path strokeLinecap='round' strokeLinejoin='round' d='M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3' />
           </svg>
         </button>
-        <form
-          noValidate
-          onSubmit={handleSubmit}
-          className='flex h-10 w-[440px] items-center overflow-hidden rounded-full bg-[#2f2739]'
-        >
-          <button type='submit' className='flex items-center justify-center'>
-            <svg
-              xmlns='http://www.w3.org/2000/svg'
-              fill='none'
-              viewBox='0 0 24 24'
-              strokeWidth={1.5}
-              stroke={'#75707c'}
-              className='mx-2 h-6 w-6'
-            >
-              <path
-                strokeLinecap='round'
-                strokeLinejoin='round'
-                d='M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z'
-              />
-            </svg>
-          </button>
-          <input
-            className='w-full bg-[#2f2739] py-[5px] text-sm text-[#d8d7d8] placeholder-[#d8d7d8] caret-white outline-none'
-            type='text'
-            placeholder='Tìm kiếm bài hát, nghệ sĩ, lời bài hát...'
-          />
-        </form>
+        <Search />
       </div>
       <div className='flex items-center gap-[10px]'>
         <Tooltip text='Cài đặt'>

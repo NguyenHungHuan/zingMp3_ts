@@ -33,7 +33,6 @@ const Artist = () => {
     enabled: nameArtist !== ''
   })
   const dataArtist = data?.data.data
-  console.log(dataArtist)
 
   const ref = useRef<HTMLParagraphElement>(null)
   const clamps = useLineClamp(ref, { lines: 7 }, dataArtist ? dataArtist.biography : '')

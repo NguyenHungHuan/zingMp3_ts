@@ -16,7 +16,6 @@ export default function ZingChart() {
     staleTime: 3 * 60 * 1000
   })
   const dataChartHome = data?.data.data
-  console.log(dataChartHome)
 
   return (
     <main className='mx-[-2px] px-[59px] pt-5'>

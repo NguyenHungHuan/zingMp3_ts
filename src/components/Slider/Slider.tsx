@@ -33,8 +33,6 @@ const Slider = ({ dataBanner }: Props) => {
   })
   const dataInfoSong = data?.data.data
 
-  console.log(dataBanner)
-
   return (
     <Swiper
       className='group'

@@ -16,9 +16,13 @@ const ZingWeek = () => {
     staleTime: 3 * 60 * 1000
   })
   const [currentWeek, setCurrentWeek] = useState<number>(1)
+  const [currentYear, setCurrentYear] = useState<number>(1)
 
   useEffect(() => {
-    dataWeek && setCurrentWeek(dataWeek.data.data.week)
+    if (dataWeek) {
+      setCurrentWeek(dataWeek.data.data.week)
+      setCurrentYear(dataWeek.data.data.year)
+    }
   }, [dataWeek])
 
   const { data } = useQuery({
@@ -27,7 +31,7 @@ const ZingWeek = () => {
       zingmp3Api.getWeekChart({
         nationalKey: (type as nationalKey) || 'vn',
         week: currentWeek,
-        year: new Date().getFullYear()
+        year: currentYear
       }),
     staleTime: 3 * 60 * 1000,
     enabled: dataWeek !== undefined

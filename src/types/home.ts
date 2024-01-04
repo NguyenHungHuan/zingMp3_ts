@@ -78,6 +78,7 @@ export type ItemSections = {
   playlistId: string
   spotlight: boolean
   totalFollow: number
+  objectType: string
 }
 
 export type ItemBanner = {

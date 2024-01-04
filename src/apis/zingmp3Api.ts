@@ -8,6 +8,7 @@ import { dataHub } from '~/types/hub'
 import { dataNewReleaseSong } from '~/types/newReleaseSong'
 import { DataChart, itemWeekChart } from '~/types/chart'
 import { album } from '~/types/album'
+import { recommend, searchResult, searchResultType, suggestion } from '~/types/search'
 
 const url = '/'
 export type nationalKey = 'vn' | 'kr' | 'us'
@@ -79,8 +80,21 @@ const zingmp3Api = {
     return axiosClients.get<successResponse<lyric>>(url, { params })
   },
 
-  searchSong() {
-    return axiosClients.get(url)
+  search(params: { q: string }) {
+    const url = '/search'
+    return axiosClients.get<successResponse<searchResult>>(url, { params })
+  },
+  getSuggestion(params: { q: string }) {
+    const url = '/suggestion'
+    return axiosClients.get<successResponse<suggestion>>(url, { params })
+  },
+  getRecommendKeyword() {
+    const url = '/recommendKeyword'
+    return axiosClients.get<successResponse<recommend>>(url)
+  },
+  searchType(params: { q: string; type: 'song' | 'artist' | 'playlist'; page?: number }) {
+    const url = '/searchType'
+    return axiosClients.get<successResponse<searchResultType>>(url, { params })
   },
 
   getListMV() {

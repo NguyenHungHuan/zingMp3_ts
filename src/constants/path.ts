@@ -15,7 +15,8 @@ const PATH = {
   type: ':type',
   album: '/album',
   playlist: '/playlist',
-  baiHat: '/bai-hat'
+  baiHat: '/bai-hat',
+  search: '/tim-kiem'
 } as const
 
 export default PATH

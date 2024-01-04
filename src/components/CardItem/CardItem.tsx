@@ -25,6 +25,7 @@ interface Props {
   hideAlbum?: boolean
   textWide?: boolean
   hideTime?: boolean
+  stringType?: string
 }
 
 export default function CardItem({
@@ -38,7 +39,8 @@ export default function CardItem({
   hideMv = true,
   hideAlbum = false,
   hideTime = false,
-  textWide = true
+  textWide = true,
+  stringType = ''
 }: Props) {
   const [active, setActive] = useState(false)
   const [openLyric, setOpenLyric] = useState(false)
@@ -67,8 +69,6 @@ export default function CardItem({
   const handleLyric = () => {
     setOpenLyric(true)
   }
-
-  console.log(dataInfoSong)
 
   return (
     <div
@@ -150,11 +150,12 @@ export default function CardItem({
           isLink={false}
         />
         <div className='flex flex-col gap-[3px] break-words font-medium'>
+          {stringType !== '' && <span className='mb-1 text-xs text-[#ffffff80]'>{stringType}</span>}
           <div className='flex items-center'>
             <span className='line-clamp-1 cursor-default text-sm text-white'>{dataItem.title}</span>
           </div>
           {dataItem.artists ? (
-            <Artist artistsData={dataItem.artists} className='line-clamp-1 overflow-hidden  text-xs text-[#ffffff80]' />
+            <Artist artistsData={dataItem.artists} className='line-clamp-1 overflow-hidden text-xs text-[#ffffff80]' />
           ) : (
             <span className='line-clamp-1 block overflow-hidden text-ellipsis break-words text-xs font-normal text-[#ffffff80]'>
               {dataItem.artistsNames}

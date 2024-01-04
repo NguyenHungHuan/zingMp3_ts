@@ -11,7 +11,9 @@ interface Props {
   className?: string
   classNameImg?: string
   classNameFigure?: string
+  classNameText?: string
   artistsData: artists[]
+  hideType?: boolean
 }
 
 export default function ArtistCard({
@@ -20,7 +22,9 @@ export default function ArtistCard({
   className = 'flex-shrink-0 flex-1',
   classNameImg = 'absolute inset-0 object-contain rounded-[4px] w-full h-full group-hover:scale-110 duration-700',
   classNameFigure = 'flex-shrink-0 flex-1 relative pt-[100%] rounded-full group w-full overflow-hidden',
-  artistsData
+  classNameText = 'text-center flex flex-col items-center mt-5 gap-y-2',
+  artistsData,
+  hideType = true
 }: Props) {
   return (
     <div className={className}>
@@ -53,10 +57,13 @@ export default function ArtistCard({
           </div>
         </Link>
       </figure>
-      <Artist artistsData={artistsData} className='mb-2 mt-[15px] text-center text-sm font-medium text-white' />
-      <span className='block text-center text-xs text-[#ffffff80]'>{`${formatNumberSocial(
-        artistsData[0].totalFollow as number
-      )} quan tâm`}</span>
+      <div className={classNameText}>
+        {!hideType && <span className='mb-3 block text-xs text-[#ffffff80]'>Nghệ sĩ</span>}
+        <Artist artistsData={artistsData} className='text-sm font-medium leading-3 text-white' />
+        <span className='text-xs text-[#ffffff80]'>{`${formatNumberSocial(
+          artistsData[0].totalFollow as number
+        )} quan tâm`}</span>
+      </div>
     </div>
   )
 }

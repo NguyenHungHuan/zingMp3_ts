@@ -9,6 +9,7 @@ import Top100 from './pages/Top100'
 import Playlist from './pages/Playlist'
 import Artist from './pages/Artist'
 import ZingWeek from './pages/ZingWeek'
+import Search from './pages/Search'
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
           <Route path={`${PATH.ngheSi}/${PATH.nameLink}`} element={<Artist />} />
           <Route path={`${PATH.album}/${PATH.nameLink}/${PATH.id}`} element={<Playlist />} />
           <Route path={`${PATH.playlist}/${PATH.nameLink}/${PATH.id}`} element={<Playlist />} />
+          <Route path={`${PATH.search}/${PATH.type}`} element={<Search />} />
         </Route>
       </Routes>
     </>
