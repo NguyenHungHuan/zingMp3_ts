@@ -186,14 +186,14 @@ const Chart = ({ dataChart, className = 'h-[300px] mb-5 w-full flex-shrink-0 fle
               />
             </div>
             <div className='flex flex-1 flex-col justify-center overflow-hidden font-bold leading-[1.5] text-white'>
-              <span className='line-clamp-1 cursor-default text-xs'>
+              <span className='line-clamp-1 cursor-default text-[12px]'>
                 {dataChart?.items[(tooltipData as any)?.chart?.tooltip?.dataPoints[0]?.datasetIndex]?.title}
               </span>
               <span className='line-clamp-1 text-[10px] font-normal text-[#ffffffcc]'>
                 {dataChart?.items[(tooltipData as any)?.chart?.tooltip?.dataPoints[0]?.datasetIndex]?.artistsNames}
               </span>
             </div>
-            <div className='ml-[10px] flex-[0_0_auto] text-base font-bold leading-[1.56] text-white'>
+            <div className='ml-[10px] flex-[0_0_auto] text-[16px] font-bold leading-[1.56] text-white'>
               <span>
                 {Math.round(
                   (Number((tooltipData as any)?.chart?.tooltip?.body[0]?.lines[0].replace(',', '')) /

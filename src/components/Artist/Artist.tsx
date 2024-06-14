@@ -22,7 +22,7 @@ export default function Artist({
   artistsData,
   isPopoverDetail = true,
   orderArtistHidden = 3,
-  className = 'text-[#ffffff80] text-xs overflow-hidden text-ellipsis block line-clamp-1 break-words',
+  className = 'text-[#ffffff80] text-[12px] overflow-hidden text-ellipsis block line-clamp-1 break-words',
   classNameText = 'inline break-words'
 }: Props) {
   const [nameArtist, setNameArtist] = useState<string>('')
@@ -81,6 +81,7 @@ export default function Artist({
                       <div className='relative z-[2] flex items-center bg-gradient-to-b from-[#ffffff00] to-[#34224f] p-4 text-left'>
                         <div className='mr-2 flex-shrink-0 flex-grow-0 basis-0'>
                           <BoxItem
+                            id={dataArtist?.id}
                             hideDesc={true}
                             hideLike={true}
                             hideOption={true}
@@ -92,7 +93,7 @@ export default function Artist({
                           />
                         </div>
                         <div className='flex-1 self-center break-words text-left'>
-                          <h3 className='text-sm font-bold'>
+                          <h3 className='text-[14px] font-bold'>
                             <Link
                               to={`${PATH.ngheSi}/${artist?.alias}`}
                               className='mb-0 inline-block max-w-[100%] overflow-hidden text-ellipsis whitespace-nowrap align-top leading-normal text-white hover:text-[#c273ed]'
@@ -100,7 +101,7 @@ export default function Artist({
                               {dataArtist?.name}
                             </Link>
                           </h3>
-                          <h3 className='mt-0 block max-w-[100%] overflow-hidden text-ellipsis whitespace-nowrap text-xs leading-normal text-[#ffffff80]'>
+                          <h3 className='mt-0 block max-w-[100%] overflow-hidden text-ellipsis whitespace-nowrap text-[12px] leading-normal text-[#ffffff80]'>
                             {(dataArtist?.totalFollow as number) > 0 ? (
                               <>{formatNumberSocial(dataArtist?.totalFollow as number)} quan tâm</>
                             ) : (
@@ -109,7 +110,7 @@ export default function Artist({
                           </h3>
                         </div>
                         <div className='ml-[10px] flex-1 flex-shrink-0'>
-                          <button className='ml-auto flex items-center justify-center gap-[5px] rounded-full border border-[#ffffff1a] bg-[#ffffff1a] px-3 py-1 text-xs text-white hover:brightness-90'>
+                          <button className='ml-auto flex items-center justify-center gap-[5px] rounded-full border border-[#ffffff1a] bg-[#ffffff1a] px-3 py-1 text-[12px] text-white hover:brightness-90'>
                             <svg
                               stroke='currentColor'
                               fill='currentColor'
@@ -129,7 +130,7 @@ export default function Artist({
                     </div>
                     <div className='px-4'>
                       <div
-                        className={classNames('mb-4 max-h-[37px] break-all text-xs leading-[18px] text-white', {
+                        className={classNames('mb-4 max-h-[37px] break-all text-[12px] leading-[18px] text-white', {
                           hidden: (dataArtist?.sortBiography as string).length <= 0
                         })}
                       >
@@ -141,7 +142,7 @@ export default function Artist({
                       </div>
                       {dataArtist?.awards && (
                         <div className='mb-4'>
-                          <h3 className='mb-2 text-sm font-bold text-white'>Giải thưởng</h3>
+                          <h3 className='mb-2 text-[14px] font-bold text-white'>Giải thưởng</h3>
                           <div className='leading-[1]'>
                             <i
                               className='mr-[10px] inline-block h-[33px] w-[33px] bg-cover bg-no-repeat leading-[66%] [background-position-x:50%] [background-position-y:center]'
@@ -153,18 +154,19 @@ export default function Artist({
                         </div>
                       )}
                       <div className='mb-4'>
-                        <h3 className='mb-2 text-sm font-bold text-white'>Mới nhất</h3>
+                        <h3 className='mb-2 text-[14px] font-bold text-white'>Mới nhất</h3>
                         <div className='grid grid-cols-4 gap-3'>
                           {dataArtistNewRelease?.items.slice(0, 4).map((item) => (
                             <div key={item.encodeId} className='col-span-1'>
                               <BoxItem
+                                id={item.encodeId}
                                 hideLike={true}
                                 hideOption={true}
                                 isLinkDesc={true}
                                 buttonSizeSmall={true}
                                 description={item.title}
                                 srcImg={item.thumbnailM}
-                                classNameDesc='text-white text-xs line-clamp-2 font-medium mb-0 mt-2'
+                                classNameDesc='text-white text-[12px] line-clamp-2 font-medium mb-0 mt-2'
                                 link={item.link}
                                 isLink={false}
                               />

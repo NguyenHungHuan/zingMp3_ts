@@ -58,9 +58,9 @@ export default function ArtistCard({
         </Link>
       </figure>
       <div className={classNameText}>
-        {!hideType && <span className='mb-3 block text-xs text-[#ffffff80]'>Nghệ sĩ</span>}
-        <Artist artistsData={artistsData} className='text-sm font-medium leading-3 text-white' />
-        <span className='text-xs text-[#ffffff80]'>{`${formatNumberSocial(
+        {!hideType && <span className='mb-3 block text-[12px] text-[#ffffff80]'>Nghệ sĩ</span>}
+        <Artist artistsData={artistsData} className='text-[14px] font-medium leading-3 text-white' />
+        <span className='text-[12px] text-[#ffffff80]'>{`${formatNumberSocial(
           artistsData[0].totalFollow as number
         )} quan tâm`}</span>
       </div>

@@ -6,7 +6,8 @@ import { DataPlaylist, ItemBanner, ItemSections, itemNewRelease } from '~/types/
 export default function useHome() {
   const { data: dataHome } = useQuery({
     queryKey: ['home'],
-    queryFn: zingmp3Api.getHome
+    queryFn: zingmp3Api.getHome,
+    staleTime: 3 * 60 * 1000
   })
 
   const dataBanner: Array<ItemBanner> = useMemo(
