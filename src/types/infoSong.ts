@@ -110,3 +110,8 @@ export type lyric = {
   ]
   streamingUrl: string
 }
+
+export type audioSong = {
+  128: string
+  320: string
+}

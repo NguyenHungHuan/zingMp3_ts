@@ -11,7 +11,7 @@ export default function NewReleased() {
   const dataNewRealeaseSongs = data?.data.data
 
   return (
-    <main className='mx-[-2px] px-[59px] py-8'>
+    <main className='mx-[-2px] py-8'>
       {dataNewRealeaseSongs && (
         <>
           <div className='flex items-center gap-2 pb-8'>
@@ -64,8 +64,9 @@ export default function NewReleased() {
               number={index + 1}
               hideLike={false}
               hideLyric={false}
-              hideMv={false}
               hideAlbum={false}
+              dataPlaylist={dataNewRealeaseSongs.items}
+              playlistId={''}
             />
           ))}
         </>

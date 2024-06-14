@@ -14,7 +14,7 @@ export default function Hub() {
   const dataHub = data?.data.data
 
   return (
-    <main className='mx-[-2px] px-[59px] py-5'>
+    <main className='mx-[-2px] py-5'>
       {dataHub && (
         <>
           <Link to={'/'}>
@@ -24,7 +24,7 @@ export default function Hub() {
           </Link>
           {
             <div className='mt-[48px]'>
-              <h3 className='mb-5 text-xl font-bold capitalize text-white'>{dataHub.featured.title}</h3>
+              <h3 className='mb-5 text-[20px] font-bold capitalize text-white'>{dataHub.featured.title}</h3>
               <div className='grid grid-cols-4 gap-7'>
                 {dataHub.featured.items.map((item) => (
                   <Link to={'/'} key={item.encodeId} className='group relative'>
@@ -45,7 +45,7 @@ export default function Hub() {
           }
           {
             <div className='mt-[48px]'>
-              <h3 className='mb-5 text-xl font-bold capitalize text-white'>Quốc gia</h3>
+              <h3 className='mb-5 text-[20px] font-bold capitalize text-white'>Quốc gia</h3>
               <div className='grid grid-cols-4 gap-7'>
                 {dataHub.nations.map((item) => (
                   <Link to={'/'} key={item.encodeId} className='group relative'>
@@ -66,7 +66,7 @@ export default function Hub() {
           }
           {
             <div className='mt-[48px]'>
-              <h3 className='mb-5 text-xl font-bold capitalize text-white'>Tâm Trạng Và Hoạt Động</h3>
+              <h3 className='mb-5 text-[20px] font-bold capitalize text-white'>Tâm Trạng Và Hoạt Động</h3>
               <div className='grid grid-cols-4 gap-7'>
                 {dataHub.topic.map((item) => (
                   <Link to={'/'} key={item.encodeId} className='group relative'>
@@ -102,7 +102,8 @@ export default function Hub() {
                 {item.playlists.slice(0, 5).map((items) => (
                   <div key={items.encodeId} className='flex-1 flex-shrink-0'>
                     <BoxItem
-                      classNameDesc='line-clamp-1 mt-3 mb-[2px] text-white text-sm font-bold whitespace-normal'
+                      id={items.encodeId}
+                      classNameDesc='line-clamp-1 mt-3 mb-[2px] text-white text-[14px] font-bold whitespace-normal'
                       srcImg={items.thumbnailM}
                       altImg={items.title}
                       description={items.title}
@@ -111,7 +112,7 @@ export default function Hub() {
                     />
                     <Artist
                       artistsData={items.artists}
-                      className='line-clamp-1 block overflow-hidden break-words text-sm font-normal text-[#ffffff80]'
+                      className='line-clamp-1 block overflow-hidden break-words text-[14px] font-normal text-[#ffffff80]'
                     />
                   </div>
                 ))}

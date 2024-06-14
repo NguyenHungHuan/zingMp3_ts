@@ -62,7 +62,7 @@ export default function ZingChart({ dataChart }: Props) {
                 >
                   <div className='flex items-center px-[15px] py-[10px] text-left'>
                     <div className='mr-[10px] flex w-[50%] flex-[1_1_auto]'>
-                      <div className='mr-[15px] flex items-center justify-center text-xs font-bold text-[#ffffff80]'>
+                      <div className='mr-[15px] flex items-center justify-center text-[12px] font-bold text-[#ffffff80]'>
                         <span
                           className={classNames(
                             'w-[22px] min-w-0 text-center text-[32px] font-black leading-[1] text-[#4a90e200] opacity-100',
@@ -77,6 +77,7 @@ export default function ZingChart({ dataChart }: Props) {
                         </span>
                       </div>
                       <BoxItem
+                        id={item.encodeId}
                         altImg={item.title}
                         srcImg={item.thumbnail}
                         className='mr-[10px] flex-shrink-0'
@@ -90,15 +91,17 @@ export default function ZingChart({ dataChart }: Props) {
                       />
                       <div className='flex flex-col justify-center gap-[3px] break-words font-medium'>
                         <div className='flex items-center'>
-                          <span className='cursor-default break-words text-sm text-white'>{item.title}</span>
+                          <span className='line-clamp-2 cursor-default break-words text-[14px] text-white'>
+                            {item.title}
+                          </span>
                         </div>
                         <Artist
                           artistsData={item.artists}
-                          className='line-clamp-1 block overflow-hidden text-ellipsis break-words text-xs text-[#ffffff80]'
+                          className='line-clamp-1 block overflow-hidden text-ellipsis break-words text-[12px] text-[#ffffff80]'
                         />
                       </div>
                     </div>
-                    <div className='ml-[10px] flex-[0_0_auto] text-base font-bold leading-[1.56] text-white'>
+                    <div className='ml-[10px] flex-[0_0_auto] text-[16px] font-bold leading-[1.56] text-white'>
                       <span>{Math.round((Number(item?.score) / Number(dataChart.chart?.totalScore)) * 100)}%</span>
                     </div>
                   </div>
@@ -108,7 +111,7 @@ export default function ZingChart({ dataChart }: Props) {
           <div className='flex items-center justify-center'>
             <Link
               to={PATH.zingChart}
-              className='mb-[12px] mt-[5px] rounded-full border border-white px-[25px] py-[5px] text-sm font-normal leading-[1.5] text-white hover:bg-[#ffffff1a]'
+              className='mb-[12px] mt-[5px] rounded-full border border-white px-[25px] py-[5px] text-[14px] font-normal leading-[1.5] text-white hover:bg-[#ffffff1a]'
             >
               Xem thêm
             </Link>

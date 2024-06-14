@@ -63,10 +63,10 @@ const Search = () => {
   return (
     <>
       <nav className='flex items-center border-b border-[#ffffff1a]'>
-        <h3 className='border-r border-[#ffffff1a] pl-[59px] pr-5 text-2xl font-bold capitalize text-white'>
+        <h3 className='border-r border-[#ffffff1a] pl-[59px] pr-5 text-[24px] font-bold capitalize text-white'>
           Kết quả tìm kiếm
         </h3>
-        <ul className='ml-5 flex items-center gap-10 py-[15px] text-sm font-medium uppercase'>
+        <ul className='ml-5 flex items-center gap-10 py-[15px] text-[14px] font-medium uppercase'>
           <li>
             <Link
               className={`${
@@ -138,12 +138,12 @@ const Search = () => {
         </ul>
       </nav>
 
-      <div className='mb-10 px-[59px]'>
+      <div className='mb-10'>
         {dataResult && type === 'all' && (
           <>
             {(dataResult.songs || dataResult.artists || dataResult.playlists) && (
               <div className='mt-7 flex-1'>
-                <h3 className='mb-5 text-xl font-bold capitalize text-white'>Nổi Bật</h3>
+                <h3 className='mb-5 text-[20px] font-bold capitalize text-white'>Nổi Bật</h3>
                 <div className='grid grid-cols-3 items-center gap-x-7'>
                   {dataResult.songs && dataResult.songs[0] && (
                     <CardItem
@@ -154,10 +154,11 @@ const Search = () => {
                       isDate={false}
                       hideLike={false}
                       hideLyric={true}
-                      hideMv={true}
                       hideAlbum={true}
                       hideTime={true}
                       stringType='Bài hát'
+                      dataPlaylist={dataResult.songs}
+                      playlistId={''}
                     />
                   )}
                   {dataResult.artists && dataResult.artists[0] && (
@@ -182,10 +183,11 @@ const Search = () => {
                       isDate={false}
                       hideLike={false}
                       hideLyric={true}
-                      hideMv={true}
                       hideAlbum={true}
                       hideTime={true}
                       stringType='Playlist'
+                      dataPlaylist={dataResult.playlists}
+                      playlistId={dataResult.playlists[0].encodeId}
                     />
                   )}
                 </div>
@@ -201,15 +203,16 @@ const Search = () => {
                     className='h-[50px] w-[50px] overflow-hidden rounded-[5px]'
                   />
                   <h3 className='flex flex-col'>
-                    <span className='text-sm font-bold uppercase text-[#ffffff80]'>Playlist nổi bật</span>
-                    <span className='text-lg font-bold capitalize text-white'>{dataResult.top.title}</span>
+                    <span className='text-[14px] font-bold uppercase text-[#ffffff80]'>Playlist nổi bật</span>
+                    <span className='text-[18px] font-bold capitalize text-white'>{dataResult.top.title}</span>
                   </h3>
                 </div>
                 <div className='grid grid-cols-5 gap-7'>
                   {dataResult.topSuggest.slice(0, 5).map((item) => (
                     <div key={item.encodeId} className='flex-1 flex-shrink-0'>
                       <BoxItem
-                        classNameDesc='line-clamp-1 mt-3 text-white text-sm font-bold whitespace-normal'
+                        id={item.encodeId}
+                        classNameDesc='line-clamp-1 mt-3 text-white text-[14px] font-bold whitespace-normal'
                         srcImg={item.thumbnailM}
                         altImg={item.title}
                         description={item.title}
@@ -218,7 +221,7 @@ const Search = () => {
                       />
                       <Artist
                         artistsData={item.artists}
-                        className='line-clamp-1 block overflow-hidden break-words text-sm font-normal text-[#ffffff80]'
+                        className='line-clamp-1 block overflow-hidden break-words text-[14px] font-normal text-[#ffffff80]'
                       />
                     </div>
                   ))}
@@ -229,13 +232,13 @@ const Search = () => {
             {dataResult.songs && (
               <div className='mt-12 flex-1'>
                 <div className='mb-5 flex items-center justify-between'>
-                  <h3 className='text-xl font-bold capitalize text-white'>Bài hát</h3>
+                  <h3 className='text-[20px] font-bold capitalize text-white'>Bài hát</h3>
                   <Link
                     to={{
                       pathname: `${PATH.search}/song`,
                       search: createSearchParams({ ...queryConfig }).toString()
                     }}
-                    className='ml-auto flex items-center gap-[6px] text-xs font-medium uppercase text-[#ffffff80] hover:text-[#c273ed]'
+                    className='ml-auto flex items-center gap-[6px] text-[12px] font-medium uppercase text-[#ffffff80] hover:text-[#c273ed]'
                   >
                     TẤT CẢ
                     <svg
@@ -260,8 +263,9 @@ const Search = () => {
                       isDate={false}
                       hideLike={false}
                       hideLyric={false}
-                      hideMv={true}
                       hideAlbum={true}
+                      dataPlaylist={dataResult.songs.slice(0, 6)}
+                      playlistId={''}
                     />
                   ))}
                 </div>
@@ -271,13 +275,13 @@ const Search = () => {
             {dataResult.playlists && (
               <div className='mt-12'>
                 <div className='mb-5 flex items-center justify-between'>
-                  <h3 className='text-xl font-bold capitalize text-white'>Playlist/Album</h3>
+                  <h3 className='text-[20px] font-bold capitalize text-white'>Playlist/Album</h3>
                   <Link
                     to={{
                       pathname: `${PATH.search}/playlist`,
                       search: createSearchParams({ ...queryConfig }).toString()
                     }}
-                    className='ml-auto flex items-center gap-[6px] text-xs font-medium uppercase text-[#ffffff80] hover:text-[#c273ed]'
+                    className='ml-auto flex items-center gap-[6px] text-[12px] font-medium uppercase text-[#ffffff80] hover:text-[#c273ed]'
                   >
                     TẤT CẢ
                     <svg
@@ -296,7 +300,8 @@ const Search = () => {
                   {dataResult.playlists.slice(0, 5).map((item) => (
                     <div key={item.encodeId} className='flex-1 flex-shrink-0'>
                       <BoxItem
-                        classNameDesc='line-clamp-1 mt-3 text-white text-sm font-bold whitespace-normal'
+                        id={item.encodeId}
+                        classNameDesc='line-clamp-1 mt-3 text-white text-[14px] font-bold whitespace-normal'
                         srcImg={item.thumbnailM}
                         altImg={item.title}
                         description={item.title}
@@ -305,7 +310,7 @@ const Search = () => {
                       />
                       <Artist
                         artistsData={item.artists}
-                        className='line-clamp-1 block overflow-hidden break-words text-sm font-normal text-[#ffffff80]'
+                        className='line-clamp-1 block overflow-hidden break-words text-[14px] font-normal text-[#ffffff80]'
                       />
                     </div>
                   ))}
@@ -316,13 +321,13 @@ const Search = () => {
             {dataResult.artists && (
               <div className='mt-12'>
                 <div className='mb-5 flex items-center justify-between'>
-                  <h3 className='text-xl font-bold capitalize text-white'>Nghệ Sĩ/OA</h3>
+                  <h3 className='text-[20px] font-bold capitalize text-white'>Nghệ Sĩ/OA</h3>
                   <Link
                     to={{
                       pathname: `${PATH.search}/artist`,
                       search: createSearchParams({ ...queryConfig }).toString()
                     }}
-                    className='ml-auto flex items-center gap-[6px] text-xs font-medium uppercase text-[#ffffff80] hover:text-[#c273ed]'
+                    className='ml-auto flex items-center gap-[6px] text-[12px] font-medium uppercase text-[#ffffff80] hover:text-[#c273ed]'
                   >
                     TẤT CẢ
                     <svg
@@ -355,7 +360,7 @@ const Search = () => {
             )}
 
             {!(dataResult.songs || dataResult.artists || dataResult.playlists) && (
-              <div className='mt-[30px] flex min-h-[220px] flex-col items-center justify-center gap-5 bg-[#ffffff1a] px-[59px] py-[30px]'>
+              <div className='mt-[30px] flex min-h-[220px] flex-col items-center justify-center gap-5 bg-[#ffffff1a] py-[30px]'>
                 <svg xmlns='http://www.w3.org/2000/svg' width={90} height={90} viewBox='0 0 90 90'>
                   <g fill='#B3B3B3'>
                     <path
@@ -376,7 +381,7 @@ const Search = () => {
                     />
                   </g>
                 </svg>
-                <span className='text-base text-[#ffffff80]'>Không có kết quả được tìm thấy</span>
+                <span className='text-[16px] text-[#ffffff80]'>Không có kết quả được tìm thấy</span>
               </div>
             )}
           </>
@@ -386,13 +391,13 @@ const Search = () => {
           <>
             {dataType.pages[0].data.data && (
               <div className='mt-12 flex-1'>
-                <h3 className='mb-5 text-xl font-bold capitalize text-white'>Bài hát</h3>
+                <h3 className='mb-5 text-[20px] font-bold capitalize text-white'>Bài hát</h3>
                 <div className='grid grid-cols-1'>
                   {dataType.pages
                     .map((data) => data.data.data.items)
-                    .filter((item) => item !== undefined)
-                    .map((item) =>
-                      item.map((item) => (
+                    .filter((itemFilter) => itemFilter !== undefined)
+                    .map((itemMap) =>
+                      itemMap.map((item) => (
                         <CardItem
                           key={item.encodeId}
                           dataItem={item}
@@ -401,8 +406,9 @@ const Search = () => {
                           isDate={false}
                           hideLike={false}
                           hideLyric={false}
-                          hideMv={true}
                           hideAlbum={true}
+                          dataPlaylist={itemMap}
+                          playlistId={''}
                         />
                       ))
                     )}
@@ -410,14 +416,14 @@ const Search = () => {
               </div>
             )}
             {!dataType.pages[0].data.data.items && (
-              <div className='mt-[30px] flex min-h-[220px] flex-col items-center justify-center gap-5 bg-[#ffffff1a] px-[59px] py-[30px]'>
+              <div className='mt-[30px] flex min-h-[220px] flex-col items-center justify-center gap-5 bg-[#ffffff1a] py-[30px]'>
                 <svg xmlns='http://www.w3.org/2000/svg' width={90} height={90} viewBox='0 0 90 90'>
                   <path
                     fill='#B3B3B3'
                     d='M77.02 5.244c-1.865-1.294-4.252-1.6-6.386-.818L35.549 17.28c-2.724.998-4.555 3.609-4.555 6.495v39.278c-2.002-1.414-4.57-1.97-7.387-1.57-3.178.45-6.322 2.085-8.852 4.602-2.53 2.516-4.174 5.643-4.628 8.803-.482 3.36.416 6.369 2.53 8.47C14.396 85.09 16.753 86 19.418 86c.571 0 1.158-.042 1.754-.127 3.178-.451 6.322-2.086 8.852-4.602 2.53-2.517 4.174-5.643 4.628-8.803.072-.501.11-.993.12-1.477.002-.03.005-34.059.005-34.059l41.439-15.181v24.734c-2.002-1.413-4.57-1.97-7.388-1.57-3.178.45-6.321 2.085-8.852 4.602-2.53 2.516-4.174 5.642-4.628 8.803-.482 3.36.416 6.369 2.53 8.47 1.74 1.731 4.097 2.642 6.762 2.642.572 0 1.158-.042 1.755-.126 3.177-.452 6.321-2.087 8.851-4.603 2.53-2.516 4.174-5.643 4.628-8.803.072-.5.125-44.979.125-44.979 0-2.261-1.114-4.384-2.98-5.677zM30.995 70.782c-.002.374-.03.759-.087 1.154-.339 2.36-1.602 4.73-3.557 6.675-1.956 1.944-4.34 3.2-6.712 3.538-2.17.308-4.056-.207-5.307-1.45-1.25-1.245-1.768-3.12-1.458-5.279.339-2.36 1.602-4.73 3.558-6.674 1.955-1.945 4.338-3.201 6.711-3.539.411-.058.812-.087 1.2-.087 1.662 0 3.093.53 4.107 1.538 1.01 1.004 1.541 2.42 1.545 4.064v.06zm45.222-53.04l-41.438 15.18v-9.146c0-1.318.835-2.509 2.078-2.964L71.942 7.957c.988-.362 2.05-.226 2.915.373.864.6 1.36 1.544 1.36 2.592v6.82zm0 36.469c-.002.375-.03.76-.087 1.157-.339 2.36-1.602 4.73-3.557 6.675-1.955 1.944-4.339 3.2-6.712 3.538-2.171.309-4.056-.207-5.307-1.45-1.25-1.244-1.768-3.119-1.458-5.278.339-2.36 1.602-4.73 3.558-6.675 1.955-1.944 4.338-3.2 6.711-3.538.411-.058.812-.087 1.2-.087 1.662 0 3.093.53 4.107 1.538 1.01 1.004 1.542 2.42 1.546 4.067v.053z'
                   />
                 </svg>
-                <span className='text-base text-[#ffffff80]'>Không có Bài Hát được tìm thấy</span>
+                <span className='text-[16px] text-[#ffffff80]'>Không có Bài Hát được tìm thấy</span>
               </div>
             )}
           </>
@@ -427,7 +433,7 @@ const Search = () => {
           <>
             {dataType.pages[0].data.data && (
               <div className='mt-12 flex-1'>
-                <h3 className='mb-5 text-xl font-bold capitalize text-white'>Playlist/Album</h3>
+                <h3 className='mb-5 text-[20px] font-bold capitalize text-white'>Playlist/Album</h3>
                 <div className='grid grid-cols-5 gap-7'>
                   {dataType.pages
                     .map((data) => data.data.data.items)
@@ -436,7 +442,8 @@ const Search = () => {
                       item.map((item) => (
                         <div key={item.encodeId} className='flex-1 flex-shrink-0'>
                           <BoxItem
-                            classNameDesc='line-clamp-1 mt-3 text-white text-sm font-bold whitespace-normal'
+                            id={item.encodeId}
+                            classNameDesc='line-clamp-1 mt-3 text-white text-[14px] font-bold whitespace-normal'
                             srcImg={item.thumbnailM}
                             altImg={item.title}
                             description={item.title}
@@ -445,7 +452,7 @@ const Search = () => {
                           />
                           <Artist
                             artistsData={item.artists}
-                            className='line-clamp-1 block overflow-hidden break-words text-sm font-normal text-[#ffffff80]'
+                            className='line-clamp-1 block overflow-hidden break-words text-[14px] font-normal text-[#ffffff80]'
                           />
                         </div>
                       ))
@@ -454,7 +461,7 @@ const Search = () => {
               </div>
             )}
             {!dataType.pages[0].data.data.items && (
-              <div className='mt-[30px] flex min-h-[220px] flex-col items-center justify-center gap-5 bg-[#ffffff1a] px-[59px] py-[30px]'>
+              <div className='mt-[30px] flex min-h-[220px] flex-col items-center justify-center gap-5 bg-[#ffffff1a] py-[30px]'>
                 <svg xmlns='http://www.w3.org/2000/svg' width={90} height={90} viewBox='0 0 90 90'>
                   <g fill='#B3B3B3'>
                     <path
@@ -475,7 +482,7 @@ const Search = () => {
                     />
                   </g>
                 </svg>
-                <span className='text-base text-[#ffffff80]'>Không có Playlist/Album được tìm thấy</span>
+                <span className='text-[16px] text-[#ffffff80]'>Không có Playlist/Album được tìm thấy</span>
               </div>
             )}
           </>
@@ -485,7 +492,7 @@ const Search = () => {
           <>
             {dataType.pages[0].data.data && (
               <div className='mt-12 flex-1'>
-                <h3 className='mb-5 text-xl font-bold capitalize text-white'>Nghệ Sĩ/OA</h3>
+                <h3 className='mb-5 text-[20px] font-bold capitalize text-white'>Nghệ Sĩ/OA</h3>
                 <div className='grid grid-cols-5 gap-7'>
                   {dataType.pages
                     .map((data) => data.data.data.items)
@@ -507,7 +514,7 @@ const Search = () => {
               </div>
             )}
             {!dataType.pages[0].data.data.items && (
-              <div className='mt-[30px] flex min-h-[220px] flex-col items-center justify-center gap-5 bg-[#ffffff1a] px-[59px] py-[30px]'>
+              <div className='mt-[30px] flex min-h-[220px] flex-col items-center justify-center gap-5 bg-[#ffffff1a] py-[30px]'>
                 <svg xmlns='http://www.w3.org/2000/svg' width={90} height={90} viewBox='0 0 90 90'>
                   <g fill='#B3B3B3'>
                     <path
@@ -520,7 +527,7 @@ const Search = () => {
                     />
                   </g>
                 </svg>
-                <span className='text-base text-[#ffffff80]'>Không có Nghệ sĩ/OA được tìm thấy</span>
+                <span className='text-[16px] text-[#ffffff80]'>Không có Nghệ sĩ/OA được tìm thấy</span>
               </div>
             )}
           </>

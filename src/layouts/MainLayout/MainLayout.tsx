@@ -1,13 +1,17 @@
+import classNames from 'classnames'
+import { useContext, useEffect, useRef, useState } from 'react'
 import { Outlet } from 'react-router-dom'
 import AsideLeft from '~/components/AsideLeft'
 import AsideRight from '~/components/AsideRight'
 import Header from '~/components/Header'
-import { useState, useRef, useEffect } from 'react'
+import Player from '~/components/Player'
+import { AppContext } from '~/contexts/app.context'
 
 export default function MainLayout() {
   const [header, setHeader] = useState<boolean>(false)
   const [scrollY, setScrollY] = useState<Element>()
   const el = useRef<HTMLDivElement>(null)
+  const { stateAsideRight, stateIdSong } = useContext(AppContext)
 
   useEffect(() => {
     if (el.current) {
@@ -26,25 +30,37 @@ export default function MainLayout() {
   scrollY && scrollY.addEventListener('scroll', handleChangeHeader)
 
   return (
-    <div className='flex h-screen w-full'>
+    <div className='flex h-screen w-full overflow-x-hidden'>
       <div className='h-full w-[240px] bg-[#231b2e]'>
         <AsideLeft />
       </div>
-      <div ref={el} className='main flex-1 flex-shrink-0 overflow-x-hidden overflow-y-scroll bg-[#170f23]'>
+      <div
+        ref={el}
+        className={`main flex-1 flex-shrink-0 overflow-x-hidden overflow-y-scroll bg-[#170f23] ${
+          stateIdSong !== '' && 'mb-[90px]'
+        }`}
+      >
         <header
-          className={`sticky top-0 z-[100] mx-[-2px] px-[59px] ${
-            header
-              ? 'bg-[#170f23cc] shadow-[0_3px_5px_rgba(0,0,0,0.1)] before:absolute before:inset-0 before:backdrop-blur-[50px] before:content-[""]'
-              : 'bg-transparent'
-          }`}
+          className={classNames(
+            `sticky top-0 z-[100] mx-[-2px] px-[59px] ${
+              header
+                ? 'bg-[#170f23cc] shadow-[0_3px_5px_rgba(0,0,0,0.1)] before:absolute before:inset-0 before:backdrop-blur-[50px] before:content-[""]'
+                : 'bg-transparent'
+            }`
+          )}
         >
           <Header />
         </header>
-        <Outlet />
+        <div className='px-[59px]'>
+          <Outlet />
+        </div>
       </div>
-      <div className='h-full w-[330px] border-l border-l-[#ffffff1a] bg-[#170f23] sm:hidden md:hidden lg:hidden xl:hidden 2xl:hidden min-[1590px]:block'>
-        <AsideRight />
-      </div>
+      {stateAsideRight && (
+        <div className='right-0 top-0 z-[110] h-full w-[330px] overflow-y-auto border-l border-l-[#ffffff1a] bg-[#170f23] sm:absolute md:absolute lg:absolute xl:absolute 2xl:absolute min-[1590px]:relative'>
+          <AsideRight />
+        </div>
+      )}
+      {stateIdSong !== '' && <Player />}
     </div>
   )
 }

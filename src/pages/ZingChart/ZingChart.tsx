@@ -18,7 +18,7 @@ export default function ZingChart() {
   const dataChartHome = data?.data.data
 
   return (
-    <main className='mx-[-2px] px-[59px] pt-5'>
+    <main className='mx-[-2px] pt-5'>
       <div className='relative mb-10 flex items-center gap-[10px]'>
         <h3 className='text-rbg text-[40px] font-bold'>#zingchart</h3>
         <button className='flex items-center justify-center hover:opacity-90'>
@@ -51,7 +51,8 @@ export default function ZingChart() {
               number={index + 1}
               hideLike={false}
               hideLyric={false}
-              hideMv={false}
+              dataPlaylist={dataChartHome.RTChart.items.slice(range[0], range[1])}
+              playlistId={''}
             />
           ))}
       {range[0] === 0 && range[1] === 10 && (
@@ -65,8 +66,8 @@ export default function ZingChart() {
         </div>
       )}
       <div className='relative mt-[30px] pt-[30px]'>
-        <div className='absolute inset-0 mx-[-59px] bg-[url(https://zjs.zmdcdn.me/zmp3-desktop/releases/v1.9.76/static/media/week-chart-bg.edf332e5.jpg)] bg-cover bg-[top_center] bg-no-repeat grayscale' />
-        <div className='absolute inset-0 mx-[-59px] bg-[#201335e6]' />
+        <div className='absolute inset-0 mx-[-59px] bg-[url(https://zjs.zmdcdn.me/zmp3-desktop/releases/v1.9.76/static/media/week-chart-bg.edf332e5.jpg)] bg-cover bg-[top_center] bg-no-repeat grayscale 2xl:mx-[-160px]' />
+        <div className='absolute inset-0 mx-[-59px] bg-[#201335e6] 2xl:mx-[-160px]' />
         <div className='relative'>
           <Link to={`${PATH.zingWeek}/vn`} className='w-fit text-[40px] font-extrabold capitalize text-white'>
             Bảng Xếp Hạng Tuần
@@ -76,7 +77,7 @@ export default function ZingChart() {
               <div className='flex items-start gap-2'>
                 <Link
                   to={`${PATH.zingWeek}/vn`}
-                  className='pb-[10px] pl-10 text-2xl font-bold text-white hover:text-[#9b4de0]'
+                  className='pb-[10px] pl-10 text-[24px] font-bold text-white hover:text-[#9b4de0]'
                 >
                   Việt Nam
                 </Link>
@@ -107,9 +108,10 @@ export default function ZingChart() {
                       number={index + 1}
                       hideLike
                       hideLyric={false}
-                      hideMv
                       hideAlbum
                       textWide={false}
+                      dataPlaylist={dataChartHome.weekChart.vn.items.slice(0, 5)}
+                      playlistId={''}
                     />
                   ))}
               <div className='mt-[15px] flex w-full items-center justify-center'>
@@ -126,7 +128,7 @@ export default function ZingChart() {
               <div className='flex items-start gap-2'>
                 <Link
                   to={`${PATH.zingWeek}/us`}
-                  className='pb-[10px] pl-10 text-2xl font-bold text-white hover:text-[#9b4de0]'
+                  className='pb-[10px] pl-10 text-[24px] font-bold text-white hover:text-[#9b4de0]'
                 >
                   US-UK
                 </Link>
@@ -157,9 +159,10 @@ export default function ZingChart() {
                       number={index + 1}
                       hideLike
                       hideLyric={false}
-                      hideMv
                       hideAlbum
                       textWide={false}
+                      dataPlaylist={dataChartHome.weekChart.us.items.slice(0, 5)}
+                      playlistId={''}
                     />
                   ))}
               <div className='mt-[15px] flex w-full items-center justify-center'>
@@ -176,7 +179,7 @@ export default function ZingChart() {
               <div className='flex items-start gap-2'>
                 <Link
                   to={`${PATH.zingWeek}/kr`}
-                  className='pb-[10px] pl-10 text-2xl font-bold text-white hover:text-[#9b4de0]'
+                  className='pb-[10px] pl-10 text-[24px] font-bold text-white hover:text-[#9b4de0]'
                 >
                   K-Pop
                 </Link>
@@ -207,9 +210,10 @@ export default function ZingChart() {
                       number={index + 1}
                       hideLike
                       hideLyric={false}
-                      hideMv
                       hideAlbum
                       textWide={false}
+                      dataPlaylist={dataChartHome.weekChart.korea.items.slice(0, 5)}
+                      playlistId={''}
                     />
                   ))}
               <div className='mt-[15px] flex w-full items-center justify-center'>

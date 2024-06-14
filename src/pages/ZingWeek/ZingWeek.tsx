@@ -37,7 +37,6 @@ const ZingWeek = () => {
     enabled: dataWeek !== undefined
   })
   const dataWeekChart = data?.data.data
-
   const handlePrevWeek = () => {
     currentWeek !== 1 && setCurrentWeek((prev) => prev - 1)
   }
@@ -47,7 +46,7 @@ const ZingWeek = () => {
   }
 
   return (
-    <main className='mx-[-2px] px-[59px] py-10'>
+    <main className='mx-[-2px] py-10'>
       <div className='mb-[30px] flex items-center gap-1'>
         <h2 className='w-fit text-[40px] font-extrabold capitalize text-white'>Bảng Xếp Hạng Tuần</h2>
         <button className='flex items-center justify-center hover:opacity-90'>
@@ -65,7 +64,7 @@ const ZingWeek = () => {
         </button>
       </div>
       <nav className='mb-7'>
-        <ul className='flex items-center gap-10 text-2xl font-bold uppercase'>
+        <ul className='flex items-center gap-10 text-[24px] font-bold uppercase'>
           <li>
             <NavLink
               to={`${PATH.zingWeek}/vn`}
@@ -104,7 +103,7 @@ const ZingWeek = () => {
           </li>
         </ul>
       </nav>
-      <div className='flex w-fit items-center rounded-full bg-[#ffffff1a] p-2 text-sm text-white'>
+      <div className='flex w-fit items-center rounded-full bg-[#ffffff1a] p-2 text-[14px] text-white'>
         <button onClick={handlePrevWeek} className='px-2 hover:text-white/80'>
           <svg
             xmlns='http://www.w3.org/2000/svg'
@@ -135,6 +134,7 @@ const ZingWeek = () => {
       </div>
       <div className='mt-[15px] h-[670px] overflow-auto '>
         {dataWeekChart &&
+          dataWeekChart.items &&
           dataWeekChart.items.map((item, index) => (
             <CardItem
               key={item.encodeId}
@@ -145,8 +145,9 @@ const ZingWeek = () => {
               number={index + 1}
               hideLike={false}
               hideLyric={false}
-              hideMv={false}
               hideAlbum={false}
+              dataPlaylist={dataWeekChart.items}
+              playlistId={''}
             />
           ))}
       </div>

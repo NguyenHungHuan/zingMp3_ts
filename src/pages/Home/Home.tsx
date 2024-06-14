@@ -1,19 +1,28 @@
 import classNames from 'classnames'
 import moment from 'moment'
 import 'moment/dist/locale/vi'
-import { useEffect, useMemo, useRef, useState } from 'react'
+import {
+  // useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState
+} from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import 'swiper/css'
 import { Autoplay, Navigation } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/react'
-// import Ads from '~/components/Ads'
 import Artist from '~/components/Artist'
 import BoxItem from '~/components/BoxItem'
 import CardItem from '~/components/CardItem'
+import Footer from '~/components/Footer'
 import Slider from '~/components/Slider'
 import ZingChart from '~/components/ZingChart'
 import PATH from '~/constants/path'
+// import { AppContext } from '~/contexts/app.context'
 import useHome from '~/hooks/useHome'
+import usePlayMusic from '~/hooks/usePlayMusic'
+// import { setPlaylistToLS } from '~/utils/song'
 
 export default function Home() {
   const {
@@ -42,15 +51,15 @@ export default function Home() {
     () => dataNewReleaseChart?.items?.find((item) => item.encodeId === 'ABCDE1'),
     [dataNewReleaseChart]
   )
+  // const { statePlaylist } = useContext(AppContext)
+  const { handleHookPlayMusic } = usePlayMusic()
 
   useEffect(() => {
     setGenre(dataAll)
   }, [dataAll])
 
   useEffect(() => {
-    if (!isLoop) {
-      ;(dataNewReleaseChart?.items as Array<{ encodeId: string }>)?.push({ encodeId: 'ABCDE1' })
-    }
+    if (!isLoop) (dataNewReleaseChart?.items as Array<{ encodeId: string }>)?.push({ encodeId: 'ABCDE1' })
   }, [dataNewReleaseChart?.items, isLoop])
 
   const handleChangeGenreAll = () => {
@@ -64,12 +73,12 @@ export default function Home() {
   }
 
   return (
-    <main className='mx-[-2px] px-[59px] pt-[32px]'>
+    <main className='mx-[-2px] pt-[32px]'>
       {dataBanner && <Slider dataBanner={dataBanner} />}
       {dataNewRelease && (
         <div className='mt-12 text-white'>
-          <h3 className='mb-5 text-xl font-bold capitalize'>{dataNewRelease?.title}</h3>
-          <div className='mb-4 flex items-center gap-[15px] text-xs font-normal text-white'>
+          <h3 className='mb-5 text-[20px] font-bold capitalize'>{dataNewRelease.title}</h3>
+          <div className='mb-4 flex items-center gap-[15px] text-[12px] font-normal text-white'>
             <button
               onClick={handleChangeGenreAll}
               className={classNames(
@@ -110,14 +119,28 @@ export default function Home() {
           <div className='grid grid-cols-3 gap-x-7'>
             {genre &&
               (genre.length > 12 ? genre.slice(0, 12) : genre).map((item) => (
-                <CardItem
+                <div
+                  aria-hidden
                   key={item.encodeId}
-                  className='group col-span-1 flex h-20 items-center gap-[10px] rounded p-[10px] hover:bg-[#2f2739]'
-                  dataItem={item}
-                  isDate={true}
-                  hideAlbum
-                  hideTime={true}
-                />
+                  onDoubleClick={() => {
+                    handleHookPlayMusic({
+                      songId: item.encodeId,
+                      data: genre,
+                      dataItem: item,
+                      playlistId: item.encodeId
+                    })
+                  }}
+                >
+                  <CardItem
+                    className='group col-span-1 flex h-20 items-center gap-[10px] rounded p-[10px] hover:bg-[#2f2739]'
+                    dataItem={item}
+                    isDate={true}
+                    hideAlbum
+                    hideTime={true}
+                    dataPlaylist={genre}
+                    playlistId={''}
+                  />
+                </div>
               ))}
           </div>
         </div>
@@ -125,12 +148,13 @@ export default function Home() {
       {dataChill && (
         <div className='mt-12'>
           <TitleListBox titleList={dataChill?.title} link={dataChill.link} />
-          <div className='flex items-center gap-7'>
+          <div className='flex items-start gap-7'>
             {dataChill?.items
               ?.slice(0, 5)
               .map((item) => (
                 <BoxItem
                   key={item.encodeId}
+                  id={item.encodeId}
                   srcImg={item.thumbnailM}
                   altImg={item.title}
                   description={item.sortDescription}
@@ -143,11 +167,12 @@ export default function Home() {
       {dataEnergy && (
         <div className='mt-12'>
           <TitleListBox titleList={dataEnergy?.title} hideLink={true} />
-          <div className='flex items-center gap-7'>
+          <div className='flex items-start gap-7'>
             {dataEnergy?.items
               ?.slice(0, 5)
               .map((item) => (
                 <BoxItem
+                  id={item.encodeId}
                   key={item.encodeId}
                   srcImg={item.thumbnailM}
                   altImg={item.title}
@@ -161,13 +186,13 @@ export default function Home() {
       {dataRemix && (
         <div className='mt-12'>
           <TitleListBox titleList={dataRemix?.title} hideLink={true} />
-          <div className='flex gap-7'>
+          <div className='flex items-start gap-7'>
             {dataRemix?.items?.slice(0, 5).map((item) => (
               <div className='flex-1 flex-shrink-0' key={item.encodeId}>
-                <BoxItem srcImg={item.thumbnailM} altImg={item.title} link={item.link} />
+                <BoxItem id={item.encodeId} srcImg={item.thumbnailM} altImg={item.title} link={item.link} />
                 <Artist
                   artistsData={item.artists}
-                  className='mt-3 line-clamp-1 block overflow-hidden break-words text-sm font-normal text-[#ffffff80]'
+                  className='mt-3 line-clamp-1 block overflow-hidden break-words text-[14px] font-normal text-[#ffffff80]'
                 />
               </div>
             ))}
@@ -177,10 +202,11 @@ export default function Home() {
       {dataStatus && (
         <div className='mt-12'>
           <TitleListBox titleList={dataStatus?.title} hideLink={true} />
-          <div className='flex gap-7'>
+          <div className='flex items-start gap-7'>
             {dataStatus?.items?.slice(0, 5).map((item) => (
               <div className='flex-1 flex-shrink-0' key={item.encodeId}>
                 <BoxItem
+                  id={item.encodeId}
                   srcImg={item.thumbnailM}
                   altImg={item.title}
                   description={item.sortDescription}
@@ -194,11 +220,12 @@ export default function Home() {
       {dataArtists && (
         <div className='mt-12'>
           <TitleListBox titleList={dataArtists?.title} hideLink={true} />
-          <div className='flex items-center gap-7'>
+          <div className='flex items-start gap-7'>
             {dataArtists?.items
               ?.slice(0, 5)
               .map((item) => (
                 <BoxItem
+                  id={item.encodeId}
                   key={item.encodeId}
                   srcImg={item.thumbnailM}
                   altImg={item.title}
@@ -254,6 +281,7 @@ export default function Home() {
                       >
                         <div className='w-[120px]'>
                           <BoxItem
+                            id={item.encodeId}
                             srcImg={item.thumbnailM}
                             altImg={item.title}
                             hideLike={true}
@@ -263,14 +291,14 @@ export default function Home() {
                         </div>
                         <div className='flex flex-1 flex-col justify-between'>
                           <div>
-                            <div className='mb-[3px] text-sm font-medium text-white'>{item.title}</div>
+                            <div className='mb-[3px] line-clamp-2 text-[14px] font-medium text-white'>{item.title}</div>
                             <Artist artistsData={item.artists} />
                           </div>
                           <div className='flex items-end justify-between'>
                             <div className='text-stroke text-[40px] font-black leading-none opacity-40'>
                               #{index + 1}
                             </div>
-                            <div className='text-sm font-normal text-[#ffffff80]'>
+                            <div className='text-[14px] font-normal text-[#ffffff80]'>
                               {moment.unix(item.releaseDate as number).format('DD.MM.YYYY')}
                             </div>
                           </div>
@@ -321,10 +349,10 @@ export default function Home() {
             <Link
               to={`${PATH.zingWeek}/${item.country === 'korea' ? 'kr' : item.country}`}
               key={index}
-              className='overflow-hidden rounded-md'
+              className='w-full flex-1 overflow-hidden rounded-md'
             >
               <img
-                className='h-[112px] duration-[0.7s] hover:scale-110'
+                className='h-[112px] w-full duration-[0.7s] hover:scale-110'
                 src={item.cover}
                 alt={`Bài hát ${item.country}`}
               />
@@ -335,11 +363,12 @@ export default function Home() {
       {dataTop100 && (
         <div className='mt-12'>
           <TitleListBox titleList={dataTop100?.title} link={PATH.top100} />
-          <div className='flex gap-7'>
+          <div className='flex items-start gap-7'>
             {dataTop100.items?.slice(0, 5).map((item) => (
               <div className='flex-1 flex-shrink-0' key={item.encodeId}>
                 <BoxItem
-                  classNameDesc='line-clamp-1 mt-3 mb-[2px] text-white text-sm font-bold whitespace-normal'
+                  id={item.encodeId}
+                  classNameDesc='line-clamp-1 mt-3 mb-[2px] text-white text-[14px] font-bold whitespace-normal'
                   srcImg={item.thumbnailM}
                   altImg={item.title}
                   description={item.title}
@@ -348,7 +377,7 @@ export default function Home() {
                 />
                 <Artist
                   artistsData={item.artists}
-                  className='line-clamp-1 block overflow-hidden break-words text-sm font-normal text-[#ffffff80]'
+                  className='line-clamp-1 block overflow-hidden break-words text-[14px] font-normal text-[#ffffff80]'
                 />
               </div>
             ))}
@@ -359,7 +388,7 @@ export default function Home() {
         <div className='mt-12'>
           <TitleListBox titleList={dataAlbumHot?.title} hideLink={true} />
           <Swiper
-            className='flex gap-7'
+            className='flex items-start gap-7'
             modules={[Autoplay]}
             slidesPerView={5}
             allowTouchMove={false}
@@ -379,7 +408,8 @@ export default function Home() {
             {dataAlbumHot?.items?.map((item) => (
               <SwiperSlide key={item.encodeId}>
                 <BoxItem
-                  classNameDesc='line-clamp-1 mt-3 mb-[2px] text-white text-sm font-bold whitespace-normal'
+                  id={item.encodeId}
+                  classNameDesc='line-clamp-1 mt-3 mb-[2px] text-white text-[14px] font-bold whitespace-normal'
                   srcImg={item.thumbnailM}
                   altImg={item.title}
                   description={item.title}
@@ -388,14 +418,16 @@ export default function Home() {
                 />
                 <Artist
                   artistsData={item.artists}
-                  className='line-clamp-1 block overflow-hidden break-words text-sm font-normal text-[#ffffff80]'
+                  className='line-clamp-1 block overflow-hidden break-words text-[14px] font-normal text-[#ffffff80]'
                 />
               </SwiperSlide>
             ))}
           </Swiper>
         </div>
       )}
-      {/* <Ads className='mb-[30px] mt-12' /> */}
+      <div className='mx-[-59px]'>
+        <Footer />
+      </div>
     </main>
   )
 }
@@ -410,11 +442,11 @@ export const TitleListBox = ({
   link?: string
 }) => (
   <div className='mb-5 flex items-center justify-between'>
-    <h3 className='text-xl font-bold capitalize text-white'>{titleList}</h3>
+    <h3 className='text-[20px] font-bold capitalize text-white'>{titleList}</h3>
     {!hideLink && (
       <Link
         to={link.replace('.html', '')}
-        className='ml-auto flex items-center gap-[6px] text-xs font-medium uppercase text-[#ffffff80] hover:text-[#c273ed]'
+        className='ml-auto flex items-center gap-[6px] text-[12px] font-medium uppercase text-[#ffffff80] hover:text-[#c273ed]'
       >
         TẤT CẢ
         <svg

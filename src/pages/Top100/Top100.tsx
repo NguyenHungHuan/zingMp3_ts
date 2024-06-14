@@ -13,7 +13,7 @@ export default function Top100() {
   const dataTop100 = data?.data.data
 
   return (
-    <main className='mx-[-2px] px-[59px] py-[32px]'>
+    <main className='mx-[-2px] py-[32px]'>
       <div className='mb-[30px] flex items-center justify-center'>
         <svg width={625} height={166} viewBox='0 0 425 166'>
           <defs>
@@ -57,7 +57,8 @@ export default function Top100() {
               {item.items.map((items) => (
                 <div key={items.encodeId} className='flex-1 flex-shrink-0'>
                   <BoxItem
-                    classNameDesc='line-clamp-1 mt-3 mb-[2px] text-white text-sm font-bold whitespace-normal'
+                    id={items.encodeId}
+                    classNameDesc='line-clamp-1 mt-3 mb-[2px] text-white text-[14px] font-bold whitespace-normal'
                     srcImg={items.thumbnailM}
                     altImg={items.title}
                     description={items.sortDescription}
@@ -66,7 +67,7 @@ export default function Top100() {
                   />
                   <Artist
                     artistsData={items.artists}
-                    className='line-clamp-1 block overflow-hidden break-words text-sm font-normal text-[#ffffff80]'
+                    className='line-clamp-1 block overflow-hidden break-words text-[14px] font-normal text-[#ffffff80]'
                   />
                 </div>
               ))}

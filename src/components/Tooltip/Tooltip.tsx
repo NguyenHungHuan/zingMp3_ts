@@ -56,7 +56,7 @@ const Tooltip = ({ children, as: Element = 'div', className, text }: Props) => {
               top: y ?? 0,
               left: x ?? 0,
               width: 'max-content',
-              zIndex: 100
+              zIndex: 140
             }}
             aria-hidden
             className='rounded bg-[#333] px-2 py-[3px] text-[11px] text-white'

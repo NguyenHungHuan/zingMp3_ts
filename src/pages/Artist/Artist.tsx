@@ -42,11 +42,11 @@ const Artist = () => {
       {dataArtist && (
         <>
           <div
-            className='before:content-[" "] relative mx-[-2px] mt-[-70px] h-[300px] bg-cover bg-[50%] bg-no-repeat px-[59px] before:absolute before:inset-0 before:bg-[#291547cc] before:backdrop-blur-2xl'
+            className='before:content-[" "] relative mx-[-59px] mt-[-70px] h-[300px] bg-cover bg-[50%] bg-no-repeat before:absolute before:inset-0 before:bg-[#291547cc] before:backdrop-blur-2xl 2xl:mx-[-160px]'
             style={{ backgroundImage: `url(${dataArtist.thumbnailM})` }}
           >
             <div className='flex h-full w-full items-end pb-6 text-white blur-none'>
-              <div className='flex items-start gap-[32px]'>
+              <div className='mx-[59px] flex items-start gap-[32px] 2xl:mx-[160px]'>
                 <img
                   src={dataArtist.thumbnailM}
                   alt='Avatar'
@@ -69,214 +69,222 @@ const Artist = () => {
                       </svg>
                     </button>
                   </div>
-                  <div className='flex items-center text-sm font-medium'>
+                  <div className='flex items-center text-[14px] font-medium'>
                     <span>{`${formatPriceNumber(dataArtist.follow)} người quan tâm`}</span>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          <div className='px-[59px]'>
+          <div>
             {activeShow === '' && (
               <>
-                {dataArtist.sections.map((item, index) => (
-                  <div key={index}>
-                    <div className='flex gap-7'>
-                      {item.topAlbum && (
-                        <div className='mt-12 flex-[0_0_33.33%] flex-shrink-0'>
-                          <h3 className='mb-5 text-xl font-bold capitalize text-white'>Mới Phát Hành</h3>
-                          <div
-                            aria-hidden
-                            onClick={() => navigate(item.topAlbum.link.replace('.html', ''))}
-                            className='group grid cursor-pointer grid-cols-2 gap-4 rounded-xl bg-[#362f3e] p-4'
-                          >
-                            <div key={item.topAlbum.encodeId} className='flex-1 flex-shrink-0'>
-                              <BoxItem
-                                classNameDesc='line-clamp-1 mt-3 text-white text-sm font-bold whitespace-normal'
-                                srcImg={item.topAlbum.thumbnailM}
-                                altImg={item.topAlbum.title}
-                                link={item.topAlbum.link}
-                                isLinkDesc={true}
-                              />
+                {dataArtist.sections &&
+                  dataArtist.sections.map((item, index) => (
+                    <div key={index}>
+                      <div className='flex gap-7'>
+                        {item.topAlbum && (
+                          <div className='mt-12 flex-[0_0_33.33%] flex-shrink-0'>
+                            <h3 className='mb-5 text-[20px] font-bold capitalize text-white'>Mới Phát Hành</h3>
+                            <div
+                              aria-hidden
+                              onClick={() => navigate(item.topAlbum.link.replace('.html', ''))}
+                              className='group grid cursor-pointer grid-cols-2 gap-4 rounded-xl bg-[#362f3e] p-4'
+                            >
+                              <div key={item.topAlbum.encodeId} className='flex-1 flex-shrink-0'>
+                                <BoxItem
+                                  id={item.topAlbum.encodeId}
+                                  classNameDesc='line-clamp-1 mt-3 text-white text-[14px] font-bold whitespace-normal'
+                                  srcImg={item.topAlbum.thumbnailM}
+                                  altImg={item.topAlbum.title}
+                                  link={item.topAlbum.link}
+                                  isLinkDesc={true}
+                                />
+                              </div>
+                              <div className='my-[6px]'>
+                                <span className='text-[12px] text-[#ffffff80]'>{item.topAlbum.textType}</span>
+                                <h3 className='mb-[2px] mt-3 line-clamp-2 text-[14px] text-white'>
+                                  {item.topAlbum.title}
+                                </h3>
+                                <ArtistText
+                                  artistsData={item.topAlbum.artists}
+                                  className='mb-3 line-clamp-1 block overflow-hidden break-words text-[12px] font-normal text-[#ffffff80]'
+                                />
+                                <span className='text-[12px] text-[#ffffff80]'>{item.topAlbum.releaseDate}</span>
+                              </div>
                             </div>
-                            <div className='my-[6px]'>
-                              <span className='text-xs text-[#ffffff80]'>{item.topAlbum.textType}</span>
-                              <h3 className='mb-[2px] mt-3 line-clamp-2 text-sm text-white'>{item.topAlbum.title}</h3>
-                              <ArtistText
-                                artistsData={item.topAlbum.artists}
-                                className='mb-3 line-clamp-1 block overflow-hidden break-words text-xs font-normal text-[#ffffff80]'
-                              />
-                              <span className='text-xs text-[#ffffff80]'>{item.topAlbum.releaseDate}</span>
+                          </div>
+                        )}
+                        {item.sectionId === 'aSongs' && item.items && (
+                          <div className='mt-12 flex-1'>
+                            <div className='mb-5 flex items-center justify-between'>
+                              <h3 className='text-[20px] font-bold capitalize text-white'>{item.title}</h3>
+                              <button
+                                onClick={() => setActiveShow('aSongs')}
+                                className='ml-auto flex items-center gap-[6px] text-[12px] font-medium uppercase text-[#ffffff80] hover:text-[#c273ed]'
+                              >
+                                TẤT CẢ
+                                <svg
+                                  xmlns='http://www.w3.org/2000/svg'
+                                  fill='none'
+                                  viewBox='0 0 24 24'
+                                  strokeWidth={1.5}
+                                  stroke='currentColor'
+                                  className='h-5 w-5'
+                                >
+                                  <path strokeLinecap='round' strokeLinejoin='round' d='M8.25 4.5l7.5 7.5-7.5 7.5' />
+                                </svg>
+                              </button>
                             </div>
+                            <div className='grid grid-cols-2 gap-x-7'>
+                              {item.items.slice(0, 6).map((itemMap) => (
+                                <CardItem
+                                  key={itemMap.encodeId}
+                                  dataItem={itemMap}
+                                  classNameFigure='relative cursor-pointer w-[40px] h-[40px] object-cover rounded overflow-hidden flex-shrink-0'
+                                  className='group relative flex items-center gap-x-[10px] overflow-hidden rounded border-b border-[#ffffff0d] p-[10px] hover:bg-[#ffffff1a]'
+                                  isDate={false}
+                                  hideLike={false}
+                                  hideLyric={false}
+                                  hideAlbum={true}
+                                  dataPlaylist={item.items.slice(0, 6)}
+                                  playlistId={''}
+                                />
+                              ))}
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                      {item.sectionId === 'aSingle' && item.items && (
+                        <div className='mt-12'>
+                          <div className='mb-5 flex items-center justify-between'>
+                            <h3 className='text-[20px] font-bold capitalize text-white'>{item.title}</h3>
+                            {item.items.length > 5 && (
+                              <button
+                                onClick={() => setActiveShow('aSingle')}
+                                className='ml-auto flex items-center gap-[6px] text-[12px] font-medium uppercase text-[#ffffff80] hover:text-[#c273ed]'
+                              >
+                                TẤT CẢ
+                                <svg
+                                  xmlns='http://www.w3.org/2000/svg'
+                                  fill='none'
+                                  viewBox='0 0 24 24'
+                                  strokeWidth={1.5}
+                                  stroke='currentColor'
+                                  className='h-5 w-5'
+                                >
+                                  <path strokeLinecap='round' strokeLinejoin='round' d='M8.25 4.5l7.5 7.5-7.5 7.5' />
+                                </svg>
+                              </button>
+                            )}
+                          </div>
+                          <div className='grid grid-cols-5 gap-7'>
+                            {item.items.slice(0, 5).map((item) => (
+                              <div key={item.encodeId} className='flex-1 flex-shrink-0'>
+                                <BoxItem
+                                  id={item.encodeId}
+                                  classNameDesc='line-clamp-1 mt-3 text-white text-[14px] font-bold whitespace-normal'
+                                  srcImg={item.thumbnailM}
+                                  altImg={item.title}
+                                  description={item.title}
+                                  link={item.link}
+                                  isLinkDesc={true}
+                                />
+                                <span className='text-[14px] text-[#ffffff80]'>{item.releaseDateText}</span>
+                              </div>
+                            ))}
                           </div>
                         </div>
                       )}
-                      {item.sectionId === 'aSongs' && item.items && (
-                        <div className='mt-12 flex-1'>
+                      {item.sectionId === 'aAlbum' && item.items && (
+                        <div className='mt-12'>
                           <div className='mb-5 flex items-center justify-between'>
-                            <h3 className='text-xl font-bold capitalize text-white'>{item.title}</h3>
-                            <button
-                              onClick={() => setActiveShow('aSongs')}
-                              className='ml-auto flex items-center gap-[6px] text-xs font-medium uppercase text-[#ffffff80] hover:text-[#c273ed]'
-                            >
-                              TẤT CẢ
-                              <svg
-                                xmlns='http://www.w3.org/2000/svg'
-                                fill='none'
-                                viewBox='0 0 24 24'
-                                strokeWidth={1.5}
-                                stroke='currentColor'
-                                className='h-5 w-5'
+                            <h3 className='text-[20px] font-bold capitalize text-white'>{item.title}</h3>
+                            {item.items.length > 5 && (
+                              <button
+                                onClick={() => setActiveShow('aAlbum')}
+                                className='ml-auto flex items-center gap-[6px] text-[12px] font-medium uppercase text-[#ffffff80] hover:text-[#c273ed]'
                               >
-                                <path strokeLinecap='round' strokeLinejoin='round' d='M8.25 4.5l7.5 7.5-7.5 7.5' />
-                              </svg>
-                            </button>
+                                TẤT CẢ
+                                <svg
+                                  xmlns='http://www.w3.org/2000/svg'
+                                  fill='none'
+                                  viewBox='0 0 24 24'
+                                  strokeWidth={1.5}
+                                  stroke='currentColor'
+                                  className='h-5 w-5'
+                                >
+                                  <path strokeLinecap='round' strokeLinejoin='round' d='M8.25 4.5l7.5 7.5-7.5 7.5' />
+                                </svg>
+                              </button>
+                            )}
                           </div>
-                          <div className='grid grid-cols-2 gap-x-7'>
-                            {item.items.slice(0, 6).map((item) => (
-                              <CardItem
-                                key={item.encodeId}
-                                dataItem={item}
-                                classNameFigure='relative cursor-pointer w-[40px] h-[40px] object-cover rounded overflow-hidden flex-shrink-0'
-                                className='group relative flex items-center gap-x-[10px] overflow-hidden rounded border-b border-[#ffffff0d] p-[10px] hover:bg-[#ffffff1a]'
-                                isDate={false}
-                                hideLike={false}
-                                hideLyric={false}
-                                hideMv={true}
-                                hideAlbum={true}
-                              />
+                          <div className='grid grid-cols-5 gap-7'>
+                            {item.items.slice(0, 5).map((item) => (
+                              <div key={item.encodeId} className='flex-1 flex-shrink-0'>
+                                <BoxItem
+                                  id={item.encodeId}
+                                  classNameDesc='line-clamp-1 mt-3 text-white text-[14px] font-bold whitespace-normal'
+                                  srcImg={item.thumbnailM}
+                                  altImg={item.title}
+                                  description={item.title}
+                                  link={item.link}
+                                  isLinkDesc={true}
+                                />
+                                <span className='text-[14px] text-[#ffffff80]'>{item.releaseDateText}</span>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                      {item.sectionId === 'aPlaylist' && item.items && (
+                        <div className='mt-12'>
+                          <h3 className='mb-5 text-[20px] font-bold capitalize text-white'>{item.title}</h3>
+                          <div className='grid grid-cols-5 gap-7'>
+                            {item.items.slice(0, 5).map((item) => (
+                              <div key={item.encodeId} className='flex-1 flex-shrink-0'>
+                                <BoxItem
+                                  id={item.encodeId}
+                                  classNameDesc='line-clamp-1 mt-3 text-white text-[14px] font-bold whitespace-normal'
+                                  srcImg={item.thumbnailM}
+                                  altImg={item.title}
+                                  description={item.title}
+                                  link={item.link}
+                                  isLinkDesc={true}
+                                />
+                                <ArtistText
+                                  artistsData={item.artists}
+                                  className='line-clamp-1 block overflow-hidden break-words text-[14px] font-normal text-[#ffffff80]'
+                                />
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                      {item.sectionId === 'aReArtist' && item.items && (
+                        <div className='mt-12'>
+                          <h3 className='mb-5 text-[20px] font-bold capitalize text-white'>{item.title}</h3>
+                          <div className='grid grid-cols-5 gap-7'>
+                            {item.items.slice(0, 5).map((item) => (
+                              <div key={item.id} className='flex-1 flex-shrink-0'>
+                                <ArtistCard
+                                  key={item.id}
+                                  srcImg={item.thumbnailM}
+                                  altImg={item.name}
+                                  description={item.name}
+                                  artistsData={[item]}
+                                />
+                              </div>
                             ))}
                           </div>
                         </div>
                       )}
                     </div>
-                    {item.sectionId === 'aSingle' && item.items && (
-                      <div className='mt-12'>
-                        <div className='mb-5 flex items-center justify-between'>
-                          <h3 className='text-xl font-bold capitalize text-white'>{item.title}</h3>
-                          {item.items.length > 5 && (
-                            <button
-                              onClick={() => setActiveShow('aSingle')}
-                              className='ml-auto flex items-center gap-[6px] text-xs font-medium uppercase text-[#ffffff80] hover:text-[#c273ed]'
-                            >
-                              TẤT CẢ
-                              <svg
-                                xmlns='http://www.w3.org/2000/svg'
-                                fill='none'
-                                viewBox='0 0 24 24'
-                                strokeWidth={1.5}
-                                stroke='currentColor'
-                                className='h-5 w-5'
-                              >
-                                <path strokeLinecap='round' strokeLinejoin='round' d='M8.25 4.5l7.5 7.5-7.5 7.5' />
-                              </svg>
-                            </button>
-                          )}
-                        </div>
-                        <div className='grid grid-cols-5 gap-7'>
-                          {item.items.slice(0, 5).map((item) => (
-                            <div key={item.encodeId} className='flex-1 flex-shrink-0'>
-                              <BoxItem
-                                classNameDesc='line-clamp-1 mt-3 text-white text-sm font-bold whitespace-normal'
-                                srcImg={item.thumbnailM}
-                                altImg={item.title}
-                                description={item.title}
-                                link={item.link}
-                                isLinkDesc={true}
-                              />
-                              <span className='text-sm text-[#ffffff80]'>{item.releaseDateText}</span>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-                    {item.sectionId === 'aAlbum' && item.items && (
-                      <div className='mt-12'>
-                        <div className='mb-5 flex items-center justify-between'>
-                          <h3 className='text-xl font-bold capitalize text-white'>{item.title}</h3>
-                          {item.items.length > 5 && (
-                            <button
-                              onClick={() => setActiveShow('aAlbum')}
-                              className='ml-auto flex items-center gap-[6px] text-xs font-medium uppercase text-[#ffffff80] hover:text-[#c273ed]'
-                            >
-                              TẤT CẢ
-                              <svg
-                                xmlns='http://www.w3.org/2000/svg'
-                                fill='none'
-                                viewBox='0 0 24 24'
-                                strokeWidth={1.5}
-                                stroke='currentColor'
-                                className='h-5 w-5'
-                              >
-                                <path strokeLinecap='round' strokeLinejoin='round' d='M8.25 4.5l7.5 7.5-7.5 7.5' />
-                              </svg>
-                            </button>
-                          )}
-                        </div>
-                        <div className='grid grid-cols-5 gap-7'>
-                          {item.items.slice(0, 5).map((item) => (
-                            <div key={item.encodeId} className='flex-1 flex-shrink-0'>
-                              <BoxItem
-                                classNameDesc='line-clamp-1 mt-3 text-white text-sm font-bold whitespace-normal'
-                                srcImg={item.thumbnailM}
-                                altImg={item.title}
-                                description={item.title}
-                                link={item.link}
-                                isLinkDesc={true}
-                              />
-                              <span className='text-sm text-[#ffffff80]'>{item.releaseDateText}</span>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-                    {item.sectionId === 'aPlaylist' && item.items && (
-                      <div className='mt-12'>
-                        <h3 className='mb-5 text-xl font-bold capitalize text-white'>{item.title}</h3>
-                        <div className='grid grid-cols-5 gap-7'>
-                          {item.items.slice(0, 5).map((item) => (
-                            <div key={item.encodeId} className='flex-1 flex-shrink-0'>
-                              <BoxItem
-                                classNameDesc='line-clamp-1 mt-3 text-white text-sm font-bold whitespace-normal'
-                                srcImg={item.thumbnailM}
-                                altImg={item.title}
-                                description={item.title}
-                                link={item.link}
-                                isLinkDesc={true}
-                              />
-                              <ArtistText
-                                artistsData={item.artists}
-                                className='line-clamp-1 block overflow-hidden break-words text-sm font-normal text-[#ffffff80]'
-                              />
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-                    {item.sectionId === 'aReArtist' && item.items && (
-                      <div className='mt-12'>
-                        <h3 className='mb-5 text-xl font-bold capitalize text-white'>{item.title}</h3>
-                        <div className='grid grid-cols-5 gap-7'>
-                          {item.items.slice(0, 5).map((item) => (
-                            <div key={item.id} className='flex-1 flex-shrink-0'>
-                              <ArtistCard
-                                key={item.id}
-                                srcImg={item.thumbnailM}
-                                altImg={item.name}
-                                description={item.name}
-                                artistsData={[item]}
-                              />
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                ))}
+                  ))}
                 {dataArtist.biography !== '' && (
                   <>
                     <div className='mb-[30px] mt-12'>
-                      <h3 className='mb-5 text-xl font-bold capitalize text-white'>về {dataArtist.name}</h3>
+                      <h3 className='mb-5 text-[20px] font-bold capitalize text-white'>về {dataArtist.name}</h3>
                       <div className='flex gap-[30px]'>
                         <div className='flex-shrink-0'>
                           <figure className='h-full max-h-[315px] w-full max-w-[475px] rounded-lg'>
@@ -291,7 +299,7 @@ const Artist = () => {
                           <div className='mb-12'>
                             <p
                               ref={ref}
-                              className='line-clamp-[7] text-sm text-[#ffffff80]'
+                              className='line-clamp-[7] text-[14px] text-[#ffffff80]'
                               dangerouslySetInnerHTML={{
                                 __html: DOMPurify.sanitize(dataArtist.biography)
                               }}
@@ -299,17 +307,17 @@ const Artist = () => {
                             {clamps && (
                               <button
                                 onClick={() => setActive(true)}
-                                className='text-xs font-bold uppercase text-white'
+                                className='text-[12px] font-bold uppercase text-white'
                               >
                                 Xem thêm
                               </button>
                             )}
-                            {/* <button onClick={() => setActive(true)} className='text-xs font-bold uppercase text-white'>
+                            {/* <button onClick={() => setActive(true)} className='text-[12px] font-bold uppercase text-white'>
                               Xem thêm
                             </button> */}
                           </div>
                           <div className='flex flex-col'>
-                            <strong className='mb-1 text-xl font-bold leading-none text-white'>
+                            <strong className='mb-1 text-[20px] font-bold leading-none text-white'>
                               {formatPriceNumber(dataArtist.follow)}
                             </strong>
                             <span className='leading-none text-[#ffffff80]'>Người quan tâm</span>
@@ -352,9 +360,11 @@ const Artist = () => {
                                 className='h-full w-full rounded-full object-cover'
                               />
                             </figure>
-                            <h3 className='text-center text-2xl font-bold uppercase text-white'>{dataArtist.name}</h3>
+                            <h3 className='text-center text-[24px] font-bold uppercase text-white'>
+                              {dataArtist.name}
+                            </h3>
                             <p
-                              className='mt-6 max-h-[218px] overflow-y-auto text-sm text-[#ffffff80]'
+                              className='mt-6 max-h-[218px] overflow-y-auto text-[14px] text-[#ffffff80]'
                               dangerouslySetInnerHTML={{
                                 __html: DOMPurify.sanitize(dataArtist.biography)
                               }}
@@ -393,22 +403,23 @@ const Artist = () => {
                             />
                           </svg>
                         </button>
-                        <h3 className='text-xl font-bold capitalize text-white'>
+                        <h3 className='text-[20px] font-bold capitalize text-white'>
                           {item.title} - {dataArtist.name}
                         </h3>
                       </div>
                       <div>
-                        {item.items.map((item) => (
+                        {item.items.map((itemMap) => (
                           <CardItem
-                            key={item.encodeId}
-                            dataItem={item}
+                            key={itemMap.encodeId}
+                            dataItem={itemMap}
                             classNameFigure='relative cursor-pointer w-[40px] h-[40px] object-cover rounded overflow-hidden flex-shrink-0'
                             className='group relative flex items-center gap-x-[10px] overflow-hidden rounded border-b border-[#ffffff0d] p-[10px] hover:bg-[#ffffff1a]'
                             isDate={false}
                             hideLike={false}
                             hideLyric={false}
-                            hideMv={true}
                             hideAlbum={true}
+                            dataPlaylist={item.items}
+                            playlistId={''}
                           />
                         ))}
                       </div>
@@ -442,7 +453,7 @@ const Artist = () => {
                             />
                           </svg>
                         </button>
-                        <h3 className='text-xl font-bold capitalize text-white'>
+                        <h3 className='text-[20px] font-bold capitalize text-white'>
                           {item.title} - {dataArtist.name}
                         </h3>
                       </div>
@@ -450,14 +461,15 @@ const Artist = () => {
                         {item.items.map((item) => (
                           <div key={item.encodeId} className='flex-1 flex-shrink-0'>
                             <BoxItem
-                              classNameDesc='line-clamp-1 mt-3 text-white text-sm font-bold whitespace-normal'
+                              id={item.encodeId}
+                              classNameDesc='line-clamp-1 mt-3 text-white text-[14px] font-bold whitespace-normal'
                               srcImg={item.thumbnailM}
                               altImg={item.title}
                               description={item.title}
                               link={item.link}
                               isLinkDesc={true}
                             />
-                            <span className='text-sm text-[#ffffff80]'>{item.releaseDateText}</span>
+                            <span className='text-[14px] text-[#ffffff80]'>{item.releaseDateText}</span>
                           </div>
                         ))}
                       </div>
@@ -491,7 +503,7 @@ const Artist = () => {
                             />
                           </svg>
                         </button>
-                        <h3 className='text-xl font-bold capitalize text-white'>
+                        <h3 className='text-[20px] font-bold capitalize text-white'>
                           {item.title} - {dataArtist.name}
                         </h3>
                       </div>
@@ -499,14 +511,15 @@ const Artist = () => {
                         {item.items.map((item) => (
                           <div key={item.encodeId} className='flex-1 flex-shrink-0'>
                             <BoxItem
-                              classNameDesc='line-clamp-1 mt-3 text-white text-sm font-bold whitespace-normal'
+                              id={item.encodeId}
+                              classNameDesc='line-clamp-1 mt-3 text-white text-[14px] font-bold whitespace-normal'
                               srcImg={item.thumbnailM}
                               altImg={item.title}
                               description={item.title}
                               link={item.link}
                               isLinkDesc={true}
                             />
-                            <span className='text-sm text-[#ffffff80]'>{item.releaseDateText}</span>
+                            <span className='text-[14px] text-[#ffffff80]'>{item.releaseDateText}</span>
                           </div>
                         ))}
                       </div>

@@ -23,7 +23,7 @@ export type artist = {
 }
 
 export type sectionsArtist = {
-  items: Array<ItemSections>
+  items: ItemSections[]
   sectionId: string
   sectionType: string
   title: string

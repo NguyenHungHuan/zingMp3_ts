@@ -1,4 +1,5 @@
 import moment from 'moment'
+import { useMemo } from 'react'
 import { useQuery } from 'react-query'
 import { useParams } from 'react-router-dom'
 import zingmp3Api from '~/apis/zingmp3Api'
@@ -18,16 +19,16 @@ const Playlist = () => {
     staleTime: 3 * 60 * 1000,
     enabled: id !== ''
   })
-
-  const dataAlbum = data?.data.data
+  const dataAlbum = useMemo(() => data?.data.data, [data])
 
   return (
     <>
       {dataAlbum && dataAlbum.isSingle === false && (
-        <main className='mx-[-2px] px-[59px] py-10'>
+        <main className='mx-[-2px] py-10'>
           <div className='flex gap-[30px]'>
             <div key={dataAlbum.encodeId} className='sticky top-[110px] h-[540px] w-[300px] flex-shrink-0'>
               <BoxItem
+                id={dataAlbum.encodeId}
                 classNameDesc='mt-3 mb-[2px] text-white text-[20px] font-bold whitespace-normal text-center'
                 srcImg={dataAlbum.thumbnailM}
                 altImg={dataAlbum.title}
@@ -37,13 +38,13 @@ const Playlist = () => {
                 isLinkDesc={false}
                 isLink={false}
               />
-              <div className='flex flex-col items-center justify-center gap-1 text-center text-xs text-[#ffffff80]'>
+              <div className='flex flex-col items-center justify-center gap-1 text-center text-[12px] text-[#ffffff80]'>
                 <span>{`Cập nhật: ${moment(dataAlbum.contentLastUpdate * 1000).format('L')}`}</span>
                 <Artist artistsData={dataAlbum.artists} />
                 <span>{`${formatNumberSocial(dataAlbum.like)} người yêu thích`}</span>
               </div>
               <div className='mt-4 flex flex-col items-center justify-center text-white'>
-                <button className='flex items-center gap-2 rounded-full bg-[#9b4de0] px-5 py-2 text-sm uppercase'>
+                <button className='flex items-center gap-2 rounded-full bg-[#9b4de0] px-5 py-2 text-[14px] uppercase'>
                   <svg
                     xmlns='http://www.w3.org/2000/svg'
                     fill='white'
@@ -64,11 +65,11 @@ const Playlist = () => {
             </div>
             <div className='flex-1'>
               {dataAlbum.description && (
-                <p className='mb-[10px] text-sm text-[#ffffff80]'>
+                <p className='mb-[10px] text-[14px] text-[#ffffff80]'>
                   Lời tựa <strong className='font-normal text-white'>{dataAlbum.description}</strong>
                 </p>
               )}
-              <div className='flex w-full flex-shrink-0 items-center gap-4 border-b border-[#ffffff0d] py-3 pl-2 pr-3 text-xs font-semibold uppercase text-[#ffffff80]'>
+              <div className='flex w-full flex-shrink-0 items-center gap-4 border-b border-[#ffffff0d] py-3 pl-2 pr-3 text-[12px] font-semibold uppercase text-[#ffffff80]'>
                 <span className='flex-1'>Bài hát</span>
                 <div className='flex flex-1 items-center justify-between'>
                   <span>Album</span>
@@ -84,7 +85,8 @@ const Playlist = () => {
                   isDate={false}
                   hideLike={false}
                   hideLyric={false}
-                  hideMv={false}
+                  dataPlaylist={dataAlbum.song.items}
+                  playlistId={dataAlbum.encodeId}
                 />
               ))}
               <p className='mt-3 flex items-center gap-2 pl-2 text-[13px] font-semibold text-[#ffffff80]'>
@@ -97,7 +99,7 @@ const Playlist = () => {
           </div>
           {dataAlbum.artists && (
             <div className='mt-[48px]'>
-              <h3 className='mb-5 text-xl font-bold text-white'>Nghệ Sĩ Tham Gia</h3>
+              <h3 className='mb-5 text-[20px] font-bold text-white'>Nghệ Sĩ Tham Gia</h3>
               <div className='grid grid-cols-5 gap-[28px]'>
                 {dataAlbum.artists.map((item) => (
                   <ArtistCard
@@ -114,10 +116,11 @@ const Playlist = () => {
         </main>
       )}
       {dataAlbum && dataAlbum.isSingle === true && (
-        <main className='mx-[-2px] px-[59px] py-10'>
+        <main className='mx-[-2px] py-10'>
           <div className='flex gap-[30px]'>
             <div key={dataAlbum.encodeId} className='sticky top-[110px] h-[540px] w-[300px] flex-shrink-0'>
               <BoxItem
+                id={dataAlbum.encodeId}
                 classNameDesc='mt-3 mb-[2px] text-white text-[20px] font-bold whitespace-normal text-center'
                 srcImg={dataAlbum.thumbnailM}
                 altImg={dataAlbum.title}
@@ -127,13 +130,13 @@ const Playlist = () => {
                 isLinkDesc={false}
                 isLink={false}
               />
-              <div className='flex flex-col items-center justify-center gap-1 text-center text-xs text-[#ffffff80]'>
+              <div className='flex flex-col items-center justify-center gap-1 text-center text-[12px] text-[#ffffff80]'>
                 <span>{`Cập nhật: ${moment(dataAlbum.contentLastUpdate * 1000).format('L')}`}</span>
                 <Artist artistsData={dataAlbum.artists} />
                 <span>{`${formatNumberSocial(dataAlbum.like)} người yêu thích`}</span>
               </div>
               <div className='mt-4 flex flex-col items-center justify-center text-white'>
-                <button className='flex items-center gap-2 rounded-full bg-[#9b4de0] px-5 py-2 text-sm uppercase'>
+                <button className='flex items-center gap-2 rounded-full bg-[#9b4de0] px-5 py-2 text-[14px] uppercase'>
                   <svg
                     xmlns='http://www.w3.org/2000/svg'
                     fill='white'
@@ -154,11 +157,11 @@ const Playlist = () => {
             </div>
             <div className='flex-1'>
               {dataAlbum.description && (
-                <p className='mb-[10px] text-sm text-[#ffffff80]'>
+                <p className='mb-[10px] text-[14px] text-[#ffffff80]'>
                   Lời tựa <strong className='font-normal text-white'>{dataAlbum.description}</strong>
                 </p>
               )}
-              <div className='flex w-full items-center justify-between gap-4 border-b border-[#ffffff0d] py-3 pl-2 pr-3 text-xs font-semibold uppercase text-[#ffffff80]'>
+              <div className='flex w-full items-center justify-between gap-4 border-b border-[#ffffff0d] py-3 pl-2 pr-3 text-[12px] font-semibold uppercase text-[#ffffff80]'>
                 <span>Bài hát</span>
                 <span>Thời gian</span>
               </div>
@@ -171,11 +174,12 @@ const Playlist = () => {
                   isDate={false}
                   hideLike={false}
                   hideLyric={false}
-                  hideMv={false}
                   hideAlbum
+                  dataPlaylist={dataAlbum.song.items}
+                  playlistId={dataAlbum.encodeId}
                 />
               ))}
-              <h3 className='mb-2 mt-5 text-sm font-bold text-white'>Thông tin</h3>
+              <h3 className='mb-2 mt-5 text-[14px] font-bold text-white'>Thông tin</h3>
               <div className='flex items-center gap-4'>
                 <div className='flex flex-col gap-2 text-[13px] text-[#ffffff80]'>
                   <span>Số bài hát</span>
@@ -188,9 +192,11 @@ const Playlist = () => {
                   <span>{dataAlbum.distributor}</span>
                 </div>
               </div>
-              {dataAlbum.sections && (
+              {dataAlbum.sections && dataAlbum.sections[0] && dataAlbum.sections[0].items && (
                 <div className='mt-[48px]'>
-                  <h3 className='mb-5 text-xl font-bold text-white'>{dataAlbum.sections[0].title}</h3>
+                  {dataAlbum.sections[0].title && (
+                    <h3 className='mb-5 text-[20px] font-bold text-white'>{dataAlbum.sections[0].title}</h3>
+                  )}
                   {dataAlbum.sections[0].items.map((item) => (
                     <CardItem
                       key={item.encodeId}
@@ -200,7 +206,8 @@ const Playlist = () => {
                       isDate={false}
                       hideLike={false}
                       hideLyric={false}
-                      hideMv={false}
+                      dataPlaylist={dataAlbum.sections[0].items}
+                      playlistId={dataAlbum.encodeId}
                     />
                   ))}
                 </div>
@@ -209,7 +216,7 @@ const Playlist = () => {
           </div>
           {dataAlbum.artists && (
             <div className='mt-[48px]'>
-              <h3 className='mb-5 text-xl font-bold text-white'>Nghệ Sĩ Tham Gia</h3>
+              <h3 className='mb-5 text-[20px] font-bold text-white'>Nghệ Sĩ Tham Gia</h3>
               <div className='grid grid-cols-5 gap-[28px]'>
                 {dataAlbum.artists.map((item) => (
                   <ArtistCard

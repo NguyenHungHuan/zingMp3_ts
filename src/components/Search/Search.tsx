@@ -175,7 +175,7 @@ const Search = () => {
           onKeyUp={(e) => handleKeyUp(e)}
           className={`w-full ${
             !open ? 'bg-[#2f2739]' : 'bg-[#34224f]'
-          } py-[5px] text-sm text-[#d8d7d8] placeholder-[#d8d7d8] caret-white outline-none`}
+          } py-[5px] text-[14px] text-[#d8d7d8] placeholder-[#d8d7d8] caret-white outline-none`}
           type='text'
           placeholder='Tìm kiếm bài hát, nghệ sĩ, lời bài hát...'
         />
@@ -196,7 +196,7 @@ const Search = () => {
       </form>
       {open && valueForm === '' && (
         <ul className='absolute left-0 right-0 top-10 z-10 w-[440px] rounded-b-[20px] bg-[#34224f] px-[10px] py-[13px]'>
-          <li className='px-[10px] pb-2 text-sm font-bold text-white'>Đề xuất cho bạn</li>
+          <li className='px-[10px] pb-2 text-[14px] font-bold text-white'>Đề xuất cho bạn</li>
           {dataRecommendKeyword &&
             dataRecommendKeyword.map((item, index) => (
               <li
@@ -221,14 +221,14 @@ const Search = () => {
                     d='M2.25 18 9 11.25l4.306 4.306a11.95 11.95 0 0 1 5.814-5.518l2.74-1.22m0 0-5.94-2.281m5.94 2.28-2.28 5.941'
                   />
                 </svg>
-                <span className='text-sm text-white'>{item.keyword}</span>
+                <span className='text-[14px] text-white'>{item.keyword}</span>
               </li>
             ))}
         </ul>
       )}
       {open && valueForm !== '' && (
         <ul className='absolute left-0 right-0 top-10 z-10 w-[440px] rounded-b-[20px] bg-[#34224f] px-[10px] py-[13px]'>
-          <li className='px-[10px] pb-2 text-sm font-bold text-white'>Từ khóa liên quan</li>
+          <li className='px-[10px] pb-2 text-[14px] font-bold text-white'>Từ khóa liên quan</li>
           {dataSuggestKeyword && (
             <>
               {dataSuggestKeyword.map((item, index) => (
@@ -253,7 +253,7 @@ const Search = () => {
                       d='M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z'
                     />
                   </svg>
-                  <span className='text-sm text-white'>{item.keyword}</span>
+                  <span className='text-[14px] text-white'>{item.keyword}</span>
                 </li>
               ))}
               <li
@@ -276,7 +276,7 @@ const Search = () => {
                     d='M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z'
                   />
                 </svg>
-                <span className='text-sm text-white'>{`Tìm kiếm "${valueForm}"`}</span>
+                <span className='text-[14px] text-white'>{`Tìm kiếm "${valueForm}"`}</span>
               </li>
             </>
           )}

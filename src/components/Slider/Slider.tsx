@@ -67,7 +67,7 @@ const Slider = ({ dataBanner }: Props) => {
         >
           <div className='w-[330px] rounded-lg bg-[#34224f] p-5' aria-hidden onClick={(e) => e.stopPropagation()}>
             <div className='relative flex flex-col items-center justify-center'>
-              <h3 className='mb-5 text-center text-sm font-bold text-white'>
+              <h3 className='mb-5 text-center text-[14px] font-bold text-white'>
                 Bạn có muốn phát bài hát này? Danh sách phát hiện tại sẽ bị thay thế.
               </h3>
               <figure className='h-[180px] w-[180px] cursor-pointer overflow-hidden rounded-[5px]'>
@@ -77,10 +77,10 @@ const Slider = ({ dataBanner }: Props) => {
                   className='h-full w-full object-cover transition-all duration-500 hover:scale-110'
                 />
               </figure>
-              <h3 className='mt-1 text-sm font-medium text-white'>{dataInfoSong?.title}</h3>
-              <span className='text-xs text-[#ffffffa1]'>{dataInfoSong.artists[0].name}</span>
+              <h3 className='mt-1 text-[14px] font-medium text-white'>{dataInfoSong?.title}</h3>
+              <span className='text-[12px] text-[#ffffffa1]'>{dataInfoSong.artists[0].name}</span>
               <div className='mt-[30px] flex w-full flex-col gap-[10px]'>
-                <button className='flex items-center justify-center gap-2 rounded-full bg-[#9b4de0] px-6 py-[9px] text-sm uppercase text-white hover:opacity-90'>
+                <button className='flex items-center justify-center gap-2 rounded-full bg-[#9b4de0] px-6 py-[9px] text-[14px] uppercase text-white hover:opacity-90'>
                   <svg
                     xmlns='http://www.w3.org/2000/svg'
                     fill='white'
@@ -97,10 +97,10 @@ const Slider = ({ dataBanner }: Props) => {
                   </svg>
                   phát bài hát
                 </button>
-                <button className='rounded-full bg-[#ffffff26] px-6 py-[9px] text-sm uppercase text-white hover:opacity-90'>
+                <button className='rounded-full bg-[#ffffff26] px-6 py-[9px] text-[14px] uppercase text-white hover:opacity-90'>
                   thêm vào danh sách phát
                 </button>
-                <button className='rounded-full px-6 py-[9px] text-sm uppercase text-white hover:opacity-90'>
+                <button className='rounded-full px-6 py-[9px] text-[14px] uppercase text-white hover:opacity-90'>
                   bỏ qua
                 </button>
               </div>
