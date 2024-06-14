@@ -17,7 +17,7 @@ export default function AsideLeft() {
         </Link>
       </div>
       <nav className='mb-4'>
-        <ul className='text-sm font-medium'>
+        <ul className='text-[14px] font-medium'>
           <li
             className={classNames('border-l-[3px]', {
               'border-l-[#9b4de0]': pathname === PATH.base,
@@ -104,7 +104,7 @@ export default function AsideLeft() {
       </nav>
       <div className='mx-[21px] h-[1px] break-words bg-[#ffffff1a] text-[#ffffff1a]' />
       <nav className='my-4'>
-        <ul className='text-sm font-medium'>
+        <ul className='text-[14px] font-medium'>
           <li
             className={classNames('border-l-[3px]', {
               'border-l-[#9b4de0]': pathname === PATH.newReleased,
