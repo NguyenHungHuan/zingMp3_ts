@@ -144,7 +144,6 @@ const ZingWeek = () => {
               isDate={false}
               number={index + 1}
               hideLike={false}
-              hideLyric={false}
               hideAlbum={false}
               dataPlaylist={dataWeekChart.items}
               playlistId={''}

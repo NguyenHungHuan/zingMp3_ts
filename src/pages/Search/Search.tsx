@@ -153,7 +153,6 @@ const Search = () => {
                       className='group relative flex flex-1 items-center gap-x-[10px] overflow-hidden rounded bg-[#feffff0d] p-[10px] hover:bg-[#ffffff1a]'
                       isDate={false}
                       hideLike={false}
-                      hideLyric={true}
                       hideAlbum={true}
                       hideTime={true}
                       stringType='Bài hát'
@@ -182,7 +181,6 @@ const Search = () => {
                       className='group relative flex flex-1 items-center gap-x-[10px] overflow-hidden rounded bg-[#feffff0d] p-[10px] hover:bg-[#ffffff1a]'
                       isDate={false}
                       hideLike={false}
-                      hideLyric={true}
                       hideAlbum={true}
                       hideTime={true}
                       stringType='Playlist'
@@ -262,7 +260,6 @@ const Search = () => {
                       className='group relative flex items-center gap-x-[10px] overflow-hidden rounded border-b border-[#ffffff0d] p-[10px] hover:bg-[#ffffff1a]'
                       isDate={false}
                       hideLike={false}
-                      hideLyric={false}
                       hideAlbum={true}
                       dataPlaylist={dataResult.songs.slice(0, 6)}
                       playlistId={''}
@@ -405,7 +402,6 @@ const Search = () => {
                           className='group relative flex items-center gap-x-[10px] overflow-hidden rounded border-b border-[#ffffff0d] p-[10px] hover:bg-[#ffffff1a]'
                           isDate={false}
                           hideLike={false}
-                          hideLyric={false}
                           hideAlbum={true}
                           dataPlaylist={itemMap}
                           playlistId={''}

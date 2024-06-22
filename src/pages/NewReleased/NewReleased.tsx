@@ -63,7 +63,6 @@ export default function NewReleased() {
               isDate={false}
               number={index + 1}
               hideLike={false}
-              hideLyric={false}
               hideAlbum={false}
               dataPlaylist={dataNewRealeaseSongs.items}
               playlistId={''}

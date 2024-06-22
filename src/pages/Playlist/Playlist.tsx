@@ -84,7 +84,6 @@ const Playlist = () => {
                   className='group relative flex items-center gap-x-[10px] overflow-hidden rounded border-b border-[#ffffff0d] p-[10px] hover:bg-[#ffffff1a]'
                   isDate={false}
                   hideLike={false}
-                  hideLyric={false}
                   dataPlaylist={dataAlbum.song.items}
                   playlistId={dataAlbum.encodeId}
                 />
@@ -173,7 +172,6 @@ const Playlist = () => {
                   className='group relative flex items-center gap-x-[10px] overflow-hidden rounded border-b border-[#ffffff0d] p-[10px] hover:bg-[#ffffff1a]'
                   isDate={false}
                   hideLike={false}
-                  hideLyric={false}
                   hideAlbum
                   dataPlaylist={dataAlbum.song.items}
                   playlistId={dataAlbum.encodeId}
@@ -205,7 +203,6 @@ const Playlist = () => {
                       className='group relative flex items-center gap-x-[10px] overflow-hidden rounded border-b border-[#ffffff0d] p-[10px] hover:bg-[#ffffff1a]'
                       isDate={false}
                       hideLike={false}
-                      hideLyric={false}
                       dataPlaylist={dataAlbum.sections[0].items}
                       playlistId={dataAlbum.encodeId}
                     />

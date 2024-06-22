@@ -145,7 +145,6 @@ const Artist = () => {
                                   className='group relative flex items-center gap-x-[10px] overflow-hidden rounded border-b border-[#ffffff0d] p-[10px] hover:bg-[#ffffff1a]'
                                   isDate={false}
                                   hideLike={false}
-                                  hideLyric={false}
                                   hideAlbum={true}
                                   dataPlaylist={item.items.slice(0, 6)}
                                   playlistId={''}
@@ -416,7 +415,6 @@ const Artist = () => {
                             className='group relative flex items-center gap-x-[10px] overflow-hidden rounded border-b border-[#ffffff0d] p-[10px] hover:bg-[#ffffff1a]'
                             isDate={false}
                             hideLike={false}
-                            hideLyric={false}
                             hideAlbum={true}
                             dataPlaylist={item.items}
                             playlistId={''}

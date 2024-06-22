@@ -50,7 +50,6 @@ export default function ZingChart() {
               isDate={false}
               number={index + 1}
               hideLike={false}
-              hideLyric={false}
               dataPlaylist={dataChartHome.RTChart.items.slice(range[0], range[1])}
               playlistId={''}
             />
@@ -107,7 +106,6 @@ export default function ZingChart() {
                       isDate={false}
                       number={index + 1}
                       hideLike
-                      hideLyric={false}
                       hideAlbum
                       textWide={false}
                       dataPlaylist={dataChartHome.weekChart.vn.items.slice(0, 5)}
@@ -158,7 +156,6 @@ export default function ZingChart() {
                       isDate={false}
                       number={index + 1}
                       hideLike
-                      hideLyric={false}
                       hideAlbum
                       textWide={false}
                       dataPlaylist={dataChartHome.weekChart.us.items.slice(0, 5)}
@@ -209,7 +206,6 @@ export default function ZingChart() {
                       isDate={false}
                       number={index + 1}
                       hideLike
-                      hideLyric={false}
                       hideAlbum
                       textWide={false}
                       dataPlaylist={dataChartHome.weekChart.korea.items.slice(0, 5)}
