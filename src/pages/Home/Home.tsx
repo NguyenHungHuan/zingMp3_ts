@@ -28,6 +28,7 @@ export default function Home() {
   const {
     dataBanner,
     dataNewRelease,
+    dataHot,
     dataChill,
     dataEnergy,
     dataRemix,
@@ -141,6 +142,25 @@ export default function Home() {
                     playlistId={''}
                   />
                 </div>
+              ))}
+          </div>
+        </div>
+      )}
+      {dataHot && (
+        <div className='mt-12'>
+          <TitleListBox titleList={dataHot?.title} link={dataHot.link} />
+          <div className='flex items-start gap-7'>
+            {dataHot?.items
+              ?.slice(0, 5)
+              .map((item) => (
+                <BoxItem
+                  key={item.encodeId}
+                  id={item.encodeId}
+                  srcImg={item.thumbnailM}
+                  altImg={item.title}
+                  description={item.sortDescription}
+                  link={item.link}
+                />
               ))}
           </div>
         </div>

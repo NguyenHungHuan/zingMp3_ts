@@ -138,9 +138,6 @@ export default function AsideRight() {
         <>
           {statePlaylist ? (
             <div className='mb-[110px] px-2'>
-              <p className='px-2 pb-3 text-sm text-white/60'>
-                Từ Playlist <Link to={'/playlist'}></Link>
-              </p>
               {statePlaylist.map((item) => (
                 <div
                   aria-hidden

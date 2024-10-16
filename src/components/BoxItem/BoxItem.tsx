@@ -10,6 +10,7 @@ import { AppContext } from '~/contexts/app.context'
 import { useQuery } from 'react-query'
 import zingmp3Api from '~/apis/zingmp3Api'
 import { getIdPlaylistFromLS, getSongFromLS, setIdPlaylistToLS, setPlaylistToLS, setSongToLS } from '~/utils/song'
+import toast from 'react-hot-toast'
 
 interface Props {
   id: string
@@ -29,6 +30,7 @@ interface Props {
   classNameImg?: string
   classNameFigure?: string
   effectActive?: boolean
+  isAlbum?: boolean
 }
 
 export default function BoxItem({
@@ -44,6 +46,7 @@ export default function BoxItem({
   hideDesc = false,
   isLink = true,
   isLinkDesc = false,
+  isAlbum = false,
   className = 'flex-shrink-0 flex-1',
   classNameDesc = 'line-clamp-2 mt-3 text-[#ffffff80] text-[14px] font-normal whitespace-normal',
   classNameImg = 'absolute inset-0 object-contain rounded-[4px] w-full h-full group-hover:scale-110 duration-700 transition ease-in-out',
@@ -58,6 +61,7 @@ export default function BoxItem({
   const { idPlaylist, namePlaylist } = useGenerateLink(link)
   const { statePlaySong, stateIdSong, setStatePlaylist, setStateIdSong, setStatePlaySong, setStateIdPlaylist } =
     useContext(AppContext)
+  const notify = () => toast('Chức năng đang phát triển.')
 
   const { data } = useQuery({
     queryKey: ['playlist', { id: idPlayPlaylist as string }],
@@ -133,6 +137,7 @@ export default function BoxItem({
                 onClick={(e) => {
                   e.preventDefault()
                   e.stopPropagation()
+                  notify()
                 }}
                 className='z-10 flex items-center justify-center rounded-full p-[6px] hover:bg-[#ffffff4d]'
               >
@@ -154,33 +159,65 @@ export default function BoxItem({
             </Tooltip>
           )}
           {buttonSizeSmall ? (
-            <button className='absolute inset-0 flex items-center justify-center'>
-              {stateIdSong === id && statePlaySong ? (
-                <img
-                  className={classNames('h-[18px] w-[18px]', {
-                    visible: effectActive,
-                    'invisible group-hover:visible': !effectActive
-                  })}
-                  src={iconPlaying}
-                  alt='icon playing'
-                />
+            <button
+              onClick={(e) => {
+                handlePlayPlaylist(e)
+              }}
+              className='absolute inset-0 flex items-center justify-center'
+            >
+              {isAlbum ? (
+                <>
+                  {statePlaySong && getIdPlaylistFromLS() === id ? (
+                    <img className='h-[16px] w-[16px]' src={iconPlaying} alt='icon playing' />
+                  ) : (
+                    <svg
+                      fill={'white'}
+                      viewBox='0 0 24 24'
+                      strokeWidth={1}
+                      stroke={'white'}
+                      className={classNames('h-6 w-6 hover:opacity-90', {
+                        visible: effectActive,
+                        'invisible group-hover:visible': !effectActive
+                      })}
+                    >
+                      <path
+                        strokeLinecap='round'
+                        strokeLinejoin='round'
+                        d='M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.348a1.125 1.125 0 010 1.971l-11.54 6.347a1.125 1.125 0 01-1.667-.985V5.653z'
+                      />
+                    </svg>
+                  )}
+                </>
               ) : (
-                <svg
-                  fill={'white'}
-                  viewBox='0 0 24 24'
-                  strokeWidth={1}
-                  stroke={'white'}
-                  className={classNames('h-6 w-6 hover:opacity-90', {
-                    visible: effectActive,
-                    'invisible group-hover:visible': !effectActive
-                  })}
-                >
-                  <path
-                    strokeLinecap='round'
-                    strokeLinejoin='round'
-                    d='M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.348a1.125 1.125 0 010 1.971l-11.54 6.347a1.125 1.125 0 01-1.667-.985V5.653z'
-                  />
-                </svg>
+                <>
+                  {stateIdSong === id && statePlaySong ? (
+                    <img
+                      className={classNames('h-[18px] w-[18px]', {
+                        visible: effectActive,
+                        'invisible group-hover:visible': !effectActive
+                      })}
+                      src={iconPlaying}
+                      alt='icon playing'
+                    />
+                  ) : (
+                    <svg
+                      fill={'white'}
+                      viewBox='0 0 24 24'
+                      strokeWidth={1}
+                      stroke={'white'}
+                      className={classNames('h-6 w-6 hover:opacity-90', {
+                        visible: effectActive,
+                        'invisible group-hover:visible': !effectActive
+                      })}
+                    >
+                      <path
+                        strokeLinecap='round'
+                        strokeLinejoin='round'
+                        d='M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.348a1.125 1.125 0 010 1.971l-11.54 6.347a1.125 1.125 0 01-1.667-.985V5.653z'
+                      />
+                    </svg>
+                  )}
+                </>
               )}
             </button>
           ) : (

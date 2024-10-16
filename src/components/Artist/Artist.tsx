@@ -169,6 +169,7 @@ export default function Artist({
                                 classNameDesc='text-white text-[12px] line-clamp-2 font-medium mb-0 mt-2'
                                 link={item.link}
                                 isLink={false}
+                                isAlbum={true}
                               />
                               <span className='mt-[3px] text-[10px] text-[#ffffff80]'>
                                 {moment(item.releasedAt).format('YYYY')}

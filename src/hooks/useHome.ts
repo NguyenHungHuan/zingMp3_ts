@@ -22,6 +22,10 @@ export default function useHome() {
     () => dataHome?.data.data.items.find((item) => item.sectionId === 'hEditorTheme'),
     [dataHome?.data.data.items]
   )
+  const dataHot: DataPlaylist<Array<ItemSections>> | undefined = useMemo(
+    () => dataHome?.data.data.items.find((item) => item.sectionId === 'hEditorTheme1'),
+    [dataHome?.data.data.items]
+  )
   const dataEnergy: DataPlaylist<Array<ItemSections>> | undefined = useMemo(
     () => dataHome?.data.data.items.find((item) => item.sectionId === 'hEditorTheme2'),
     [dataHome?.data.data.items]
@@ -63,6 +67,7 @@ export default function useHome() {
     dataBanner,
     dataNewRelease,
     dataChill,
+    dataHot,
     dataEnergy,
     dataStatus,
     dataRemix,

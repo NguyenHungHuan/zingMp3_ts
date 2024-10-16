@@ -2,7 +2,7 @@ import classNames from 'classnames'
 import moment from 'moment'
 import 'moment/dist/locale/vi'
 import { Fragment, useContext, useMemo, useState } from 'react'
-import { Toaster } from 'react-hot-toast'
+import toast from 'react-hot-toast'
 import { useQuery } from 'react-query'
 import { Link } from 'react-router-dom'
 import zingmp3Api from '~/apis/zingmp3Api'
@@ -55,6 +55,7 @@ export default function CardItem({
   const [idSong, setIdSong] = useState('')
   const handleClick = () => setIdSong(dataItem.encodeId)
   const { stateIdSong } = useContext(AppContext)
+  const notify = () => toast('Chức năng đang phát triển.')
 
   const { data, isSuccess } = useQuery({
     queryKey: ['infoSong', idSong],
@@ -169,15 +170,6 @@ export default function CardItem({
             hideOption={true}
             isLink={false}
           />
-          <Toaster
-            toastOptions={{
-              style: {
-                padding: '12px 42px',
-                color: '#713200',
-                borderBottom: '4px solid #E5AC1A'
-              }
-            }}
-          />
         </div>
         <div className='flex flex-col gap-[3px] break-words font-medium'>
           {stringType !== '' && <span className='mb-1 text-[12px] text-[#ffffff80]'>{stringType}</span>}
@@ -271,7 +263,10 @@ export default function CardItem({
       )}
       {!hideLike && (
         <Tooltip text='Thêm vào thư viện' className='hidden group-hover:block'>
-          <button className='hidden h-[38px] w-[38px] items-center justify-center rounded-full fill-white hover:bg-[#ffffff1a] group-hover:flex'>
+          <button
+            onClick={() => notify()}
+            className='hidden h-[38px] w-[38px] items-center justify-center rounded-full fill-white hover:bg-[#ffffff1a] group-hover:flex'
+          >
             <svg
               xmlns='http://www.w3.org/2000/svg'
               fill='none'
@@ -495,7 +490,10 @@ export default function CardItem({
                       </div>
                     )}
 
-                    <button className='flex max-w-[80px] flex-1 flex-col items-center gap-1 rounded-lg py-2 text-[10px] text-white hover:bg-[#ffffff1a]'>
+                    <button
+                      onClick={() => notify()}
+                      className='flex max-w-[80px] flex-1 flex-col items-center gap-1 rounded-lg py-2 text-[10px] text-white hover:bg-[#ffffff1a]'
+                    >
                       <svg
                         stroke='currentColor'
                         fill='currentColor'
@@ -513,7 +511,10 @@ export default function CardItem({
                 </ul>
                 <ul className='pl-[1px]'>
                   <li>
-                    <button className='flex w-full items-center gap-[14px] px-[14px] py-2 text-[14px] text-[#dadada] hover:bg-[#ffffff1a]'>
+                    <button
+                      onClick={() => notify()}
+                      className='flex w-full items-center gap-[14px] px-[14px] py-2 text-[14px] text-[#dadada] hover:bg-[#ffffff1a]'
+                    >
                       <svg
                         xmlns='http://www.w3.org/2000/svg'
                         fill='none'
@@ -544,37 +545,6 @@ export default function CardItem({
                         <path d='M22 13h-4v4h-2v-4h-4v-2h4V7h2v4h4v2zm-8-6H2v1h12V7zM2 12h8v-1H2v1zm0 4h8v-1H2v1z' />
                       </svg>
                       <span>Thêm vào danh sách phát</span>
-                    </button>
-                  </li>
-                  <li>
-                    <button className='flex w-full items-center gap-[14px] px-[14px] py-2 text-[14px] text-[#dadada] hover:bg-[#ffffff1a]'>
-                      <svg
-                        className='h-[18px] w-[18px]'
-                        viewBox='0 0 24 24'
-                        focusable='false'
-                        stroke='currentColor'
-                        fill='currentColor'
-                        strokeWidth={1}
-                      >
-                        <path d='M21 16h-7v-1h7v1zm0-5H9v1h12v-1zm0-4H3v1h18V7zm-11 8-7-4v8l7-4z' />
-                      </svg>
-                      <span>Phát tiếp theo</span>
-                    </button>
-                  </li>
-                  <li>
-                    <button className='flex w-full items-center gap-[14px] px-[14px] py-2 text-[14px] text-[#dadada] hover:bg-[#ffffff1a]'>
-                      <svg
-                        stroke='currentColor'
-                        fill='currentColor'
-                        strokeWidth={0}
-                        viewBox='0 0 24 24'
-                        className='h-[18px] w-[18px]'
-                        xmlns='http://www.w3.org/2000/svg'
-                      >
-                        <path fill='none' d='M0 0h24v24H0V0z' />
-                        <path d='M13 7h-2v4H7v2h4v4h2v-4h4v-2h-4V7zm-1-5C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z' />
-                      </svg>
-                      <span>Thêm vào playlist</span>
                     </button>
                   </li>
                   <li>

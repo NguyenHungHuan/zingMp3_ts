@@ -23,6 +23,8 @@ const Player = () => {
   const [currentSecond, setCurrentSecond] = useState<{ [key: string]: number }>({})
   const [audioValue, setAudioValue] = useState<number>(0)
   const [volume, setVolume] = useState<number>(getVolumeFromLS() ? Number(getVolumeFromLS()) : 100)
+  const [stateShuffle, setStateShuffle] = useState<boolean>(false)
+  const [stateRepeat, setStateRepeat] = useState<boolean>(false)
   const {
     stateIdSong,
     setStateIdSong,
@@ -116,24 +118,62 @@ const Player = () => {
     }
   }, [dataInfoSong, setStateHistory, stateHistory, idSong])
 
+  useEffect(() => {
+    if (dataInfoSong) {
+      if (audioEl.current.ended) {
+        if (stateRepeat === true) {
+          audioEl.current.pause()
+          audioEl.current.load()
+          audioEl.current.currentTime = 0
+          audioEl.current.play()
+        } else if (stateRepeat === false && getPlaylistFromLS().length > 1) {
+          handleNextSong()
+        } else {
+          setStatePlaySong(false)
+        }
+      }
+    }
+  }, [currentSecond, dataInfoSong, setStatePlaySong])
+
   const handleTogglePlay = () => {
-    if (statePlaySong) {
-      setStatePlaySong(false)
+    if (getPlaylistFromLS().length === 1) {
+      if (statePlaySong) {
+        setStatePlaySong(false)
+      } else if (dataInfoSong && audioEl.current.ended && statePlaySong === false) {
+        setStatePlaySong(true)
+        audioEl.current.pause()
+        audioEl.current.load()
+        audioEl.current.currentTime = 0
+        audioEl.current.play()
+      } else {
+        setStatePlaySong(true)
+      }
     } else {
-      setStatePlaySong(true)
+      if (statePlaySong) {
+        setStatePlaySong(false)
+      } else {
+        setStatePlaySong(true)
+      }
     }
   }
 
   const handleNextSong = () => {
     const dataPlaylist = getPlaylistFromLS() as Array<ItemSections>
     const indexSong = dataPlaylist.findIndex((item) => item.encodeId === stateIdSong)
-    if (indexSong === dataPlaylist.length - 1) {
-      setStateIdSong(dataPlaylist[0].encodeId)
-      setSongToLS(dataPlaylist[0].encodeId)
-      setStatePlaySong(true)
+    if (stateShuffle === false) {
+      if (indexSong === dataPlaylist.length - 1) {
+        setStateIdSong(dataPlaylist[0].encodeId)
+        setSongToLS(dataPlaylist[0].encodeId)
+        setStatePlaySong(true)
+      } else {
+        setStateIdSong(dataPlaylist[indexSong + 1].encodeId)
+        setSongToLS(dataPlaylist[indexSong + 1].encodeId)
+        setStatePlaySong(true)
+      }
     } else {
-      setStateIdSong(dataPlaylist[indexSong + 1].encodeId)
-      setSongToLS(dataPlaylist[indexSong + 1].encodeId)
+      const randomSong = Math.floor(Math.random() * dataPlaylist.length)
+      setStateIdSong(dataPlaylist[randomSong].encodeId)
+      setSongToLS(dataPlaylist[randomSong].encodeId)
       setStatePlaySong(true)
     }
   }
@@ -141,15 +181,30 @@ const Player = () => {
   const handlePreviousSong = () => {
     const dataPlaylist = getPlaylistFromLS() as Array<ItemSections>
     const indexSong = dataPlaylist.findIndex((item) => item.encodeId === stateIdSong)
-    if (indexSong === 0) {
-      setStateIdSong(dataPlaylist[dataPlaylist.length - 1].encodeId)
-      setSongToLS(dataPlaylist[dataPlaylist.length - 1].encodeId)
-      setStatePlaySong(true)
+    if (stateShuffle === false) {
+      if (indexSong === 0) {
+        setStateIdSong(dataPlaylist[dataPlaylist.length - 1].encodeId)
+        setSongToLS(dataPlaylist[dataPlaylist.length - 1].encodeId)
+        setStatePlaySong(true)
+      } else {
+        setStateIdSong(dataPlaylist[indexSong - 1].encodeId)
+        setSongToLS(dataPlaylist[indexSong - 1].encodeId)
+        setStatePlaySong(true)
+      }
     } else {
-      setStateIdSong(dataPlaylist[indexSong - 1].encodeId)
-      setSongToLS(dataPlaylist[indexSong - 1].encodeId)
+      const randomSong = Math.floor(Math.random() * dataPlaylist.length)
+      setStateIdSong(dataPlaylist[randomSong].encodeId)
+      setSongToLS(dataPlaylist[randomSong].encodeId)
       setStatePlaySong(true)
     }
+  }
+
+  const handleShuffleSong = () => {
+    setStateShuffle(!stateShuffle)
+  }
+
+  const handleRepeatSong = () => {
+    setStateRepeat(!stateRepeat)
   }
 
   return (
@@ -167,13 +222,13 @@ const Player = () => {
         <div className='col-span-3 flex h-full flex-1 flex-col items-center justify-center gap-2'>
           <div className='flex items-center gap-5'>
             <Tooltip text='Bật phát ngẫu nhiên'>
-              <button className='rounded-full p-1 hover:bg-[#ffffff1a]'>
+              <button onClick={handleShuffleSong} className='rounded-full p-1 hover:bg-[#ffffff1a]'>
                 <svg
                   stroke='currentColor'
                   fill='currentColor'
                   strokeWidth={0}
                   viewBox='0 0 256 256'
-                  className='h-[22px] w-[22px] fill-white'
+                  className={`h-[22px] w-[22px] ${stateShuffle ? 'fill-[#c273ed]' : 'fill-white'}`}
                 >
                   <path d='M237.66,178.34a8,8,0,0,1,0,11.32l-24,24A8,8,0,0,1,200,208V192a72.15,72.15,0,0,1-57.65-30.14l-41.72-58.4A56.1,56.1,0,0,0,55.06,80H32a8,8,0,0,1,0-16H55.06a72.12,72.12,0,0,1,58.59,30.15l41.72,58.4A56.08,56.08,0,0,0,200,176V160a8,8,0,0,1,13.66-5.66ZM143,107a8,8,0,0,0,11.16-1.86l1.2-1.67A56.08,56.08,0,0,1,200,80V96a8,8,0,0,0,13.66,5.66l24-24a8,8,0,0,0,0-11.32l-24-24A8,8,0,0,0,200,48V64a72.15,72.15,0,0,0-57.65,30.14l-1.2,1.67A8,8,0,0,0,143,107Zm-30,42a8,8,0,0,0-11.16,1.86l-1.2,1.67A56.1,56.1,0,0,1,55.06,176H32a8,8,0,0,0,0,16H55.06a72.12,72.12,0,0,0,58.59-30.15l1.2-1.67A8,8,0,0,0,113,149Z' />
                 </svg>
@@ -225,8 +280,14 @@ const Player = () => {
               </svg>
             </button>
             <Tooltip text='Bật phát lại tất cả'>
-              <button className='rounded-full p-1 hover:bg-[#ffffff1a]'>
-                <svg strokeWidth={0.5} viewBox='0 0 24 24' className='h-[22px] w-[22px] fill-white stroke-white'>
+              <button onClick={handleRepeatSong} className='rounded-full p-1 hover:bg-[#ffffff1a]'>
+                <svg
+                  strokeWidth={0.5}
+                  viewBox='0 0 24 24'
+                  className={`h-[22px] w-[22px] ${
+                    stateRepeat ? 'fill-[#c273ed] stroke-[#c273ed]' : 'fill-white stroke-white'
+                  }`}
+                >
                   <g id='Repeat'>
                     <path d='M2.078,17.562c-0.01,-0.039 -0.016,-0.08 -0.016,-0.123c0,-0.138 0.056,-0.263 0.147,-0.353c0.008,-0.009 1.416,-1.417 2,-2c0.198,-0.198 0.507,-0.183 0.707,-0c0.199,0.183 0.185,0.522 -0,0.707l-1.147,1.146l15.669,0c0.828,0 1.5,-0.671 1.5,-1.5l0,-3.439c0,-0.276 0.224,-0.5 0.5,-0.5c0.276,0 0.5,0.224 0.5,0.5l0,3.439c0,1.381 -1.12,2.5 -2.5,2.5l-15.669,0l1.147,1.147c0.198,0.198 0.183,0.507 -0,0.707c-0.183,0.199 -0.522,0.185 -0.707,-0l-2,-2c-0.066,-0.063 -0.11,-0.143 -0.131,-0.231Zm19.845,-11.105c0.01,0.039 0.015,0.08 0.015,0.122c0,0.138 -0.056,0.263 -0.147,0.354c-0.008,0.008 -1.416,1.417 -2,2c-0.197,0.198 -0.507,0.183 -0.707,-0c-0.199,-0.183 -0.185,-0.522 0,-0.707l1.147,-1.147l-15.669,0c-0.828,0 -1.5,0.672 -1.5,1.5l0,3.439c-0,0.276 -0.224,0.5 -0.5,0.5c-0.276,0 -0.5,-0.224 -0.5,-0.5l0,-3.439c0,-1.381 1.12,-2.5 2.5,-2.5l15.669,0l-1.146,-1.146c-0.198,-0.198 -0.183,-0.507 -0,-0.707c0.183,-0.199 0.522,-0.185 0.707,-0l2,2c0.065,0.063 0.11,0.143 0.131,0.231Z' />
                   </g>

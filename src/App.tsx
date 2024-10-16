@@ -10,6 +10,7 @@ import Playlist from './pages/Playlist'
 import Artist from './pages/Artist'
 import ZingWeek from './pages/ZingWeek'
 import Search from './pages/Search'
+import { Toaster } from 'react-hot-toast'
 
 function App() {
   return (
@@ -28,6 +29,15 @@ function App() {
           <Route path={`${PATH.search}/${PATH.type}`} element={<Search />} />
         </Route>
       </Routes>
+      <Toaster
+        toastOptions={{
+          style: {
+            padding: '12px 42px',
+            color: '#713200',
+            borderBottom: '4px solid #E5AC1A'
+          }
+        }}
+      />
     </>
   )
 }
