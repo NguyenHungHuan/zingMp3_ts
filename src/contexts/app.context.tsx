@@ -1,6 +1,12 @@
 import React, { createContext, useState } from 'react'
 import { ItemSections } from '~/types/home'
-import { getHistoryFromLS, getIdPlaylistFromLS, getPlaylistFromLS, getSongFromLS, getStateAsideRightFromLS } from '~/utils/song'
+import {
+  getHistoryFromLS,
+  getIdPlaylistFromLS,
+  getPlaylistFromLS,
+  getSongFromLS,
+  getStateAsideRightFromLS
+} from '~/utils/song'
 
 interface appContextInterface {
   stateIdSong: string

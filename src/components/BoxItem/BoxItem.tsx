@@ -12,7 +12,6 @@ import zingmp3Api from '~/apis/zingmp3Api'
 import { getIdPlaylistFromLS, getSongFromLS, setIdPlaylistToLS, setPlaylistToLS, setSongToLS } from '~/utils/song'
 import toast from 'react-hot-toast'
 import useCopyLink from '~/hooks/useCopyLink'
-import { ItemSections } from '~/types/home'
 
 interface Props {
   id: string
@@ -61,7 +60,8 @@ export default function BoxItem({
   const [active, setActive] = useState(false)
   const [idPlayPlaylist, setIdPlaylist] = useState('')
   const { idPlaylist, namePlaylist } = useGenerateLink(link)
-  const { statePlaySong, stateIdSong, setStatePlaylist, setStateIdSong, setStatePlaySong, setStateIdPlaylist } = useContext(AppContext)
+  const { statePlaySong, stateIdSong, setStatePlaylist, setStateIdSong, setStatePlaySong, setStateIdPlaylist } =
+    useContext(AppContext)
   const notify = () => toast('Chức năng đang phát triển.')
   const { copyToClipboard } = useCopyLink()
 

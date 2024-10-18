@@ -50,14 +50,15 @@ const Search = () => {
     e.preventDefault()
     searchInput.current && searchInput.current.blur()
     if (valueForm) {
-      navigate({
-        pathname: `${PATH.search}/all`,
-        search: createSearchParams({
-          q: valueForm.trim()
-        }).toString()
-      }, {
-        
-      })
+      navigate(
+        {
+          pathname: `${PATH.search}/all`,
+          search: createSearchParams({
+            q: valueForm.trim()
+          }).toString()
+        },
+        {}
+      )
     }
   }
 

@@ -1,13 +1,7 @@
 import classNames from 'classnames'
 import moment from 'moment'
 import 'moment/dist/locale/vi'
-import {
-  // useContext,
-  useEffect,
-  useMemo,
-  useRef,
-  useState
-} from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import 'swiper/css'
 import { Autoplay, Navigation } from 'swiper/modules'
@@ -19,10 +13,8 @@ import Footer from '~/components/Footer'
 import Slider from '~/components/Slider'
 import ZingChart from '~/components/ZingChart'
 import PATH from '~/constants/path'
-// import { AppContext } from '~/contexts/app.context'
 import useHome from '~/hooks/useHome'
 import usePlayMusic from '~/hooks/usePlayMusic'
-// import { setPlaylistToLS } from '~/utils/song'
 
 export default function Home() {
   const {

@@ -16,7 +16,7 @@ import Tooltip from '../Tooltip'
 import moment from 'moment'
 import CardItemPlayer from '~/components/Player/CardItemPlayer'
 import { ItemSections } from '~/types/home'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import PATH from '~/constants/path'
 
 const Player = () => {

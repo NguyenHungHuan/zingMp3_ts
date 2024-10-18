@@ -26,11 +26,7 @@ const Song = () => {
     }
   }, [dataInfoSong, idPlaylist, namePlaylist])
 
-  return (
-    <>
-        loading.....
-    </>
-  )
+  return <>loading.....</>
 }
 
 export default Song

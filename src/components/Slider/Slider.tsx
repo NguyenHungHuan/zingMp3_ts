@@ -2,7 +2,7 @@ import { useRef, useState } from 'react'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Autoplay, Navigation } from 'swiper/modules'
 import 'swiper/css'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { ItemBanner } from '~/types/home'
 import PATH from '~/constants/path'
 import { useQuery } from 'react-query'
@@ -19,7 +19,7 @@ const Slider = ({ dataBanner }: Props) => {
   const navigate = useNavigate()
 
   const handleNavigate = (link: string, id: string) => {
-    if (link.includes(`${PATH.baiHat}`)) {
+    if (link.includes(`${PATH.song}`)) {
       setIsSongOpen(true)
       setIsSongId(id)
     } else navigate(link)
