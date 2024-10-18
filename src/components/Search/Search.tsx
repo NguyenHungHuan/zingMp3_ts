@@ -55,6 +55,8 @@ const Search = () => {
         search: createSearchParams({
           q: valueForm.trim()
         }).toString()
+      }, {
+        
       })
     }
   }

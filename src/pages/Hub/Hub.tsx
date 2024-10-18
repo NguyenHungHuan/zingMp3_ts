@@ -3,7 +3,9 @@ import zingmp3Api from '~/apis/zingmp3Api'
 import { TitleListBox } from '../Home/Home'
 import BoxItem from '~/components/BoxItem'
 import Artist from '~/components/Artist'
-import { Link } from 'react-router-dom'
+import { createSearchParams, Link } from 'react-router-dom'
+import PATH from '~/constants/path'
+import useGenerateLink from '~/hooks/useGenerateLink'
 
 export default function Hub() {
   const { data } = useQuery({
@@ -13,13 +15,24 @@ export default function Hub() {
   })
   const dataHub = data?.data.data
 
+  const randomBanner = Math.floor(Math.random() * 4)
+  const { namePlaylist } = useGenerateLink(dataHub?.banners[randomBanner].link)
+
   return (
     <main className='mx-[-2px] py-5'>
       {dataHub && (
         <>
-          <Link to={'/'}>
+          <Link
+            to={{
+              pathname: `${PATH.search}/all`,
+              search: createSearchParams({
+                q: namePlaylist.replace('-', ' ').trim()
+              }).toString()
+            }}
+            title={namePlaylist.replace('-', ' ')}
+          >
             <figure className='relative pt-[29.1%]'>
-              <img src={dataHub.banners[0].cover} alt='' className='absolute inset-0 rounded' />
+              <img src={dataHub.banners[randomBanner].cover} alt='' className='absolute inset-0 rounded' />
             </figure>
           </Link>
           {
@@ -27,7 +40,17 @@ export default function Hub() {
               <h3 className='mb-5 text-[20px] font-bold capitalize text-white'>{dataHub.featured.title}</h3>
               <div className='grid grid-cols-4 gap-7'>
                 {dataHub.featured.items.map((item) => (
-                  <Link to={'/'} key={item.encodeId} className='group relative'>
+                  <Link
+                    to={{
+                      pathname: `${PATH.search}/all`,
+                      search: createSearchParams({
+                        q: item.title.trim()
+                      }).toString()
+                    }}
+                    key={item.encodeId}
+                    title={item.title}
+                    className='group relative'
+                  >
                     <figure className='relative overflow-hidden rounded-lg pt-[56.25%]'>
                       <img
                         src={item.thumbnail}
@@ -48,7 +71,17 @@ export default function Hub() {
               <h3 className='mb-5 text-[20px] font-bold capitalize text-white'>Quốc gia</h3>
               <div className='grid grid-cols-4 gap-7'>
                 {dataHub.nations.map((item) => (
-                  <Link to={'/'} key={item.encodeId} className='group relative'>
+                  <Link
+                    to={{
+                      pathname: `${PATH.search}/all`,
+                      search: createSearchParams({
+                        q: item.title.trim()
+                      }).toString()
+                    }}
+                    title={item.title}
+                    key={item.encodeId}
+                    className='group relative'
+                  >
                     <figure className='relative overflow-hidden rounded-lg pt-[56.25%]'>
                       <img
                         src={item.thumbnail}
@@ -69,7 +102,17 @@ export default function Hub() {
               <h3 className='mb-5 text-[20px] font-bold capitalize text-white'>Tâm Trạng Và Hoạt Động</h3>
               <div className='grid grid-cols-4 gap-7'>
                 {dataHub.topic.map((item) => (
-                  <Link to={'/'} key={item.encodeId} className='group relative'>
+                  <Link
+                    to={{
+                      pathname: `${PATH.search}/all`,
+                      search: createSearchParams({
+                        q: item.title.trim()
+                      }).toString()
+                    }}
+                    title={item.title}
+                    key={item.encodeId}
+                    className='group relative'
+                  >
                     <figure className='relative overflow-hidden rounded-lg pt-[56.25%]'>
                       <img
                         src={item.thumbnail}
@@ -97,7 +140,7 @@ export default function Hub() {
           }
           {dataHub.genre.map((item) => (
             <div key={item.title} className='mt-12'>
-              <TitleListBox titleList={item.title} />
+              <TitleListBox titleList={item.title} hideLink={true} />
               <div className='grid grid-cols-5 gap-7'>
                 {item.playlists.slice(0, 5).map((items) => (
                   <div key={items.encodeId} className='flex-1 flex-shrink-0'>

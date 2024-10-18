@@ -11,6 +11,7 @@ import Artist from './pages/Artist'
 import ZingWeek from './pages/ZingWeek'
 import Search from './pages/Search'
 import { Toaster } from 'react-hot-toast'
+import Song from '~/pages/Song'
 
 function App() {
   return (
@@ -26,15 +27,19 @@ function App() {
           <Route path={`${PATH.ngheSi}/${PATH.nameLink}`} element={<Artist />} />
           <Route path={`${PATH.album}/${PATH.nameLink}/${PATH.id}`} element={<Playlist />} />
           <Route path={`${PATH.playlist}/${PATH.nameLink}/${PATH.id}`} element={<Playlist />} />
+          <Route path={`${PATH.song}/${PATH.nameLink}/${PATH.id}`} element={<Song />} />
           <Route path={`${PATH.search}/${PATH.type}`} element={<Search />} />
         </Route>
       </Routes>
       <Toaster
         toastOptions={{
+          position: 'top-right',
           style: {
-            padding: '12px 42px',
-            color: '#713200',
-            borderBottom: '4px solid #E5AC1A'
+            textAlign: 'center',
+            padding: '10px 32px',
+            color: 'white',
+            borderBottom: '4px solid #E5AC1A',
+            backgroundColor: 'rgba(23,15,35,0.9)'
           }
         }}
       />

@@ -2,7 +2,6 @@ import Popover from '../Popover'
 import { Link } from 'react-router-dom'
 import BoxItem from '../BoxItem'
 import Artist from '../Artist'
-import moment from 'moment'
 import 'moment/dist/locale/vi'
 import { useQuery } from 'react-query'
 import zingmp3Api from '~/apis/zingmp3Api'
@@ -13,8 +12,10 @@ import Tooltip from '../Tooltip'
 import PATH from '~/constants/path'
 import useGenerateLink from '~/hooks/useGenerateLink'
 import { ItemSections } from '~/types/home'
-import { setSongToLS } from '~/utils/song'
+import { setPlaylistToLS, setSongToLS } from '~/utils/song'
 import { AppContext } from '~/contexts/app.context'
+import toast from 'react-hot-toast'
+import useCopyLink from '~/hooks/useCopyLink'
 interface Props {
   dataItem: ItemSections
   classNameFigure?: string
@@ -27,8 +28,13 @@ export default function CardItemPlayer({
   const [active, setActive] = useState(false)
   const [openLyric, setOpenLyric] = useState(false)
   const [idSong, setIdSong] = useState('')
-  const handleClick = () => setIdSong(dataItem.encodeId)
-  const { setStateIdSong, setStatePlaySong, statePlaySong } = useContext(AppContext)
+  const { copyToClipboard } = useCopyLink()
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.preventDefault()
+    return setIdSong(dataItem.encodeId)
+  }
+  const { setStateIdSong, setStatePlaySong, statePlaySong, statePlaylist, setStatePlaylist } = useContext(AppContext)
+  const notify = () => toast('Chức năng đang phát triển.')
 
   const { data, isSuccess } = useQuery({
     queryKey: ['infoSong', idSong],
@@ -61,6 +67,22 @@ export default function CardItemPlayer({
       setSongToLS(songId)
       setStateIdSong(songId)
       setStatePlaySong(true)
+    }
+  }
+
+  const handleAddSongToPlaylist = (newSong: ItemSections) => {
+    const currentPlaylist = statePlaylist ? statePlaylist : []
+    if (!currentPlaylist.some((song) => song.encodeId === newSong.encodeId)) {
+      const updatedPlaylist = [...currentPlaylist, newSong]
+      setPlaylistToLS(updatedPlaylist)
+      setStatePlaylist(updatedPlaylist)
+      toast('Đã thêm vào danh sách.', {
+        style: {
+          borderBottom: '4px solid #41f315de'
+        }
+      })
+    } else {
+      toast('Đã có trong danh sách.')
     }
   }
 
@@ -148,7 +170,14 @@ export default function CardItemPlayer({
         </div>
       </div>
       <Tooltip text='Thêm vào thư viện'>
-        <button className='flex h-9 w-9 items-center justify-center rounded-full fill-white hover:bg-[#ffffff1a]'>
+        <button
+          onClick={(e) => {
+            e.stopPropagation()
+            e.preventDefault()
+            return notify()
+          }}
+          className='flex h-9 w-9 items-center justify-center rounded-full fill-white hover:bg-[#ffffff1a]'
+        >
           <svg
             xmlns='http://www.w3.org/2000/svg'
             fill='none'
@@ -370,7 +399,10 @@ export default function CardItemPlayer({
                     </div>
                   )}
 
-                  <button className='flex max-w-[80px] flex-1 flex-col items-center gap-1 rounded-lg py-2 text-[10px] text-white hover:bg-[#ffffff1a]'>
+                  <button
+                    onClick={() => notify()}
+                    className='flex max-w-[80px] flex-1 flex-col items-center gap-1 rounded-lg py-2 text-[10px] text-white hover:bg-[#ffffff1a]'
+                  >
                     <svg
                       stroke='currentColor'
                       fill='currentColor'
@@ -388,7 +420,10 @@ export default function CardItemPlayer({
               </ul>
               <ul className='pl-[1px]'>
                 <li>
-                  <button className='flex w-full items-center gap-[14px] px-[14px] py-2 text-[14px] text-[#dadada] hover:bg-[#ffffff1a]'>
+                  <button
+                    onClick={() => notify()}
+                    className='flex w-full items-center gap-[14px] px-[14px] py-2 text-[14px] text-[#dadada] hover:bg-[#ffffff1a]'
+                  >
                     <svg
                       xmlns='http://www.w3.org/2000/svg'
                       fill='none'
@@ -407,7 +442,10 @@ export default function CardItemPlayer({
                   </button>
                 </li>
                 <li>
-                  <button className='flex w-full items-center gap-[14px] px-[14px] py-2 text-[14px] text-[#dadada] hover:bg-[#ffffff1a]'>
+                  <button
+                    onClick={() => handleAddSongToPlaylist(dataItem)}
+                    className='flex w-full items-center gap-[14px] px-[14px] py-2 text-[14px] text-[#dadada] hover:bg-[#ffffff1a]'
+                  >
                     <svg
                       className='h-[18px] w-[18px]'
                       viewBox='0 0 24 24'
@@ -422,38 +460,10 @@ export default function CardItemPlayer({
                   </button>
                 </li>
                 <li>
-                  <button className='flex w-full items-center gap-[14px] px-[14px] py-2 text-[14px] text-[#dadada] hover:bg-[#ffffff1a]'>
-                    <svg
-                      className='h-[18px] w-[18px]'
-                      viewBox='0 0 24 24'
-                      focusable='false'
-                      stroke='currentColor'
-                      fill='currentColor'
-                      strokeWidth={1}
-                    >
-                      <path d='M21 16h-7v-1h7v1zm0-5H9v1h12v-1zm0-4H3v1h18V7zm-11 8-7-4v8l7-4z' />
-                    </svg>
-                    <span>Phát tiếp theo</span>
-                  </button>
-                </li>
-                <li>
-                  <button className='flex w-full items-center gap-[14px] px-[14px] py-2 text-[14px] text-[#dadada] hover:bg-[#ffffff1a]'>
-                    <svg
-                      stroke='currentColor'
-                      fill='currentColor'
-                      strokeWidth={0}
-                      viewBox='0 0 24 24'
-                      className='h-[18px] w-[18px]'
-                      xmlns='http://www.w3.org/2000/svg'
-                    >
-                      <path fill='none' d='M0 0h24v24H0V0z' />
-                      <path d='M13 7h-2v4H7v2h4v4h2v-4h4v-2h-4V7zm-1-5C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z' />
-                    </svg>
-                    <span>Thêm vào playlist</span>
-                  </button>
-                </li>
-                <li>
-                  <button className='flex w-full items-center gap-[14px] px-[14px] py-2 text-[14px] text-[#dadada] hover:bg-[#ffffff1a]'>
+                  <button
+                    onClick={() => copyToClipboard(`${PATH.song}/${dataItem.alias}/${dataItem.encodeId}`)}
+                    className='flex w-full items-center gap-[14px] px-[14px] py-2 text-[14px] text-[#dadada] hover:bg-[#ffffff1a]'
+                  >
                     <svg
                       stroke='currentColor'
                       fill='currentColor'
@@ -472,75 +482,6 @@ export default function CardItemPlayer({
                     <span>Sao chép link</span>
                   </button>
                 </li>
-                <li>
-                  <Popover
-                    isClick={false}
-                    isHover={true}
-                    placement='right-end'
-                    NumberOffsetX={-14}
-                    renderPopover={
-                      <div className='w-[230px] rounded-lg bg-[#34224f] py-[10px] text-white shadow-[0_0_5px_0_rgba(0,0,0,.2)]'>
-                        <ul>
-                          <li>
-                            <button className='flex w-full items-center gap-[15px] px-[14px] py-[10px] text-[14px] font-normal hover:bg-[#ffffff1a]'>
-                              <i className='inline-block h-4 w-4 bg-fb-mini bg-cover bg-no-repeat text-[16px]'></i>
-                              <span>Facebook</span>
-                            </button>
-                          </li>
-                          <li>
-                            <button className='flex w-full items-center gap-[15px] px-[14px] py-[10px] text-[14px] font-normal hover:bg-[#ffffff1a]'>
-                              <i className='inline-block h-4 w-4 bg-zalo-mini bg-cover bg-no-repeat text-[16px]'></i>
-                              <span>Zalo</span>
-                            </button>
-                          </li>
-                          <li>
-                            <button className='flex w-full items-center gap-[15px] px-[14px] py-[10px] text-[14px] font-normal hover:bg-[#ffffff1a]'>
-                              <svg
-                                xmlns='http://www.w3.org/2000/svg'
-                                fill='none'
-                                viewBox='0 0 24 24'
-                                strokeWidth={1.5}
-                                stroke='currentColor'
-                                className='h-4 w-[18px]'
-                              >
-                                <path
-                                  strokeLinecap='round'
-                                  strokeLinejoin='round'
-                                  d='M17.25 6.75L22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3l-4.5 16.5'
-                                />
-                              </svg>
-                              <span>Mã nhúng</span>
-                            </button>
-                          </li>
-                        </ul>
-                      </div>
-                    }
-                  >
-                    <button className='flex w-full items-center gap-[14px] px-[14px] py-2 text-[14px] text-[#dadada] hover:bg-[#ffffff1a]'>
-                      <svg
-                        stroke='currentColor'
-                        fill='currentColor'
-                        strokeWidth={0}
-                        viewBox='0 0 256 256'
-                        className='h-[18px] w-[18px]'
-                        xmlns='http://www.w3.org/2000/svg'
-                      >
-                        <path d='M236.24,107.76l-80-80A6,6,0,0,0,146,32V74.2c-54.48,3.59-120.39,55-127.93,120.66a10,10,0,0,0,17.23,8h0C46.56,190.85,87,152.6,146,150.13V192a6,6,0,0,0,10.24,4.24l80-80A6,6,0,0,0,236.24,107.76ZM158,177.52V144a6,6,0,0,0-6-6c-27.73,0-54.76,7.25-80.32,21.55a193.38,193.38,0,0,0-40.81,30.65c4.7-26.56,20.16-52,44-72.27C98.47,97.94,127.29,86,152,86a6,6,0,0,0,6-6V46.49L223.51,112Z' />
-                      </svg>
-                      <span>Chia sẻ</span>
-                      <svg
-                        xmlns='http://www.w3.org/2000/svg'
-                        fill='none'
-                        viewBox='0 0 24 24'
-                        strokeWidth={1.5}
-                        stroke='currentColor'
-                        className='ml-auto h-5 w-5'
-                      >
-                        <path strokeLinecap='round' strokeLinejoin='round' d='M8.25 4.5l7.5 7.5-7.5 7.5' />
-                      </svg>
-                    </button>
-                  </Popover>
-                </li>
               </ul>
               <p className='mt-[6px] pb-3 text-center text-[13px] font-medium text-[#ffffff80]'>
                 Cung cấp bởi {dataInfoSong?.distributor}
@@ -551,7 +492,7 @@ export default function CardItemPlayer({
       >
         <Tooltip text='Khác'>
           <button
-            onClick={handleClick}
+            onClick={(e) => handleClick(e)}
             className='flex h-9 w-9 items-center justify-center rounded-full hover:bg-[#ffffff1a]'
           >
             <svg

@@ -15,7 +15,7 @@ const PATH = {
   type: ':type',
   album: '/album',
   playlist: '/playlist',
-  baiHat: '/bai-hat',
+  song: '/bai-hat',
   search: '/tim-kiem'
 } as const
 

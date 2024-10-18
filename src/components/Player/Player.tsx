@@ -1,6 +1,6 @@
 import { useQuery } from 'react-query'
 import zingmp3Api from '~/apis/zingmp3Api'
-import { useContext, useEffect, useMemo, useRef, useState } from 'react'
+import { useContext, useEffect, useRef, useState } from 'react'
 import { AppContext } from '~/contexts/app.context'
 import {
   getHistoryFromLS,
@@ -16,6 +16,8 @@ import Tooltip from '../Tooltip'
 import moment from 'moment'
 import CardItemPlayer from '~/components/Player/CardItemPlayer'
 import { ItemSections } from '~/types/home'
+import { Link, useNavigate } from 'react-router-dom'
+import PATH from '~/constants/path'
 
 const Player = () => {
   const audioEl = useRef(new Audio())
@@ -36,6 +38,7 @@ const Player = () => {
     stateHistory
   } = useContext(AppContext)
   const idSong = getSongFromLS()
+  const navigate = useNavigate()
 
   const { data } = useQuery({
     queryKey: ['infoSong', stateIdSong],
@@ -135,7 +138,9 @@ const Player = () => {
     }
   }, [currentSecond, dataInfoSong, setStatePlaySong])
 
-  const handleTogglePlay = () => {
+  const handleTogglePlay = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.preventDefault()
+    e.stopPropagation()
     if (getPlaylistFromLS().length === 1) {
       if (statePlaySong) {
         setStatePlaySong(false)
@@ -157,7 +162,9 @@ const Player = () => {
     }
   }
 
-  const handleNextSong = () => {
+  const handleNextSong = (e?: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e?.preventDefault()
+    e?.stopPropagation()
     const dataPlaylist = getPlaylistFromLS() as Array<ItemSections>
     const indexSong = dataPlaylist.findIndex((item) => item.encodeId === stateIdSong)
     if (stateShuffle === false) {
@@ -178,7 +185,9 @@ const Player = () => {
     }
   }
 
-  const handlePreviousSong = () => {
+  const handlePreviousSong = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.preventDefault()
+    e.stopPropagation()
     const dataPlaylist = getPlaylistFromLS() as Array<ItemSections>
     const indexSong = dataPlaylist.findIndex((item) => item.encodeId === stateIdSong)
     if (stateShuffle === false) {
@@ -199,18 +208,37 @@ const Player = () => {
     }
   }
 
-  const handleShuffleSong = () => {
+  const handleShuffleSong = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.preventDefault()
+    e.stopPropagation()
     setStateShuffle(!stateShuffle)
   }
 
-  const handleRepeatSong = () => {
+  const handleRepeatSong = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.preventDefault()
+    e.stopPropagation()
     setStateRepeat(!stateRepeat)
   }
 
   return (
-    <div className='absolute bottom-0 z-[120] h-[90px] w-full border-t border-[#ffffff1a] bg-[#130c1c] px-5'>
+    <div
+      aria-hidden
+      onClick={(e) => {
+        e.preventDefault()
+        e.stopPropagation()
+        return navigate(`${PATH.song}/${dataInfoSong?.alias}/${dataInfoSong?.encodeId}`)
+      }}
+      className='absolute bottom-0 z-[120] h-[90px] w-full cursor-pointer border-t border-[#ffffff1a] bg-[#130c1c] px-5'
+    >
       <div className='grid h-full grid-cols-7 items-center justify-between'>
-        <div className='col-span-2 flex h-full items-center pr-5'>
+        <div
+          aria-hidden
+          onClick={(e) => {
+            e.preventDefault()
+            e.stopPropagation()
+          }}
+          className='col-span-2 flex h-full items-center pr-5'
+        >
           {dataInfoSong && (
             <CardItemPlayer
               key={dataInfoSong.encodeId}
@@ -222,7 +250,7 @@ const Player = () => {
         <div className='col-span-3 flex h-full flex-1 flex-col items-center justify-center gap-2'>
           <div className='flex items-center gap-5'>
             <Tooltip text='Bật phát ngẫu nhiên'>
-              <button onClick={handleShuffleSong} className='rounded-full p-1 hover:bg-[#ffffff1a]'>
+              <button onClick={(e) => handleShuffleSong(e)} className='rounded-full p-1 hover:bg-[#ffffff1a]'>
                 <svg
                   stroke='currentColor'
                   fill='currentColor'
@@ -234,14 +262,14 @@ const Player = () => {
                 </svg>
               </button>
             </Tooltip>
-            <button onClick={handlePreviousSong} className='rounded-full p-1 hover:bg-[#ffffff1a]'>
+            <button onClick={(e) => handlePreviousSong(e)} className='rounded-full p-1 hover:bg-[#ffffff1a]'>
               <svg className='h-6 w-6 rotate-180 fill-white stroke-none' viewBox='0 0 24 24'>
                 <path d='M16 12.6667L5.77735 19.4818C5.54759 19.6349 5.23715 19.5729 5.08397 19.3431C5.02922 19.261 5 19.1645 5 19.0657V4.93426C5 4.65812 5.22386 4.43426 5.5 4.43426C5.59871 4.43426 5.69522 4.46348 5.77735 4.51823L16 11.3333V5C16 4.44772 16.4477 4 17 4C17.5523 4 18 4.44772 18 5V19C18 19.5523 17.5523 20 17 20C16.4477 20 16 19.5523 16 19V12.6667Z' />
               </svg>
             </button>
             {statePlaySong === true ? (
               <button
-                onClick={handleTogglePlay}
+                onClick={(e) => handleTogglePlay(e)}
                 className='rounded-full border border-white p-1 text-white hover:border-[#c273ed] hover:text-[#c273ed]'
               >
                 <svg
@@ -256,7 +284,7 @@ const Player = () => {
               </button>
             ) : (
               <button
-                onClick={handleTogglePlay}
+                onClick={(e) => handleTogglePlay(e)}
                 className='rounded-full border border-white p-1 text-white hover:border-[#c273ed] hover:text-[#c273ed]'
               >
                 <svg
@@ -274,13 +302,13 @@ const Player = () => {
                 </svg>
               </button>
             )}
-            <button onClick={handleNextSong} className='rounded-full p-1 hover:bg-[#ffffff1a]'>
+            <button onClick={(e) => handleNextSong(e)} className='rounded-full p-1 hover:bg-[#ffffff1a]'>
               <svg className='h-6 w-6 fill-white stroke-none' viewBox='0 0 24 24'>
                 <path d='M16 12.6667L5.77735 19.4818C5.54759 19.6349 5.23715 19.5729 5.08397 19.3431C5.02922 19.261 5 19.1645 5 19.0657V4.93426C5 4.65812 5.22386 4.43426 5.5 4.43426C5.59871 4.43426 5.69522 4.46348 5.77735 4.51823L16 11.3333V5C16 4.44772 16.4477 4 17 4C17.5523 4 18 4.44772 18 5V19C18 19.5523 17.5523 20 17 20C16.4477 20 16 19.5523 16 19V12.6667Z' />
               </svg>
             </button>
             <Tooltip text='Bật phát lại tất cả'>
-              <button onClick={handleRepeatSong} className='rounded-full p-1 hover:bg-[#ffffff1a]'>
+              <button onClick={(e) => handleRepeatSong(e)} className='rounded-full p-1 hover:bg-[#ffffff1a]'>
                 <svg
                   strokeWidth={0.5}
                   viewBox='0 0 24 24'
@@ -308,6 +336,7 @@ const Player = () => {
               style={{ backgroundSize: `${audioValue}% 100%` }}
               value={audioValue}
               ref={progressRef}
+              onClick={(e) => e.stopPropagation()}
               onChange={(e) => {
                 dataInfoSong &&
                   setCurrentSecond({
@@ -332,7 +361,9 @@ const Player = () => {
         <div className='col-span-2 flex h-full items-center justify-end gap-5'>
           <div className='flex items-center gap-1 border-r border-[#ffffff1a] pr-5'>
             <button
-              onClick={() => {
+              onClick={(e) => {
+                e.preventDefault()
+                e.stopPropagation()
                 if (volume === 0) {
                   setVolume(Number(getVolumeFromLS()))
                   audioEl.current.volume = Number(getVolumeFromLS()) / 100
@@ -382,6 +413,7 @@ const Player = () => {
               max={100}
               step={1}
               value={volume}
+              onClick={(e) => e.stopPropagation()}
               onChange={(e) => {
                 setVolume(Number(e.target.value))
                 setVolumeToLS(e.target.value)
@@ -390,7 +422,9 @@ const Player = () => {
             />
           </div>
           <button
-            onClick={() => {
+            onClick={(e) => {
+              e.preventDefault()
+              e.stopPropagation()
               if (stateAsideRight === true) {
                 setStateAsideRightToLS(false)
               } else {

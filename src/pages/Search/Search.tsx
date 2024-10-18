@@ -31,7 +31,7 @@ const Search = () => {
   const { data: dataType, fetchNextPage } = useInfiniteQuery({
     queryKey: ['search', { q: queryConfig.q, type: type as Type }],
     queryFn: ({ pageParam = 1 }) => zingmp3Api.searchType({ q: queryConfig.q, type: type as Type, page: pageParam }),
-    getNextPageParam: (lastPage, allPages) => {
+    getNextPageParam: (_lastPage, allPages) => {
       return allPages.length + 1
     },
     staleTime: 3 * 60 * 1000,

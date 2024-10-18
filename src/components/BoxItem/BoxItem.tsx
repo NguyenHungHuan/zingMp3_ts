@@ -11,6 +11,8 @@ import { useQuery } from 'react-query'
 import zingmp3Api from '~/apis/zingmp3Api'
 import { getIdPlaylistFromLS, getSongFromLS, setIdPlaylistToLS, setPlaylistToLS, setSongToLS } from '~/utils/song'
 import toast from 'react-hot-toast'
+import useCopyLink from '~/hooks/useCopyLink'
+import { ItemSections } from '~/types/home'
 
 interface Props {
   id: string
@@ -59,9 +61,9 @@ export default function BoxItem({
   const [active, setActive] = useState(false)
   const [idPlayPlaylist, setIdPlaylist] = useState('')
   const { idPlaylist, namePlaylist } = useGenerateLink(link)
-  const { statePlaySong, stateIdSong, setStatePlaylist, setStateIdSong, setStatePlaySong, setStateIdPlaylist } =
-    useContext(AppContext)
+  const { statePlaySong, stateIdSong, setStatePlaylist, setStateIdSong, setStatePlaySong, setStateIdPlaylist } = useContext(AppContext)
   const notify = () => toast('Chức năng đang phát triển.')
+  const { copyToClipboard } = useCopyLink()
 
   const { data } = useQuery({
     queryKey: ['playlist', { id: idPlayPlaylist as string }],
@@ -103,6 +105,28 @@ export default function BoxItem({
         setStatePlaylist(data)
         setPlaylistToLS(data)
       }
+    }
+  }
+
+  const handleReplacePlaylist = () => {
+    if (id === getIdPlaylistFromLS()) {
+      toast('Đã là danh sách phát.')
+    } else {
+      setStateIdPlaylist(id)
+      setIdPlaylistToLS(id)
+      setIdPlaylist(id)
+      if (dataAlbum) {
+        const data = dataAlbum.song.items.filter((item) => item.streamingStatus !== 2)
+        setSongToLS(data[0].encodeId)
+        setStateIdSong(data[0].encodeId)
+        setStatePlaylist(data)
+        setPlaylistToLS(data)
+      }
+      toast('Đã thay thế danh sách.', {
+        style: {
+          borderBottom: '4px solid #41f315de'
+        }
+      })
     }
   }
 
@@ -257,7 +281,10 @@ export default function BoxItem({
                 <div className='w-[250px] rounded-lg bg-[#34224f] py-[10px] shadow-md'>
                   <ul className='pl-[1px]'>
                     <li>
-                      <button className='flex w-full items-center gap-[14px] px-[14px] py-2 text-[14px] text-[#dadada] hover:bg-[#ffffff1a]'>
+                      <button
+                        onClick={handleReplacePlaylist}
+                        className='flex w-full items-center gap-[14px] px-[14px] py-2 text-[14px] text-[#dadada] hover:bg-[#ffffff1a]'
+                      >
                         <svg
                           className='h-[18px] w-[18px]'
                           viewBox='0 0 24 24'
@@ -268,30 +295,14 @@ export default function BoxItem({
                         >
                           <path d='M22 13h-4v4h-2v-4h-4v-2h4V7h2v4h4v2zm-8-6H2v1h12V7zM2 12h8v-1H2v1zm0 4h8v-1H2v1z' />
                         </svg>
-                        <span>Thêm vào danh sách phát</span>
+                        <span>Thay thế danh sách phát</span>
                       </button>
                     </li>
                     <li>
-                      <button className='flex w-full items-center gap-[14px] px-[14px] py-2 text-[14px] text-[#dadada] hover:bg-[#ffffff1a]'>
-                        <svg
-                          xmlns='http://www.w3.org/2000/svg'
-                          fill='none'
-                          viewBox='0 0 24 24'
-                          strokeWidth={2}
-                          stroke='currentColor'
-                          className='h-[18px] w-[18px]'
-                        >
-                          <path
-                            strokeLinecap='round'
-                            strokeLinejoin='round'
-                            d='M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3'
-                          />
-                        </svg>
-                        <span>Tải xuống</span>
-                      </button>
-                    </li>
-                    <li>
-                      <button className='flex w-full items-center gap-[14px] px-[14px] py-2 text-[14px] text-[#dadada] hover:bg-[#ffffff1a]'>
+                      <button
+                        onClick={() => copyToClipboard(`${PATH.album}/${namePlaylist}/${idPlaylist}`)}
+                        className='flex w-full items-center gap-[14px] px-[14px] py-2 text-[14px] text-[#dadada] hover:bg-[#ffffff1a]'
+                      >
                         <svg
                           stroke='currentColor'
                           fill='currentColor'
@@ -309,73 +320,6 @@ export default function BoxItem({
                         </svg>
                         <span>Sao chép link</span>
                       </button>
-                    </li>
-                    <li>
-                      <Popover
-                        placement='right-end'
-                        NumberOffsetX={-14}
-                        renderPopover={
-                          <div className='w-[230px] rounded-lg bg-[#34224f] py-[10px] text-white shadow-[0_0_5px_0_rgba(0,0,0,.2)]'>
-                            <ul>
-                              <li>
-                                <button className='flex w-full items-center gap-[15px] px-[14px] py-[10px] text-[14px] font-normal hover:bg-[#ffffff1a]'>
-                                  <i className='inline-block h-4 w-4 bg-fb-mini bg-cover bg-no-repeat text-[16px]'></i>
-                                  <span>Facebook</span>
-                                </button>
-                              </li>
-                              <li>
-                                <button className='flex w-full items-center gap-[15px] px-[14px] py-[10px] text-[14px] font-normal hover:bg-[#ffffff1a]'>
-                                  <i className='inline-block h-4 w-4 bg-zalo-mini bg-cover bg-no-repeat text-[16px]'></i>
-                                  <span>Zalo</span>
-                                </button>
-                              </li>
-                              <li>
-                                <button className='flex w-full items-center gap-[15px] px-[14px] py-[10px] text-[14px] font-normal hover:bg-[#ffffff1a]'>
-                                  <svg
-                                    xmlns='http://www.w3.org/2000/svg'
-                                    fill='none'
-                                    viewBox='0 0 24 24'
-                                    strokeWidth={1.5}
-                                    stroke='currentColor'
-                                    className='h-4 w-[18px]'
-                                  >
-                                    <path
-                                      strokeLinecap='round'
-                                      strokeLinejoin='round'
-                                      d='M17.25 6.75L22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3l-4.5 16.5'
-                                    />
-                                  </svg>
-                                  <span>Mã nhúng</span>
-                                </button>
-                              </li>
-                            </ul>
-                          </div>
-                        }
-                      >
-                        <button className='flex w-full items-center gap-[14px] px-[14px] py-2 text-[14px] text-[#dadada] hover:bg-[#ffffff1a]'>
-                          <svg
-                            stroke='currentColor'
-                            fill='currentColor'
-                            strokeWidth={0}
-                            viewBox='0 0 256 256'
-                            className='h-[18px] w-[18px]'
-                            xmlns='http://www.w3.org/2000/svg'
-                          >
-                            <path d='M236.24,107.76l-80-80A6,6,0,0,0,146,32V74.2c-54.48,3.59-120.39,55-127.93,120.66a10,10,0,0,0,17.23,8h0C46.56,190.85,87,152.6,146,150.13V192a6,6,0,0,0,10.24,4.24l80-80A6,6,0,0,0,236.24,107.76ZM158,177.52V144a6,6,0,0,0-6-6c-27.73,0-54.76,7.25-80.32,21.55a193.38,193.38,0,0,0-40.81,30.65c4.7-26.56,20.16-52,44-72.27C98.47,97.94,127.29,86,152,86a6,6,0,0,0,6-6V46.49L223.51,112Z' />
-                          </svg>
-                          <span>Chia sẻ</span>
-                          <svg
-                            xmlns='http://www.w3.org/2000/svg'
-                            fill='none'
-                            viewBox='0 0 24 24'
-                            strokeWidth={1.5}
-                            stroke='currentColor'
-                            className='ml-auto h-5 w-5'
-                          >
-                            <path strokeLinecap='round' strokeLinejoin='round' d='M8.25 4.5l7.5 7.5-7.5 7.5' />
-                          </svg>
-                        </button>
-                      </Popover>
                     </li>
                   </ul>
                 </div>

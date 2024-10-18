@@ -4,7 +4,7 @@ import 'moment/dist/locale/vi'
 import { Fragment, useContext, useMemo, useState } from 'react'
 import toast from 'react-hot-toast'
 import { useQuery } from 'react-query'
-import { Link } from 'react-router-dom'
+import { createSearchParams, Link } from 'react-router-dom'
 import zingmp3Api from '~/apis/zingmp3Api'
 import PATH from '~/constants/path'
 import { AppContext } from '~/contexts/app.context'
@@ -16,6 +16,8 @@ import BoxItem from '../BoxItem'
 import Popover from '../Popover'
 import Tooltip from '../Tooltip'
 import usePlayMusic from '~/hooks/usePlayMusic'
+import useCopyLink from '~/hooks/useCopyLink'
+import { setPlaylistToLS } from '~/utils/song'
 interface Props {
   playlistId: string
   dataPlaylist: ItemSections[]
@@ -54,8 +56,9 @@ export default function CardItem({
   const [openLyric, setOpenLyric] = useState(false)
   const [idSong, setIdSong] = useState('')
   const handleClick = () => setIdSong(dataItem.encodeId)
-  const { stateIdSong } = useContext(AppContext)
+  const { stateIdSong, statePlaylist, setStatePlaylist } = useContext(AppContext)
   const notify = () => toast('Chức năng đang phát triển.')
+  const { copyToClipboard } = useCopyLink()
 
   const { data, isSuccess } = useQuery({
     queryKey: ['infoSong', idSong],
@@ -68,6 +71,13 @@ export default function CardItem({
     dataInfoSong && dataInfoSong.album ? dataInfoSong.album.link : ''
   )
 
+  const { data: dataSong } = useQuery({
+    queryKey: ['audioSong-download', idSong],
+    queryFn: () => zingmp3Api.getSong({ id: idSong }),
+    enabled: idSong !== ''
+  })
+  const dataAudioSong = dataSong?.data.data
+
   const { data: dataLyric } = useQuery({
     queryKey: ['lyric', idSong],
     queryFn: () => zingmp3Api.getLyricSong({ id: idSong }),
@@ -78,6 +88,39 @@ export default function CardItem({
 
   const handleLyric = () => {
     setOpenLyric(true)
+  }
+
+  const handleAddSongToPlaylist = (newSong: ItemSections) => {
+    const currentPlaylist = statePlaylist ? statePlaylist : []
+    if (!currentPlaylist.some((song) => song.encodeId === newSong.encodeId)) {
+      const updatedPlaylist = [...currentPlaylist, newSong]
+      setPlaylistToLS(updatedPlaylist)
+      setStatePlaylist(updatedPlaylist)
+      toast('Đã thêm vào danh sách.', {
+        style: {
+          borderBottom: '4px solid #41f315de'
+        }
+      })
+    } else {
+      toast('Đã có trong danh sách.')
+    }
+  }
+
+  const handleNextSongToPlaylist = (newSong: ItemSections) => {
+    const currentPlaylist = statePlaylist ? statePlaylist : []
+    if (!currentPlaylist.some((song) => song.encodeId === newSong.encodeId)) {
+      const updatedPlaylist = [...currentPlaylist]
+      updatedPlaylist.splice(currentPlaylist.findIndex((song) => song.encodeId === stateIdSong) + 1, 0, newSong)
+      setPlaylistToLS(updatedPlaylist)
+      setStatePlaylist(updatedPlaylist)
+      toast('Đã thêm vào danh sách.', {
+        style: {
+          borderBottom: '4px solid #41f315de'
+        }
+      })
+    } else {
+      toast('Đã có trong danh sách.')
+    }
   }
 
   const { handleHookPlayMusic } = usePlayMusic()
@@ -171,16 +214,19 @@ export default function CardItem({
             isLink={false}
           />
         </div>
-        <div className='flex flex-col gap-[3px] break-words font-medium'>
+        <div className='flex w-full flex-col gap-[3px] break-words font-medium'>
           {stringType !== '' && <span className='mb-1 text-[12px] text-[#ffffff80]'>{stringType}</span>}
           <div className='flex items-center'>
-            <span
-              className={classNames('line-clamp-1 cursor-default text-[14px] text-white', {
-                'opacity-50': dataItem.streamingStatus === 2
+            <Link
+              to={`${PATH.song}/${dataItem.alias}/${dataItem.encodeId}`}
+              title={dataItem.title}
+              className={classNames('line-clamp-1 text-[14px] text-white hover:text-[#c273ed]', {
+                'opacity-50': dataItem.streamingStatus === 2,
+                'w-full': dataItem.streamingStatus !== 2
               })}
             >
               {dataItem.title}
-            </span>
+            </Link>
             {dataItem.streamingStatus === 2 && (
               <i className='ml-2 inline-block flex-shrink-0 leading-[66%]'>
                 <svg width={56} height={14} viewBox='0 0 56 14' fill='none'>
@@ -344,7 +390,12 @@ export default function CardItem({
                           <Fragment key={item.id}>
                             {dataInfoSong?.genres.length > 1 && index !== 0 && ', '}
                             <Link
-                              to='/'
+                              to={{
+                                pathname: `${PATH.search}/all`,
+                                search: createSearchParams({
+                                  q: item.name.trim()
+                                }).toString()
+                              }}
                               className='inline text-[14px] capitalize text-white hover:text-[#c273ed]'
                               title={item.name}
                             >
@@ -417,23 +468,52 @@ export default function CardItem({
                 </Popover>
                 <ul className='mb-[10px] mt-[15px] px-[15px]'>
                   <div className='flex items-center justify-between rounded-lg bg-[#ffffff1a]'>
-                    <button className='flex max-w-[80px] flex-1 flex-col items-center gap-1 rounded-lg py-2 text-[10px] text-white hover:bg-[#ffffff1a]'>
-                      <svg
-                        xmlns='http://www.w3.org/2000/svg'
-                        fill='none'
-                        viewBox='0 0 24 24'
-                        strokeWidth={2}
-                        stroke='currentColor'
-                        className='h-[19px] w-[19px]'
+                    {dataItem.streamingStatus !== 2 ? (
+                      <Link
+                        className='flex max-w-[80px] flex-1 rounded-lg py-2 text-[10px] text-white hover:bg-[#ffffff1a]'
+                        to={`${dataAudioSong?.[128]}`}
+                        target='_blank'
+                        rel='noreferrer'
+                        download='audio-file.mp3'
                       >
-                        <path
-                          strokeLinecap='round'
-                          strokeLinejoin='round'
-                          d='M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3'
-                        />
-                      </svg>
-                      <span>Tải xuống</span>
-                    </button>
+                        <button className='flex flex-1 flex-col items-center gap-1'>
+                          <svg
+                            fill='none'
+                            viewBox='0 0 24 24'
+                            strokeWidth={2}
+                            stroke='currentColor'
+                            className='h-[19px] w-[19px]'
+                          >
+                            <path
+                              strokeLinecap='round'
+                              strokeLinejoin='round'
+                              d='M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3'
+                            />
+                          </svg>
+                          <span>Tải xuống</span>
+                        </button>
+                      </Link>
+                    ) : (
+                      <button
+                        onClick={() => toast('API không hỗ trợ.')}
+                        className='flex max-w-[80px] flex-1 flex-col items-center gap-1 rounded-lg py-2 text-[10px] text-white hover:bg-[#ffffff1a]'
+                      >
+                        <svg
+                          fill='none'
+                          viewBox='0 0 24 24'
+                          strokeWidth={2}
+                          stroke='currentColor'
+                          className='h-[19px] w-[19px]'
+                        >
+                          <path
+                            strokeLinecap='round'
+                            strokeLinejoin='round'
+                            d='M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3'
+                          />
+                        </svg>
+                        <span>Tải xuống</span>
+                      </button>
+                    )}
                     <button
                       onClick={handleLyric}
                       className='flex max-w-[80px] flex-1 flex-col items-center gap-1 rounded-lg py-2 text-[10px] text-white hover:bg-[#ffffff1a]'
@@ -533,7 +613,10 @@ export default function CardItem({
                     </button>
                   </li>
                   <li>
-                    <button className='flex w-full items-center gap-[14px] px-[14px] py-2 text-[14px] text-[#dadada] hover:bg-[#ffffff1a]'>
+                    <button
+                      onClick={() => handleAddSongToPlaylist(dataItem)}
+                      className='flex w-full items-center gap-[14px] px-[14px] py-2 text-[14px] text-[#dadada] hover:bg-[#ffffff1a]'
+                    >
                       <svg
                         className='h-[18px] w-[18px]'
                         viewBox='0 0 24 24'
@@ -548,7 +631,28 @@ export default function CardItem({
                     </button>
                   </li>
                   <li>
-                    <button className='flex w-full items-center gap-[14px] px-[14px] py-2 text-[14px] text-[#dadada] hover:bg-[#ffffff1a]'>
+                    <button
+                      onClick={() => handleNextSongToPlaylist(dataItem)}
+                      className='flex w-full items-center gap-[14px] px-[14px] py-2 text-[14px] text-[#dadada] hover:bg-[#ffffff1a]'
+                    >
+                      <svg
+                        className='h-[18px] w-[18px]'
+                        viewBox='0 0 24 24'
+                        focusable='false'
+                        stroke='currentColor'
+                        fill='currentColor'
+                        strokeWidth={1}
+                      >
+                        <path d='M21 16h-7v-1h7v1zm0-5H9v1h12v-1zm0-4H3v1h18V7zm-11 8-7-4v8l7-4z' />
+                      </svg>
+                      <span>Phát tiếp theo</span>
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      onClick={() => copyToClipboard(`${PATH.song}/${dataItem.alias}/${dataItem.encodeId}`)}
+                      className='flex w-full items-center gap-[14px] px-[14px] py-2 text-[14px] text-[#dadada] hover:bg-[#ffffff1a]'
+                    >
                       <svg
                         stroke='currentColor'
                         fill='currentColor'
@@ -566,75 +670,6 @@ export default function CardItem({
                       </svg>
                       <span>Sao chép link</span>
                     </button>
-                  </li>
-                  <li>
-                    <Popover
-                      isClick={false}
-                      isHover={true}
-                      placement='right-end'
-                      NumberOffsetX={-14}
-                      renderPopover={
-                        <div className='w-[230px] rounded-lg bg-[#34224f] py-[10px] text-white shadow-[0_0_5px_0_rgba(0,0,0,.2)]'>
-                          <ul>
-                            <li>
-                              <button className='flex w-full items-center gap-[15px] px-[14px] py-[10px] text-[14px] font-normal hover:bg-[#ffffff1a]'>
-                                <i className='inline-block h-4 w-4 bg-fb-mini bg-cover bg-no-repeat text-[16px]'></i>
-                                <span>Facebook</span>
-                              </button>
-                            </li>
-                            <li>
-                              <button className='flex w-full items-center gap-[15px] px-[14px] py-[10px] text-[14px] font-normal hover:bg-[#ffffff1a]'>
-                                <i className='inline-block h-4 w-4 bg-zalo-mini bg-cover bg-no-repeat text-[16px]'></i>
-                                <span>Zalo</span>
-                              </button>
-                            </li>
-                            <li>
-                              <button className='flex w-full items-center gap-[15px] px-[14px] py-[10px] text-[14px] font-normal hover:bg-[#ffffff1a]'>
-                                <svg
-                                  xmlns='http://www.w3.org/2000/svg'
-                                  fill='none'
-                                  viewBox='0 0 24 24'
-                                  strokeWidth={1.5}
-                                  stroke='currentColor'
-                                  className='h-4 w-[18px]'
-                                >
-                                  <path
-                                    strokeLinecap='round'
-                                    strokeLinejoin='round'
-                                    d='M17.25 6.75L22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3l-4.5 16.5'
-                                  />
-                                </svg>
-                                <span>Mã nhúng</span>
-                              </button>
-                            </li>
-                          </ul>
-                        </div>
-                      }
-                    >
-                      <button className='flex w-full items-center gap-[14px] px-[14px] py-2 text-[14px] text-[#dadada] hover:bg-[#ffffff1a]'>
-                        <svg
-                          stroke='currentColor'
-                          fill='currentColor'
-                          strokeWidth={0}
-                          viewBox='0 0 256 256'
-                          className='h-[18px] w-[18px]'
-                          xmlns='http://www.w3.org/2000/svg'
-                        >
-                          <path d='M236.24,107.76l-80-80A6,6,0,0,0,146,32V74.2c-54.48,3.59-120.39,55-127.93,120.66a10,10,0,0,0,17.23,8h0C46.56,190.85,87,152.6,146,150.13V192a6,6,0,0,0,10.24,4.24l80-80A6,6,0,0,0,236.24,107.76ZM158,177.52V144a6,6,0,0,0-6-6c-27.73,0-54.76,7.25-80.32,21.55a193.38,193.38,0,0,0-40.81,30.65c4.7-26.56,20.16-52,44-72.27C98.47,97.94,127.29,86,152,86a6,6,0,0,0,6-6V46.49L223.51,112Z' />
-                        </svg>
-                        <span>Chia sẻ</span>
-                        <svg
-                          xmlns='http://www.w3.org/2000/svg'
-                          fill='none'
-                          viewBox='0 0 24 24'
-                          strokeWidth={1.5}
-                          stroke='currentColor'
-                          className='ml-auto h-5 w-5'
-                        >
-                          <path strokeLinecap='round' strokeLinejoin='round' d='M8.25 4.5l7.5 7.5-7.5 7.5' />
-                        </svg>
-                      </button>
-                    </Popover>
                   </li>
                 </ul>
                 <p className='mt-[6px] pb-3 text-center text-[13px] font-medium text-[#ffffff80]'>

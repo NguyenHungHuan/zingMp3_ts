@@ -1,6 +1,5 @@
 import classNames from 'classnames'
 import { useContext, useState } from 'react'
-import { Link } from 'react-router-dom'
 import CardItem from '~/components/CardItem'
 import Popover from '~/components/Popover'
 import Tooltip from '~/components/Tooltip'
@@ -104,39 +103,9 @@ export default function AsideRight() {
           </Popover>
         </div>
       </div>
-      {statePlaylist.length <= 0 && toggleButton === true && (
-        <>
-          <div className='flex flex-col gap-[10px] px-5 pb-20 pt-[20px]'>
-            {Array(4)
-              .fill(0)
-              .map((_, index) => (
-                <div key={index} className='flex items-start gap-2'>
-                  <div className='h-10 w-10 rounded bg-[#231b2e]'></div>
-                  <div className='flex flex-col gap-2'>
-                    <div className='h-[10px] w-[230px] rounded-full bg-[#231b2e]'></div>
-                    <div className='h-[10px] w-[140px] rounded-full bg-[#231b2e]'></div>
-                  </div>
-                </div>
-              ))}
-          </div>
-          <div className='flex flex-col px-[33px] text-sm'>
-            <span className='mb-5 mt-[6px] text-center text-white'>Khám phá thêm các bài hát mới của Zing MP3</span>
-            <button className='flex items-center justify-center gap-2 rounded-full bg-[#9b4de0] px-[26px] py-[7px] text-white'>
-              <svg viewBox='0 0 24 24' className='h-[18px] w-[18px] fill-white stroke-white stroke-1 hover:opacity-90'>
-                <path
-                  strokeLinecap='round'
-                  strokeLinejoin='round'
-                  d='M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.348a1.125 1.125 0 010 1.971l-11.54 6.347a1.125 1.125 0 01-1.667-.985V5.653z'
-                />
-              </svg>
-              Phát nhạc mới phát hành
-            </button>
-          </div>
-        </>
-      )}
       {toggleButton ? (
         <>
-          {statePlaylist ? (
+          {statePlaylist && statePlaylist.length > 0 ? (
             <div className='mb-[110px] px-2'>
               {statePlaylist.map((item) => (
                 <div
@@ -169,17 +138,42 @@ export default function AsideRight() {
               ))}
             </div>
           ) : (
-            <div
-              className='ml-5 mt-5 h-[240px] w-[285px] bg-cover bg-no-repeat opacity-50 [background-position-x:50%] [background-position-y:cover]'
-              style={{
-                backgroundImage: `url(https://zmp3-static.zmdcdn.me/skins/zmp3-v6.1/images/backgrounds/bg-empty-dark.svg)`
-              }}
-            />
+            <>
+              <div className='flex flex-col gap-[10px] px-5 pb-20 pt-[20px]'>
+                {Array(4)
+                  .fill(0)
+                  .map((_, index) => (
+                    <div key={index} className='flex items-start gap-2'>
+                      <div className='h-10 w-10 rounded bg-[#231b2e]'></div>
+                      <div className='flex flex-col gap-2'>
+                        <div className='h-[10px] w-[230px] rounded-full bg-[#231b2e]'></div>
+                        <div className='h-[10px] w-[140px] rounded-full bg-[#231b2e]'></div>
+                      </div>
+                    </div>
+                  ))}
+              </div>
+              <div className='flex flex-col px-[33px] text-sm'>
+                <span className='mb-5 mt-[6px] text-center text-white'>Khám phá thêm các bài hát mới của Zing MP3</span>
+                <button className='flex items-center justify-center gap-2 rounded-full bg-[#9b4de0] px-[26px] py-[7px] text-white'>
+                  <svg
+                    viewBox='0 0 24 24'
+                    className='h-[18px] w-[18px] fill-white stroke-white stroke-1 hover:opacity-90'
+                  >
+                    <path
+                      strokeLinecap='round'
+                      strokeLinejoin='round'
+                      d='M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.348a1.125 1.125 0 010 1.971l-11.54 6.347a1.125 1.125 0 01-1.667-.985V5.653z'
+                    />
+                  </svg>
+                  Phát nhạc mới phát hành
+                </button>
+              </div>
+            </>
           )}
         </>
       ) : (
         <>
-          {stateHistory ? (
+          {stateHistory && stateHistory.length > 0 ? (
             <div className='mb-[110px] px-2'>
               {stateHistory.map((item) => (
                 <div
@@ -213,12 +207,19 @@ export default function AsideRight() {
               ))}
             </div>
           ) : (
-            <div
-              className='ml-5 mt-5 h-[240px] w-[285px] bg-cover bg-no-repeat opacity-50 [background-position-x:50%] [background-position-y:cover]'
-              style={{
-                backgroundImage: `url(https://zmp3-static.zmdcdn.me/skins/zmp3-v6.1/images/backgrounds/bg-empty-dark.svg)`
-              }}
-            />
+            <div className='flex flex-col gap-[10px] px-5 pb-20 pt-[20px]'>
+              {Array(4)
+                .fill(0)
+                .map((_, index) => (
+                  <div key={index} className='flex items-start gap-2'>
+                    <div className='h-10 w-10 rounded bg-[#231b2e]'></div>
+                    <div className='flex flex-col gap-2'>
+                      <div className='h-[10px] w-[230px] rounded-full bg-[#231b2e]'></div>
+                      <div className='h-[10px] w-[140px] rounded-full bg-[#231b2e]'></div>
+                    </div>
+                  </div>
+                ))}
+            </div>
           )}
         </>
       )}
