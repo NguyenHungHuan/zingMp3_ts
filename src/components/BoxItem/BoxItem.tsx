@@ -86,6 +86,7 @@ export default function BoxItem({
 
   const handlePlayPlaylist = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault()
+    e.stopPropagation()
 
     if (id === getIdPlaylistFromLS()) {
       setStatePlaySong((prev) => !prev)

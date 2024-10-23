@@ -1,8 +1,14 @@
 import { useQuery } from 'react-query'
 import zingmp3Api from '~/apis/zingmp3Api'
 import CardItem from '~/components/CardItem'
+import Skeleton from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
+import usePlayMusic from '~/hooks/usePlayMusic'
+import { ItemSections } from '~/types/home'
 
 export default function NewReleased() {
+  const { handleHookPlayMusic } = usePlayMusic()
+
   const { data } = useQuery({
     queryKey: ['NewReleaseSongs'],
     queryFn: zingmp3Api.getNewReleaseSongs,
@@ -12,11 +18,24 @@ export default function NewReleased() {
 
   return (
     <main className='mx-[-2px] py-8'>
-      {dataNewRealeaseSongs && (
+      {dataNewRealeaseSongs ? (
         <>
           <div className='flex items-center gap-2 pb-8'>
             <h1 className='text-[40px] font-bold text-white'>{dataNewRealeaseSongs.title}</h1>
-            <button className='hover:opacity-90'>
+            <button
+              onClick={() =>
+                handleHookPlayMusic({
+                  songId: (dataNewRealeaseSongs &&
+                    dataNewRealeaseSongs.items.filter((item) => item.streamingStatus !== 2)[0].encodeId) as string,
+                  data: (dataNewRealeaseSongs && dataNewRealeaseSongs.items) as ItemSections[],
+                  dataItem: (dataNewRealeaseSongs &&
+                    dataNewRealeaseSongs.items.filter((item) => item.streamingStatus !== 2)[0]) as ItemSections,
+                  playlistId: (dataNewRealeaseSongs &&
+                    dataNewRealeaseSongs.items.filter((item) => item.streamingStatus !== 2)[0].encodeId) as string
+                })
+              }
+              className='hover:opacity-90'
+            >
               <svg width={44} height={44} viewBox='0 0 44 44' fill='none'>
                 <g filter='url(#filter0_d_3141_46346)'>
                   <circle cx={22} cy={21} r={18} fill='#FEFFFF' />
@@ -69,6 +88,24 @@ export default function NewReleased() {
             />
           ))}
         </>
+      ) : (
+        <div className='ml-10 grid w-full grid-cols-1 gap-3'>
+          {Array(20)
+            .fill(0)
+            .map((_, index) => (
+              <div key={index} className='flex w-full gap-2'>
+                <Skeleton width={40} height={40} />
+                <div className='w-[40%]'>
+                  <Skeleton width={'80%'} height={10} />
+                  <Skeleton width={'60%'} height={10} />
+                </div>
+                <div className='w-[40%]'>
+                  <Skeleton width={'60%'} height={10} />
+                </div>
+                <Skeleton width={'40px'} height={10} />
+              </div>
+            ))}
+        </div>
       )}
     </main>
   )

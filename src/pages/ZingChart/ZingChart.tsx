@@ -6,6 +6,10 @@ import CardItem from '~/components/CardItem'
 import Chart from '~/components/Chart'
 import PATH from '~/constants/path'
 import useHome from '~/hooks/useHome'
+import Skeleton from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
+import usePlayMusic from '~/hooks/usePlayMusic'
+import { ItemSections } from '~/types/home'
 
 export default function ZingChart() {
   const [range, setRange] = useState<Array<number>>([0, 10])
@@ -17,11 +21,26 @@ export default function ZingChart() {
   })
   const dataChartHome = data?.data.data
 
+  const { handleHookPlayMusic } = usePlayMusic()
+
   return (
     <main className='mx-[-2px] pt-5'>
       <div className='relative mb-10 flex items-center gap-[10px]'>
         <h3 className='text-rbg text-[40px] font-bold'>#zingchart</h3>
-        <button className='flex items-center justify-center hover:opacity-90'>
+        <button
+          onClick={() =>
+            handleHookPlayMusic({
+              songId: (dataChartHome &&
+                dataChartHome.RTChart.items.filter((item) => item.streamingStatus !== 2)[0].encodeId) as string,
+              data: (dataChartHome && dataChartHome.RTChart.items) as ItemSections[],
+              dataItem: (dataChartHome &&
+                dataChartHome.RTChart.items.filter((item) => item.streamingStatus !== 2)[0]) as ItemSections,
+              playlistId: (dataChartHome &&
+                dataChartHome.RTChart.items.filter((item) => item.streamingStatus !== 2)[0].encodeId) as string
+            })
+          }
+          className='flex items-center justify-center hover:opacity-90'
+        >
           <svg width={46} height={46} viewBox='0 0 44 44' fill='none'>
             <g filter='url(#filter0_d_3141_46346)'>
               <circle cx={22} cy={21} r={18} fill='#FEFFFF' />
@@ -38,7 +57,7 @@ export default function ZingChart() {
       <div className='relative'>
         <Chart dataChart={dataZingChart} />
       </div>
-      {dataChartHome &&
+      {dataChartHome ? (
         dataChartHome.RTChart.items
           .slice(range[0], range[1])
           .map((item, index) => (
@@ -53,7 +72,26 @@ export default function ZingChart() {
               dataPlaylist={dataChartHome.RTChart.items.slice(range[0], range[1])}
               playlistId={''}
             />
-          ))}
+          ))
+      ) : (
+        <div className='ml-10 grid w-full grid-cols-1 gap-3'>
+          {Array(10)
+            .fill(0)
+            .map((_, index) => (
+              <div key={index} className='flex w-full gap-2'>
+                <Skeleton width={40} height={40} />
+                <div className='w-[40%]'>
+                  <Skeleton width={'80%'} height={10} />
+                  <Skeleton width={'60%'} height={10} />
+                </div>
+                <div className='w-[40%]'>
+                  <Skeleton width={'60%'} height={10} />
+                </div>
+                <Skeleton width={'40px'} height={10} />
+              </div>
+            ))}
+        </div>
+      )}
       {range[0] === 0 && range[1] === 10 && (
         <div className='mt-5 flex w-full items-center justify-center'>
           <button
@@ -71,7 +109,7 @@ export default function ZingChart() {
           <Link to={`${PATH.zingWeek}/vn`} className='w-fit text-[40px] font-extrabold capitalize text-white'>
             Bảng Xếp Hạng Tuần
           </Link>
-          <div className='mt-5 grid grid-cols-3'>
+          <div className='mt-5 grid grid-cols-1 2xl:grid-cols-3'>
             <div className='col-span-1 mx-[14px] mb-[30px] rounded-2xl bg-[#ffffff0d] px-[10px] py-5'>
               <div className='flex items-start gap-2'>
                 <Link
@@ -80,7 +118,24 @@ export default function ZingChart() {
                 >
                   Việt Nam
                 </Link>
-                <button className='flex items-center justify-center hover:opacity-90'>
+                <button
+                  onClick={() =>
+                    handleHookPlayMusic({
+                      songId: (dataChartHome &&
+                        dataChartHome.weekChart.vn.items.filter((item) => item.streamingStatus !== 2)[0]
+                          .encodeId) as string,
+                      data: (dataChartHome && dataChartHome.weekChart.vn.items) as ItemSections[],
+                      dataItem: (dataChartHome &&
+                        dataChartHome.weekChart.vn.items.filter(
+                          (item) => item.streamingStatus !== 2
+                        )[0]) as ItemSections,
+                      playlistId: (dataChartHome &&
+                        dataChartHome.weekChart.vn.items.filter((item) => item.streamingStatus !== 2)[0]
+                          .encodeId) as string
+                    })
+                  }
+                  className='flex items-center justify-center hover:opacity-90'
+                >
                   <svg width={34} height={34} viewBox='0 0 44 44' fill='none'>
                     <g filter='url(#filter0_d_3141_46346)'>
                       <circle cx={22} cy={21} r={18} fill='#9b4de0' />
@@ -130,7 +185,24 @@ export default function ZingChart() {
                 >
                   US-UK
                 </Link>
-                <button className='flex items-center justify-center hover:opacity-90'>
+                <button
+                  onClick={() =>
+                    handleHookPlayMusic({
+                      songId: (dataChartHome &&
+                        dataChartHome.weekChart.us.items.filter((item) => item.streamingStatus !== 2)[0]
+                          .encodeId) as string,
+                      data: (dataChartHome && dataChartHome.weekChart.us.items) as ItemSections[],
+                      dataItem: (dataChartHome &&
+                        dataChartHome.weekChart.us.items.filter(
+                          (item) => item.streamingStatus !== 2
+                        )[0]) as ItemSections,
+                      playlistId: (dataChartHome &&
+                        dataChartHome.weekChart.us.items.filter((item) => item.streamingStatus !== 2)[0]
+                          .encodeId) as string
+                    })
+                  }
+                  className='flex items-center justify-center hover:opacity-90'
+                >
                   <svg width={34} height={34} viewBox='0 0 44 44' fill='none'>
                     <g filter='url(#filter0_d_3141_46346)'>
                       <circle cx={22} cy={21} r={18} fill='#9b4de0' />
@@ -180,7 +252,24 @@ export default function ZingChart() {
                 >
                   K-Pop
                 </Link>
-                <button className='flex items-center justify-center hover:opacity-90'>
+                <button
+                  onClick={() =>
+                    handleHookPlayMusic({
+                      songId: (dataChartHome &&
+                        dataChartHome.weekChart.korea.items.filter((item) => item.streamingStatus !== 2)[0]
+                          .encodeId) as string,
+                      data: (dataChartHome && dataChartHome.weekChart.korea.items) as ItemSections[],
+                      dataItem: (dataChartHome &&
+                        dataChartHome.weekChart.korea.items.filter(
+                          (item) => item.streamingStatus !== 2
+                        )[0]) as ItemSections,
+                      playlistId: (dataChartHome &&
+                        dataChartHome.weekChart.korea.items.filter((item) => item.streamingStatus !== 2)[0]
+                          .encodeId) as string
+                    })
+                  }
+                  className='flex items-center justify-center hover:opacity-90'
+                >
                   <svg width={34} height={34} viewBox='0 0 44 44' fill='none'>
                     <g filter='url(#filter0_d_3141_46346)'>
                       <circle cx={22} cy={21} r={18} fill='#9b4de0' />

@@ -6,6 +6,7 @@ import BoxItem from '../BoxItem'
 import classNames from 'classnames'
 import PATH from '~/constants/path'
 import Chart from '../Chart'
+import usePlayMusic from '~/hooks/usePlayMusic'
 interface Props {
   dataChart?: DataPlaylist<ItemSections[]>
 }
@@ -23,6 +24,8 @@ export default function ZingChart({ dataChart }: Props) {
     }
   }, [])
 
+  const { handleHookPlayMusic } = usePlayMusic()
+
   return (
     <div className='relative mt-12 overflow-hidden rounded-lg p-5'>
       <div className='absolute inset-0 bg-[#2b273f]' />
@@ -34,7 +37,18 @@ export default function ZingChart({ dataChart }: Props) {
         <Link to={PATH.zingChart} className='text-rbg text-[28px] font-bold'>
           #zingchart
         </Link>
-        <button className='flex items-center justify-center hover:opacity-90'>
+        <button
+          onClick={() =>
+            handleHookPlayMusic({
+              songId: (dataChart && dataChart.items.filter((item) => item.streamingStatus !== 2)[0].encodeId) as string,
+              data: (dataChart && dataChart.items) as ItemSections[],
+              dataItem: (dataChart && dataChart.items.filter((item) => item.streamingStatus !== 2)[0]) as ItemSections,
+              playlistId: (dataChart &&
+                dataChart.items.filter((item) => item.streamingStatus !== 2)[0].encodeId) as string
+            })
+          }
+          className='flex items-center justify-center hover:opacity-90'
+        >
           <svg width={28} height={28} viewBox='0 0 44 44' fill='none'>
             <g filter='url(#filter0_d_3141_46346)'>
               <circle cx={22} cy={21} r={18} fill='#FEFFFF' />

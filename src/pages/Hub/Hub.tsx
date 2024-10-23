@@ -6,6 +6,8 @@ import Artist from '~/components/Artist'
 import { createSearchParams, Link } from 'react-router-dom'
 import PATH from '~/constants/path'
 import useGenerateLink from '~/hooks/useGenerateLink'
+import Skeleton from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
 
 export default function Hub() {
   const { data } = useQuery({
@@ -20,7 +22,7 @@ export default function Hub() {
 
   return (
     <main className='mx-[-2px] py-5'>
-      {dataHub && (
+      {dataHub ? (
         <>
           <Link
             to={{
@@ -162,6 +164,23 @@ export default function Hub() {
               </div>
             </div>
           ))}
+        </>
+      ) : (
+        <>
+          <Skeleton height={280} width={'full'} />
+          {Array(3)
+            .fill(0)
+            .map((_, index) => (
+              <div key={index} className='mt-14 grid w-full grid-cols-4 gap-7'>
+                {Array(8)
+                  .fill(0)
+                  .map((_, index) => (
+                    <div key={index}>
+                      <Skeleton height={120} width={'full'} />
+                    </div>
+                  ))}
+              </div>
+            ))}
         </>
       )}
     </main>

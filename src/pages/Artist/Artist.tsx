@@ -9,6 +9,8 @@ import DOMPurify from 'dompurify'
 import { useEffect, useState, useRef } from 'react'
 import { formatPriceNumber } from '~/utils/formatNumber'
 import useLineClamp from '~/hooks/useLineClamp'
+import Skeleton from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
 
 const Artist = () => {
   const [active, setActive] = useState<boolean>(false)
@@ -39,7 +41,7 @@ const Artist = () => {
 
   return (
     <main className='mb-10'>
-      {dataArtist && (
+      {dataArtist ? (
         <>
           <div
             className='before:content-[" "] relative mx-[-59px] mt-[-70px] h-[300px] bg-cover bg-[50%] bg-no-repeat before:absolute before:inset-0 before:bg-[#291547cc] before:backdrop-blur-2xl 2xl:mx-[-160px]'
@@ -525,6 +527,44 @@ const Artist = () => {
                   ))}
               </>
             )}
+          </div>
+        </>
+      ) : (
+        <>
+          <div className='mt-14 flex items-center gap-7'>
+            <Skeleton width={140} height={140} circle />
+            <div className='flex flex-col gap-5'>
+              <Skeleton width={360} height={50} />
+              <div className='flex justify-between'>
+                <Skeleton width={160} height={20} />
+                <Skeleton width={160} height={20} />
+              </div>
+            </div>
+          </div>
+          <div className='mt-14 grid w-full grid-cols-2 gap-3'>
+            {Array(6)
+              .fill(0)
+              .map((_, index) => (
+                <div key={index} className='flex w-full gap-2'>
+                  <Skeleton width={40} height={40} />
+                  <div className='w-[80%]'>
+                    <Skeleton width={'60%'} height={10} />
+                    <Skeleton width={'40%'} height={10} />
+                  </div>
+                  <Skeleton width={'40px'} height={10} />
+                </div>
+              ))}
+          </div>
+          <div className='mt-14 grid w-full grid-cols-5 gap-7'>
+            {Array(5)
+              .fill(0)
+              .map((_, index) => (
+                <div key={index}>
+                  <Skeleton height={200} width={'full'} />
+                  <Skeleton height={10} width={'80%'} style={{ marginTop: 14 }} />
+                  <Skeleton height={10} width={'60%'} />
+                </div>
+              ))}
           </div>
         </>
       )}

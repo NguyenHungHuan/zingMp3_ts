@@ -1,17 +1,20 @@
 import classNames from 'classnames'
 import { useContext, useEffect, useRef, useState } from 'react'
-import { Outlet } from 'react-router-dom'
+import { Outlet, useLocation } from 'react-router-dom'
 import AsideLeft from '~/components/AsideLeft'
 import AsideRight from '~/components/AsideRight'
 import Header from '~/components/Header'
 import Player from '~/components/Player'
 import { AppContext } from '~/contexts/app.context'
+import useScrollTop from '~/hooks/useScrollTop'
 
 export default function MainLayout() {
   const [header, setHeader] = useState<boolean>(false)
   const [scrollY, setScrollY] = useState<Element>()
   const el = useRef<HTMLDivElement>(null)
   const { stateAsideRight, stateIdSong } = useContext(AppContext)
+  const { pathname } = useLocation()
+  useScrollTop([pathname])
 
   useEffect(() => {
     if (el.current) {
@@ -31,7 +34,7 @@ export default function MainLayout() {
 
   return (
     <div className='flex h-screen w-full overflow-x-hidden'>
-      <div className='h-full w-[240px] bg-[#231b2e]'>
+      <div className='h-full w-[70px] bg-[#231b2e] xl:w-[240px]'>
         <AsideLeft />
       </div>
       <div
@@ -56,7 +59,7 @@ export default function MainLayout() {
         </div>
       </div>
       {stateAsideRight && (
-        <div className='right-0 top-0 z-[110] h-full w-[330px] overflow-y-auto border-l border-l-[#ffffff1a] bg-[#170f23] sm:absolute md:absolute lg:absolute xl:absolute 2xl:absolute min-[1590px]:relative'>
+        <div className='right-0 top-0 z-[110] h-full w-[330px] overflow-y-auto border-l border-l-[#ffffff1a] bg-[#170f23] sm:absolute md:absolute lg:absolute xl:absolute 2xl:absolute min-[1680px]:relative'>
           <AsideRight />
         </div>
       )}

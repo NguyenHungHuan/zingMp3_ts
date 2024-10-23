@@ -1,7 +1,10 @@
+import toast from 'react-hot-toast'
 import Search from '../Search'
 import Tooltip from '../Tooltip'
 
 export default function Header() {
+  const notify = () => toast('Chức năng đang phát triển.')
+
   return (
     <div className='relative flex h-[70px] items-center justify-between'>
       <div className='flex items-center'>
@@ -33,7 +36,10 @@ export default function Header() {
       </div>
       <div className='flex items-center gap-[10px]'>
         <Tooltip text='Cài đặt'>
-          <button className='flex items-center justify-center rounded-full bg-[#2f2739] p-2 hover:opacity-90'>
+          <button
+            onClick={notify}
+            className='flex items-center justify-center rounded-full bg-[#2f2739] p-2 hover:opacity-90'
+          >
             <svg
               xmlns='http://www.w3.org/2000/svg'
               fill='none'
@@ -51,7 +57,7 @@ export default function Header() {
             </svg>
           </button>
         </Tooltip>
-        <button className='overflow-hidden rounded-full hover:opacity-90'>
+        <button onClick={notify} className='overflow-hidden rounded-full hover:opacity-90'>
           <img
             className='h-[38px] w-[38px] object-cover'
             src='https://zjs.zmdcdn.me/zmp3-desktop/releases/v1.9.35/static/media/user-default.3ff115bb.png'

@@ -4,7 +4,7 @@ import zingmp3Api from '~/apis/zingmp3Api'
 import { DataPlaylist, ItemBanner, ItemSections, itemNewRelease } from '~/types/home'
 
 export default function useHome() {
-  const { data: dataHome } = useQuery({
+  const { data: dataHome, isLoading } = useQuery({
     queryKey: ['home'],
     queryFn: zingmp3Api.getHome,
     staleTime: 3 * 60 * 1000
@@ -76,6 +76,7 @@ export default function useHome() {
     dataAlbumHot,
     dataNewReleaseChart,
     dataZingChart,
-    dataWeekChartBanner
+    dataWeekChartBanner,
+    isLoading
   }
 }

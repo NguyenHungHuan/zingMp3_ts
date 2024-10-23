@@ -3,6 +3,8 @@ import zingmp3Api from '~/apis/zingmp3Api'
 import { TitleListBox } from '../Home/Home'
 import BoxItem from '~/components/BoxItem'
 import Artist from '~/components/Artist'
+import Skeleton from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
 
 export default function Top100() {
   const { data } = useQuery({
@@ -49,31 +51,46 @@ export default function Top100() {
           </g>
         </svg>
       </div>
-      {dataTop100 &&
-        dataTop100.map((item) => (
-          <div key={item.title} className='mt-12'>
-            <TitleListBox titleList={item.title} hideLink={true} />
-            <div className='grid grid-cols-5 gap-7'>
-              {item.items.map((items) => (
-                <div key={items.encodeId} className='flex-1 flex-shrink-0'>
-                  <BoxItem
-                    id={items.encodeId}
-                    classNameDesc='line-clamp-1 mt-3 mb-[2px] text-white text-[14px] font-bold whitespace-normal'
-                    srcImg={items.thumbnailM}
-                    altImg={items.title}
-                    description={items.sortDescription}
-                    link={items.link}
-                    isLinkDesc={true}
-                  />
-                  <Artist
-                    artistsData={items.artists}
-                    className='line-clamp-1 block overflow-hidden break-words text-[14px] font-normal text-[#ffffff80]'
-                  />
-                </div>
-              ))}
+      {dataTop100
+        ? dataTop100.map((item) => (
+            <div key={item.title} className='mt-12'>
+              <TitleListBox titleList={item.title} hideLink={true} />
+              <div className='grid grid-cols-5 gap-7'>
+                {item.items.map((items) => (
+                  <div key={items.encodeId} className='flex-1 flex-shrink-0'>
+                    <BoxItem
+                      id={items.encodeId}
+                      classNameDesc='line-clamp-1 mt-3 mb-[2px] text-white text-[14px] font-bold whitespace-normal'
+                      srcImg={items.thumbnailM}
+                      altImg={items.title}
+                      description={items.sortDescription}
+                      link={items.link}
+                      isLinkDesc={true}
+                    />
+                    <Artist
+                      artistsData={items.artists}
+                      className='line-clamp-1 block overflow-hidden break-words text-[14px] font-normal text-[#ffffff80]'
+                    />
+                  </div>
+                ))}
+              </div>
             </div>
-          </div>
-        ))}
+          ))
+        : Array(4)
+            .fill(0)
+            .map((_, index) => (
+              <div key={index} className='mt-14 grid w-full grid-cols-5 gap-7'>
+                {Array(5)
+                  .fill(0)
+                  .map((_, index) => (
+                    <div key={index}>
+                      <Skeleton height={200} width={'full'} />
+                      <Skeleton height={10} width={'80%'} style={{ marginTop: 14 }} />
+                      <Skeleton height={10} width={'60%'} />
+                    </div>
+                  ))}
+              </div>
+            ))}
     </main>
   )
 }

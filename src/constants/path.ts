@@ -1,5 +1,6 @@
 const PATH = {
   base: '/',
+  star: '*',
   home: '/home',
   zingChart: '/zing-chart',
   zingWeek: '/zing-week',

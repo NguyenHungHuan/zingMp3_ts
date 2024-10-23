@@ -61,35 +61,12 @@ export type InfoSong = {
       Pick<artist, 'id' | 'name' | 'alias' | 'spotlight' | 'thumbnail' | 'thumbnailM' | 'playlistId' | 'totalFollow'>
     >
   }
-  radio: {
-    encodeId: string
-    title: string
-    thumbnail: string
-    isoffical: true
-    isIndie: false
-    releaseDate: string
-    sortDescription: string
-    releasedAt: number
-    genreIds: Array<string>
-    artists: Array<
-      Pick<artist, 'id' | 'name' | 'alias' | 'spotlight' | 'thumbnail' | 'thumbnailM' | 'playlistId' | 'totalFollow'>
-    >
-    artistsNames: string
-    playItemMode: number
-    subType: number
-    uid: number
-    thumbnailM: string
-    isShuffle: boolean
-    isPrivate: boolean
-    isAlbum: boolean
-    textType: string
-    isSingle: boolean
-  }
   isRBT: boolean
   like: number
   listen: number
   liked: boolean
   comment: number
+  streamingStatus: number
 }
 
 export type lyric = {

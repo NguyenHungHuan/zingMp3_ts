@@ -33,7 +33,6 @@ interface Props {
   hideOption?: boolean
   stringType?: string
   customBgActive?: string
-  // isHistorySetPlaylist?: boolean
 }
 
 export default function CardItem({
@@ -50,7 +49,7 @@ export default function CardItem({
   textWide = true,
   hideOption = false,
   stringType = '',
-  customBgActive = 'bg-[#2f2739]' // isHistorySetPlaylist = false
+  customBgActive = 'bg-[#2f2739]'
 }: Props) {
   const [active, setActive] = useState(false)
   const [openLyric, setOpenLyric] = useState(false)
@@ -189,15 +188,16 @@ export default function CardItem({
         )}
         <div
           aria-hidden
-          onClick={() =>
+          onClick={(e) => {
+            e.preventDefault()
+            e.stopPropagation()
             handleHookPlayMusic({
               songId: dataItem.encodeId,
               dataItem,
               data: dataPlaylist,
               playlistId
-              // , isHistorySetPlaylist
             })
-          }
+          }}
         >
           <BoxItem
             id={dataItem.encodeId}

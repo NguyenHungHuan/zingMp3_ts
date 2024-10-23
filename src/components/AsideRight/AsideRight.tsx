@@ -4,13 +4,16 @@ import CardItem from '~/components/CardItem'
 import Popover from '~/components/Popover'
 import Tooltip from '~/components/Tooltip'
 import { AppContext } from '~/contexts/app.context'
+import useHome from '~/hooks/useHome'
 import usePlayMusic from '~/hooks/usePlayMusic'
+import { ItemSections } from '~/types/home'
 import { setHistoryToLS, setPlaylistToLS, setSongToLS } from '~/utils/song'
 
 export default function AsideRight() {
   const [toggleButton, setToggleButton] = useState(true)
   const { stateIdSong, stateHistory, statePlaylist, setStatePlaylist, setStateHistory, setStatePlaySong } =
     useContext(AppContext)
+  const { dataNewRelease } = useHome()
 
   const { handleHookPlayMusic } = usePlayMusic()
 
@@ -139,8 +142,8 @@ export default function AsideRight() {
             </div>
           ) : (
             <>
-              <div className='flex flex-col gap-[10px] px-5 pb-20 pt-[20px]'>
-                {Array(4)
+              <div className='flex flex-col gap-[10px] px-5 pb-20 pt-6'>
+                {Array(5)
                   .fill(0)
                   .map((_, index) => (
                     <div key={index} className='flex items-start gap-2'>
@@ -154,7 +157,20 @@ export default function AsideRight() {
               </div>
               <div className='flex flex-col px-[33px] text-sm'>
                 <span className='mb-5 mt-[6px] text-center text-white'>Khám phá thêm các bài hát mới của Zing MP3</span>
-                <button className='flex items-center justify-center gap-2 rounded-full bg-[#9b4de0] px-[26px] py-[7px] text-white'>
+                <button
+                  onClick={() => {
+                    handleHookPlayMusic({
+                      songId: (dataNewRelease &&
+                        dataNewRelease.items.all.filter((item) => item.streamingStatus !== 2)[0].encodeId) as string,
+                      data: (dataNewRelease && dataNewRelease.items.all) as ItemSections[],
+                      dataItem: (dataNewRelease &&
+                        dataNewRelease.items.all.filter((item) => item.streamingStatus !== 2)[0]) as ItemSections,
+                      playlistId: (dataNewRelease &&
+                        dataNewRelease.items.all.filter((item) => item.streamingStatus !== 2)[0].encodeId) as string
+                    })
+                  }}
+                  className='flex items-center justify-center gap-2 rounded-full bg-[#9b4de0] px-[26px] py-[7px] text-white'
+                >
                   <svg
                     viewBox='0 0 24 24'
                     className='h-[18px] w-[18px] fill-white stroke-white stroke-1 hover:opacity-90'

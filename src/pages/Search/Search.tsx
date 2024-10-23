@@ -7,6 +7,8 @@ import ArtistCard from '~/components/ArtistCard'
 import BoxItem from '~/components/BoxItem'
 import CardItem from '~/components/CardItem'
 import PATH from '~/constants/path'
+import Skeleton from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
 
 type Type = 'song' | 'artist' | 'artist'
 type queryConfig = {
@@ -402,7 +404,6 @@ const Search = () => {
                           className='group relative flex items-center gap-x-[10px] overflow-hidden rounded border-b border-[#ffffff0d] p-[10px] hover:bg-[#ffffff1a]'
                           isDate={false}
                           hideLike={false}
-                          hideAlbum={true}
                           dataPlaylist={itemMap}
                           playlistId={''}
                         />
@@ -527,6 +528,90 @@ const Search = () => {
               </div>
             )}
           </>
+        )}
+
+        {/* Loading */}
+        {!dataResult && type === 'all' && (
+          <>
+            <div className='mt-14 grid grid-cols-3 gap-7'>
+              <Skeleton width={'full'} height={104} />
+              <Skeleton width={'full'} height={104} />
+              <Skeleton width={'full'} height={104} />
+            </div>
+            <div className='mt-14 grid w-full grid-cols-2 gap-3'>
+              {Array(6)
+                .fill(0)
+                .map((_, index) => (
+                  <div key={index} className='flex w-full gap-2'>
+                    <Skeleton width={40} height={40} />
+                    <div className='w-[80%]'>
+                      <Skeleton width={'60%'} height={10} />
+                      <Skeleton width={'40%'} height={10} />
+                    </div>
+                    <Skeleton width={'40px'} height={10} />
+                  </div>
+                ))}
+            </div>
+            <div className='mt-14 grid w-full grid-cols-5 gap-7'>
+              {Array(5)
+                .fill(0)
+                .map((_, index) => (
+                  <div key={index}>
+                    <Skeleton height={200} width={'full'} />
+                    <Skeleton height={10} width={'80%'} style={{ marginTop: 14 }} />
+                    <Skeleton height={10} width={'60%'} />
+                  </div>
+                ))}
+            </div>
+          </>
+        )}
+
+        {!dataType && type === 'song' && (
+          <div className='mt-16 grid w-full grid-cols-1 gap-3'>
+            {Array(10)
+              .fill(0)
+              .map((_, index) => (
+                <div key={index} className='flex w-full gap-2'>
+                  <Skeleton width={40} height={40} />
+                  <div className='w-[40%]'>
+                    <Skeleton width={'80%'} height={10} />
+                    <Skeleton width={'60%'} height={10} />
+                  </div>
+                  <div className='w-[40%]'>
+                    <Skeleton width={'60%'} height={10} />
+                  </div>
+                  <Skeleton width={'40px'} height={10} />
+                </div>
+              ))}
+          </div>
+        )}
+
+        {!dataType && type === 'playlist' && (
+          <div className='mt-16 grid w-full grid-cols-5 gap-7'>
+            {Array(15)
+              .fill(0)
+              .map((_, index) => (
+                <div key={index}>
+                  <Skeleton height={200} width={'full'} />
+                  <Skeleton height={10} width={'80%'} style={{ marginTop: 14 }} />
+                  <Skeleton height={10} width={'60%'} />
+                </div>
+              ))}
+          </div>
+        )}
+
+        {!dataType && type === 'artist' && (
+          <div className='mt-16 grid w-full grid-cols-5 gap-7'>
+            {Array(10)
+              .fill(0)
+              .map((_, index) => (
+                <div key={index} className='grid grid-cols-1 text-center'>
+                  <Skeleton circle height={208} width={208} />
+                  <Skeleton height={10} width={'60%'} style={{ marginTop: 14 }} />
+                  <Skeleton height={10} width={'40%'} />
+                </div>
+              ))}
+          </div>
         )}
       </div>
     </>

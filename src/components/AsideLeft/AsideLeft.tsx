@@ -9,17 +9,46 @@ export default function AsideLeft() {
 
   return (
     <aside>
-      <div className='flex h-[70px] items-center pl-[28px] pr-[25px]'>
-        <Link to={PATH.base}>
+      <div className='flex h-[70px] items-center xl:pl-[28px] xl:pr-[25px]'>
+        <Link to={PATH.base} className='hidden xl:block'>
           <img
             className='h-10 w-[120px] hover:opacity-90'
             src='https://zmp3-static.zmdcdn.me/skins/zmp3-v6.1/images/backgrounds/logo-dark.svg'
             alt='logo zing mp3'
           />
         </Link>
+        <Link to={PATH.base} className='block xl:hidden'>
+          <img
+            className='h-10 w-[120px] hover:opacity-90'
+            src='https://zjs.zmdcdn.me/zmp3-desktop/releases/v1.11.2/static/media/icon_zing_mp3_60.f6b51045.svg'
+            alt='logo zing mp3'
+          />
+        </Link>
       </div>
       <nav className='mb-4'>
         <ul className='text-[14px] font-medium'>
+          <li
+            className={classNames('border-l-[3px]', {
+              'border-l-[#9b4de0]': pathname === PATH.thuVien,
+              'border-l-transparent': pathname !== PATH.thuVien
+            })}
+          >
+            <button
+              onClick={() => notify()}
+              title='Thư Viện'
+              className='flex w-full items-center gap-3 px-[21px] py-3 text-[#dadada] hover:text-white'
+            >
+              <svg width={24} height={24} viewBox='0 0 24 24' className='fill-current'>
+                <path
+                  fillRule='evenodd'
+                  clipRule='evenodd'
+                  d='M6.5 2.75C6.08579 2.75 5.75 3.08579 5.75 3.5C5.75 3.91421 6.08579 4.25 6.5 4.25H17.5C17.9142 4.25 18.25 3.91421 18.25 3.5C18.25 3.08579 17.9142 2.75 17.5 2.75H6.5ZM3 9.5C3 7.42893 4.67893 5.75 6.75 5.75H17.25C19.3211 5.75 21 7.42893 21 9.5V17.5C21 19.5711 19.3211 21.25 17.25 21.25H6.75C4.67893 21.25 3 19.5711 3 17.5V9.5ZM6.75 7.25C5.50736 7.25 4.5 8.25736 4.5 9.5V17.5C4.5 18.7426 5.50736 19.75 6.75 19.75H17.25C18.4926 19.75 19.5 18.7426 19.5 17.5V9.5C19.5 8.25736 18.4926 7.25 17.25 7.25H6.75ZM13.666 8.87596C13.4359 8.72253 13.14 8.70823 12.8961 8.83874C12.6522 8.96926 12.5 9.2234 12.5 9.5V13.0499C12.125 12.8581 11.7001 12.75 11.25 12.75C9.73122 12.75 8.5 13.9812 8.5 15.5C8.5 17.0188 9.73122 18.25 11.25 18.25C12.6911 18.25 13.8733 17.1415 13.9905 15.7307C13.9967 15.6916 14 15.6515 14 15.6107V15.5V10.9014L15.084 11.624C15.4286 11.8538 15.8943 11.7607 16.124 11.416C16.3538 11.0714 16.2607 10.6057 15.916 10.376L13.666 8.87596ZM12.5 15.5C12.5 14.8096 11.9404 14.25 11.25 14.25C10.5596 14.25 10 14.8096 10 15.5C10 16.1904 10.5596 16.75 11.25 16.75C11.9404 16.75 12.5 16.1904 12.5 15.5Z'
+                  fillOpacity='0.8'
+                />
+              </svg>
+              <span className='hidden xl:block'>Thư Viện</span>
+            </button>
+          </li>
           <li
             className={classNames('border-l-[3px]', {
               'border-l-[#9b4de0]': pathname === PATH.base,
@@ -44,7 +73,7 @@ export default function AsideLeft() {
                   fillOpacity='0.8'
                 />
               </svg>
-              <span>Khám Phá</span>
+              <span className='hidden xl:block'>Khám Phá</span>
             </NavLink>
           </li>
           <li
@@ -72,30 +101,33 @@ export default function AsideLeft() {
                   fillOpacity='0.8'
                 />
               </svg>
-              <span>#zingchart</span>
+              <span className='hidden xl:block'>#zingchart</span>
             </NavLink>
           </li>
           <li
             className={classNames('border-l-[3px]', {
-              'border-l-[#9b4de0]': pathname === PATH.thuVien,
-              'border-l-transparent': pathname !== PATH.thuVien
+              'border-l-[#9b4de0]': pathname === PATH.zingChart,
+              'border-l-transparent': pathname !== PATH.zingChart
             })}
           >
-            <button
-              onClick={() => notify()}
-              title='Thư Viện'
-              className='flex w-full items-center gap-3 px-[21px] py-3 text-[#dadada] hover:text-white'
+            <Link
+              to={`${PATH.zingWeek}/vn`}
+              title='#zingchart'
+              className={classNames('flex items-center gap-3 px-[21px] py-3 hover:text-white', {
+                'bg-[#393142] text-white': pathname.includes(`${PATH.zingWeek}`),
+                'bg-none text-[#dadada]': !pathname.includes(`${PATH.zingWeek}`)
+              })}
             >
-              <svg width={24} height={24} viewBox='0 0 24 24' className='fill-current'>
+              <svg width={24} height={24} viewBox='0 0 24 24' fill='currentColor'>
                 <path
                   fillRule='evenodd'
                   clipRule='evenodd'
-                  d='M6.5 2.75C6.08579 2.75 5.75 3.08579 5.75 3.5C5.75 3.91421 6.08579 4.25 6.5 4.25H17.5C17.9142 4.25 18.25 3.91421 18.25 3.5C18.25 3.08579 17.9142 2.75 17.5 2.75H6.5ZM3 9.5C3 7.42893 4.67893 5.75 6.75 5.75H17.25C19.3211 5.75 21 7.42893 21 9.5V17.5C21 19.5711 19.3211 21.25 17.25 21.25H6.75C4.67893 21.25 3 19.5711 3 17.5V9.5ZM6.75 7.25C5.50736 7.25 4.5 8.25736 4.5 9.5V17.5C4.5 18.7426 5.50736 19.75 6.75 19.75H17.25C18.4926 19.75 19.5 18.7426 19.5 17.5V9.5C19.5 8.25736 18.4926 7.25 17.25 7.25H6.75ZM13.666 8.87596C13.4359 8.72253 13.14 8.70823 12.8961 8.83874C12.6522 8.96926 12.5 9.2234 12.5 9.5V13.0499C12.125 12.8581 11.7001 12.75 11.25 12.75C9.73122 12.75 8.5 13.9812 8.5 15.5C8.5 17.0188 9.73122 18.25 11.25 18.25C12.6911 18.25 13.8733 17.1415 13.9905 15.7307C13.9967 15.6916 14 15.6515 14 15.6107V15.5V10.9014L15.084 11.624C15.4286 11.8538 15.8943 11.7607 16.124 11.416C16.3538 11.0714 16.2607 10.6057 15.916 10.376L13.666 8.87596ZM12.5 15.5C12.5 14.8096 11.9404 14.25 11.25 14.25C10.5596 14.25 10 14.8096 10 15.5C10 16.1904 10.5596 16.75 11.25 16.75C11.9404 16.75 12.5 16.1904 12.5 15.5Z'
+                  d='M11.8722 2.67978C11.911 3.09217 11.6082 3.45794 11.1958 3.49675C6.88011 3.90291 3.5 7.54519 3.5 11.98C3.5 16.6875 7.30771 20.501 12.0014 20.501C16.6952 20.501 20.5029 16.6875 20.5029 11.98C20.5029 10.3767 20.0618 8.87895 19.2951 7.59953C19.0822 7.24422 19.1976 6.78359 19.5529 6.57068C19.9082 6.35777 20.3688 6.4732 20.5818 6.82851C21.4842 8.33451 22.0029 10.0978 22.0029 11.98C22.0029 17.513 17.5266 22.001 12.0014 22.001C6.4763 22.001 2 17.513 2 11.98C2 6.76649 5.9737 2.48158 11.0553 2.00335C11.4676 1.96454 11.8334 2.26739 11.8722 2.67978ZM11.8656 6.19339C11.9286 6.60278 11.6479 6.98576 11.2385 7.0488C8.85318 7.4161 7.02419 9.48361 7.02419 11.9799C7.02419 13.3678 7.58856 14.622 8.50124 15.527C8.79536 15.8186 8.79736 16.2935 8.50571 16.5876C8.21405 16.8818 7.73918 16.8838 7.44506 16.5921C6.25964 15.4166 5.52419 13.7835 5.52419 11.9799C5.52419 8.73441 7.90208 6.04487 11.0102 5.56627C11.4196 5.50323 11.8026 5.784 11.8656 6.19339ZM16.7493 8.68305C17.1175 8.49328 17.5698 8.63791 17.7595 9.00609C18.2192 9.89782 18.4783 10.9096 18.4783 11.9799C18.4783 15.5622 15.58 18.469 12.0013 18.469C11.5871 18.469 11.2513 18.1333 11.2513 17.719C11.2513 17.3048 11.5871 16.969 12.0013 16.969C14.7485 16.969 16.9783 14.7368 16.9783 11.9799C16.9783 11.1542 16.7788 10.3774 16.4262 9.69332C16.2365 9.32514 16.3811 8.87282 16.7493 8.68305ZM14.3787 2.2439C13.9763 2.14558 13.5704 2.39207 13.4721 2.79444C13.4513 2.87927 13.4459 2.96425 13.4541 3.04647V9.4046C13.0253 9.16142 12.5297 9.02255 12.0013 9.02255C10.3691 9.02255 9.04861 10.3481 9.04861 11.9799C9.04861 13.6117 10.3691 14.9373 12.0013 14.9373C13.6336 14.9373 14.9541 13.6117 14.9541 11.9799C14.9541 11.9479 14.9535 11.916 14.9525 11.8842C14.9536 11.8681 14.9541 11.8519 14.9541 11.8355V3.98669C15.7486 4.28167 16.4875 4.69246 17.1504 5.19895C17.4795 5.45044 17.9502 5.3875 18.2017 5.05837C18.4532 4.72924 18.3902 4.25855 18.0611 4.00706C16.9849 3.18473 15.7363 2.57565 14.3787 2.2439ZM12.0013 10.5225C11.2005 10.5225 10.5486 11.1735 10.5486 11.9799C10.5486 12.7863 11.2005 13.4373 12.0013 13.4373C12.8022 13.4373 13.4541 12.7863 13.4541 11.9799C13.4541 11.1735 12.8022 10.5225 12.0013 10.5225Z'
                   fillOpacity='0.8'
                 />
               </svg>
-              <span>Thư Viện</span>
-            </button>
+              <span className='hidden xl:block'>BXH Tuần</span>
+            </Link>
           </li>
         </ul>
       </nav>
@@ -126,7 +158,7 @@ export default function AsideLeft() {
                   fillOpacity='0.8'
                 />
               </svg>
-              <span>BXH Nhạc Mới</span>
+              <span className='hidden xl:block'>BXH Nhạc Mới</span>
             </NavLink>
           </li>
           <li
@@ -181,7 +213,7 @@ export default function AsideLeft() {
                   strokeWidth='1.5'
                 />
               </svg>
-              <span>Chủ Đề & Thể Loại</span>
+              <span className='hidden xl:block'>Chủ Đề & Thể Loại</span>
             </NavLink>
           </li>
           <li
@@ -210,7 +242,7 @@ export default function AsideLeft() {
                   strokeWidth='1.5'
                 />
               </svg>
-              <span>Top 100</span>
+              <span className='hidden xl:block'>Top 100</span>
             </NavLink>
           </li>
         </ul>
