@@ -1,4 +1,5 @@
 import classNames from 'classnames'
+import iconPlaying from '../../../public/icon-playing.gif'
 import moment from 'moment'
 import 'moment/dist/locale/vi'
 import { Fragment, useContext, useMemo, useState } from 'react'
@@ -12,12 +13,11 @@ import useGenerateLink from '~/hooks/useGenerateLink'
 import { ItemSections } from '~/types/home'
 import { formatNumberSocial } from '~/utils/formatNumber'
 import Artist from '../Artist'
-import BoxItem from '../BoxItem'
 import Popover from '../Popover'
 import Tooltip from '../Tooltip'
 import usePlayMusic from '~/hooks/usePlayMusic'
 import useCopyLink from '~/hooks/useCopyLink'
-import { setPlaylistToLS } from '~/utils/song'
+import { getIdPlaylistFromLS, setPlaylistToLS } from '~/utils/song'
 interface Props {
   playlistId: string
   dataPlaylist: ItemSections[]
@@ -55,7 +55,7 @@ export default function CardItem({
   const [openLyric, setOpenLyric] = useState(false)
   const [idSong, setIdSong] = useState('')
   const handleClick = () => setIdSong(dataItem.encodeId)
-  const { stateIdSong, statePlaylist, setStatePlaylist } = useContext(AppContext)
+  const { stateIdSong, statePlaylist, setStatePlaylist, statePlaySong } = useContext(AppContext)
   const notify = () => toast('Chức năng đang phát triển.')
   const { copyToClipboard } = useCopyLink()
 
@@ -188,31 +188,88 @@ export default function CardItem({
         )}
         <div
           aria-hidden
-          onClick={(e) => {
-            e.preventDefault()
-            e.stopPropagation()
+          onClick={() => {
             handleHookPlayMusic({
               songId: dataItem.encodeId,
-              dataItem,
               data: dataPlaylist,
-              playlistId
+              dataItem: dataItem,
+              playlistId: dataItem.encodeId
             })
           }}
+          className='flex-shrink-0'
         >
-          <BoxItem
-            id={dataItem.encodeId}
-            effectActive={active || stateIdSong === dataItem.encodeId}
-            altImg={dataItem.title}
-            srcImg={dataItem.thumbnail}
-            className='flex-shrink-0'
-            classNameFigure={classNameFigure}
-            classNameImg='absolute inset-0 flex-shrink-0'
-            buttonSizeSmall={true}
-            hideDesc={true}
-            hideLike={true}
-            hideOption={true}
-            isLink={false}
-          />
+          <figure className={classNameFigure}>
+            <>
+              <img className='absolute inset-0 flex-shrink-0' src={dataItem.thumbnail} alt={dataItem.title} />
+              {active ? null : (
+                <div
+                  className={classNames('absolute inset-0 h-full w-full bg-[#00000070]', {
+                    visible: active || stateIdSong === dataItem.encodeId,
+                    'invisible group-hover:visible': !(active || stateIdSong === dataItem.encodeId)
+                  })}
+                />
+              )}
+              {active && <div className='absolute inset-0 h-full w-full bg-[#00000070]' />}
+              {dataItem.encodeId === getIdPlaylistFromLS() && (
+                <div className='absolute inset-0 h-full w-full bg-[#00000070]' />
+              )}
+              {stateIdSong === dataItem.encodeId && <div className='absolute inset-0 h-full w-full bg-[#00000070]' />}
+              <div className='absolute inset-0'>
+                <div
+                  aria-hidden
+                  className={classNames(
+                    'absolute bottom-auto left-[50%] right-auto top-[50%] z-[90] flex h-[50px] w-full -translate-x-1/2 -translate-y-1/2 items-center justify-evenly',
+                    {
+                      visible: active,
+                      'invisible group-hover:visible': !active && dataItem.encodeId !== getIdPlaylistFromLS()
+                    }
+                  )}
+                >
+                  <button
+                    onClick={() => {
+                      handleHookPlayMusic({
+                        songId: dataItem.encodeId,
+                        data: dataPlaylist,
+                        dataItem: dataItem,
+                        playlistId: dataItem.encodeId
+                      })
+                    }}
+                    className='absolute inset-0 flex items-center justify-center'
+                  >
+                    <>
+                      {stateIdSong === dataItem.encodeId && statePlaySong ? (
+                        <img
+                          className={classNames('h-[18px] w-[18px]', {
+                            visible: active || stateIdSong === dataItem.encodeId,
+                            'invisible group-hover:visible': !(active || stateIdSong === dataItem.encodeId)
+                          })}
+                          src={iconPlaying}
+                          alt='icon playing'
+                        />
+                      ) : (
+                        <svg
+                          fill={'white'}
+                          viewBox='0 0 24 24'
+                          strokeWidth={1}
+                          stroke={'white'}
+                          className={classNames('h-6 w-6 hover:opacity-90', {
+                            visible: active || stateIdSong === dataItem.encodeId,
+                            'invisible group-hover:visible': !(active || stateIdSong === dataItem.encodeId)
+                          })}
+                        >
+                          <path
+                            strokeLinecap='round'
+                            strokeLinejoin='round'
+                            d='M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.348a1.125 1.125 0 010 1.971l-11.54 6.347a1.125 1.125 0 01-1.667-.985V5.653z'
+                          />
+                        </svg>
+                      )}
+                    </>
+                  </button>
+                </div>
+              </div>
+            </>
+          </figure>
         </div>
         <div className='flex w-full flex-col gap-[3px] break-words font-medium'>
           {stringType !== '' && <span className='mb-1 text-[12px] text-[#ffffff80]'>{stringType}</span>}

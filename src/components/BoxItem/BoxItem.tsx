@@ -5,7 +5,7 @@ import { useContext, useEffect, useMemo, useState } from 'react'
 import Tooltip from '../Tooltip'
 import PATH from '~/constants/path'
 import useGenerateLink from '~/hooks/useGenerateLink'
-import iconPlaying from '~/assets/icon-playing.gif'
+import iconPlaying from '../../../public/icon-playing.gif'
 import { AppContext } from '~/contexts/app.context'
 import { useQuery } from 'react-query'
 import zingmp3Api from '~/apis/zingmp3Api'
@@ -32,6 +32,7 @@ interface Props {
   classNameFigure?: string
   effectActive?: boolean
   isAlbum?: boolean
+  isClickAble?: boolean
 }
 
 export default function BoxItem({
@@ -51,7 +52,8 @@ export default function BoxItem({
   className = 'flex-shrink-0 flex-1',
   classNameDesc = 'line-clamp-2 mt-3 text-[#ffffff80] text-[14px] font-normal whitespace-normal',
   classNameImg = 'absolute inset-0 object-contain rounded-[4px] w-full h-full group-hover:scale-110 duration-700 transition ease-in-out',
-  classNameFigure = 'flex-shrink-0 flex-1 relative pt-[100%] rounded-[4px] group w-full overflow-hidden cursor-pointer'
+  classNameFigure = 'flex-shrink-0 flex-1 relative pt-[100%] rounded-[4px] group w-full overflow-hidden cursor-pointer',
+  isClickAble = true
 }: Props) {
   const classNameDescription = useMemo(
     () => (description === '' ? 'hidden' : classNameDesc),
@@ -87,6 +89,7 @@ export default function BoxItem({
   const handlePlayPlaylist = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault()
     e.stopPropagation()
+    console.log('click box item')
 
     if (id === getIdPlaylistFromLS()) {
       setStatePlaySong((prev) => !prev)
@@ -186,7 +189,13 @@ export default function BoxItem({
           {buttonSizeSmall ? (
             <button
               onClick={(e) => {
-                handlePlayPlaylist(e)
+                e.stopPropagation()
+                e.preventDefault()
+                if (isClickAble) {
+                  handlePlayPlaylist(e)
+                } else {
+                  return
+                }
               }}
               className='absolute inset-0 flex items-center justify-center'
             >
@@ -248,6 +257,8 @@ export default function BoxItem({
           ) : (
             <button
               onClick={(e) => {
+                e.stopPropagation()
+                e.preventDefault()
                 handlePlayPlaylist(e)
               }}
               className='flex h-[45px] w-[45px] items-center justify-center rounded-full border border-white hover:opacity-90'

@@ -63,9 +63,9 @@ const Search = () => {
   }, [scrollableElement, fetchNextPage, isFetchData])
 
   return (
-    <>
+    <main>
       <nav className='flex items-center border-b border-[#ffffff1a]'>
-        <h3 className='border-r border-[#ffffff1a] pl-[59px] pr-5 text-[24px] font-bold capitalize text-white'>
+        <h3 className='border-r border-[#ffffff1a] pr-5 text-[24px] font-bold capitalize text-white'>
           Kết quả tìm kiếm
         </h3>
         <ul className='ml-5 flex items-center gap-10 py-[15px] text-[14px] font-medium uppercase'>
@@ -139,7 +139,6 @@ const Search = () => {
           </li>
         </ul>
       </nav>
-
       <div className='mb-10'>
         {dataResult && type === 'all' && (
           <>
@@ -614,7 +613,7 @@ const Search = () => {
           </div>
         )}
       </div>
-    </>
+    </main>
   )
 }
 

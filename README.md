@@ -3,20 +3,20 @@
 
 ## Introduction
 
-The website to listen to music for free using ReactJs + Typescript.
+The website to listen to music for free using ReactJs + Typescript + Tailwindcss + React Query.
 
 The website uses the popular responsive design, which can give you the same experience as the original application, whether on a PC or mobile phone, motion or move.
 
 
 ## Official Link
 
-https://VNPhim.vercel.app/
-
-Api: https://ophim9.cc/
+https://vnzingmp3.vercel.app/
 
 ## Technology
 
+- Vite
 - Typescript
+- React Query
 - Axios
 - TailwindCSS
 - Other libraries
@@ -32,17 +32,26 @@ Api: https://ophim9.cc/
 ### Home
 ![Home](/assets/imgs/home.webp)
 
-### Hot
-![Genres](/assets/imgs/hot.webp)
-
 ### Search
-![New](/assets/imgs/search.webp)
+![Search](/assets/imgs/search.webp)
 
-### Detail
-![Top](/assets/imgs/detail.webp)
+### Playlist
+![Playlist](/assets/imgs/playlist.webp)
 
-### Movie
-![Detail](/assets/imgs/watch.webp)
+### Artist
+![Artist](/assets/imgs/artist.webp)
+
+### ZingChart
+![ZingChart](/assets/imgs/zingchart.webp)
+
+### ZingWeek
+![ZingWeek](/assets/imgs/zingweek.webp)
+
+### Top100
+![Top100](/assets/imgs/top100.webp)
+
+### Hub
+![Hub](/assets/imgs/hub.webp)
 
 ## Development
 

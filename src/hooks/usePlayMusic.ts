@@ -13,22 +13,19 @@ export default function usePlayMusic() {
     songId,
     dataItem,
     data,
-    playlistId // isHistorySetPlaylist = false
+    playlistId
   }: {
     songId: string
     dataItem: ItemSections
     data: ItemSections[]
     playlistId: string
-    // isHistorySetPlaylist?: boolean
   }) => {
     if (dataItem.streamingStatus !== 2) {
       if (statePlaySong && songId === stateIdSong) {
         return setStatePlaySong(false)
       } else {
-        // if (!isHistorySetPlaylist) {
         setPlaylistToLS(data.filter((item) => item.streamingStatus !== 2))
         setStatePlaylist(data.filter((item) => item.streamingStatus !== 2))
-        // }
         setStateIdPlaylist(playlistId)
         setIdPlaylistToLS(playlistId)
         setSongToLS(songId)

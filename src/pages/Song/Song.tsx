@@ -29,7 +29,7 @@ const Song = () => {
   }, [dataInfoSong, idPlaylist, namePlaylist])
 
   return (
-    <div className='mx-[-2px] py-10'>
+    <main className='mx-[-2px] py-10'>
       <div className='flex'>
         <div className='flex flex-1 flex-col items-center justify-center'>
           <Skeleton width={300} height={300} />
@@ -68,7 +68,7 @@ const Song = () => {
             ))}
         </div>
       </div>
-    </div>
+    </main>
   )
 }
 

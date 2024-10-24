@@ -10,6 +10,7 @@ import CardItem from '~/components/CardItem'
 import { formatNumberSocial } from '~/utils/formatNumber'
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
+import { Helmet } from 'react-helmet-async'
 
 const Playlist = () => {
   const { id } = useParams()
@@ -25,6 +26,9 @@ const Playlist = () => {
 
   return (
     <>
+      <Helmet>
+        <title>{`${dataAlbum?.title} | Album 320 lossless`}</title>
+      </Helmet>
       {dataAlbum && dataAlbum.isSingle === false && (
         <main className='mx-[-2px] py-10'>
           <div className='flex gap-[30px]'>
